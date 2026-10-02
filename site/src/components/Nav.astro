@@ -1,0 +1,28 @@
+---
+// Fixed nav — solid white pill CTA, per approved preview.
+import { t } from "@/lib/i18n";
+import type { Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+  /** Path of this page in the other locale (lang switch link) */
+  altPath: string;
+}
+const { locale, altPath } = Astro.props;
+const d = t[locale];
+---
+
+<nav class="nav" aria-label={d.navAria}>
+  <a class="brand" href={d.homeUrl}>
+    <img src="/logo-stacklab.svg" alt="StackLab" width="150" height="34" />
+    <span>StackLab</span>
+  </a>
+  <a class="lang" href={altPath} aria-label={d.langSwitchAria} hreflang={locale === "fr" ? "en" : "fr"}>{d.langSwitch}</a>
+  <div class="links">
+    <a href={d.homeUrl + "#projets"}>{d.nav.projects}</a>
+    <a href={d.homeUrl + "#coulisses"}>{d.nav.coulisses}</a>
+    <a href={d.homeUrl + "#processus"}>{d.nav.process}</a>
+    <a href={d.homeUrl + "#contact"}>{d.nav.contact}</a>
+  </div>
+  <a class="btn-solid" href={d.homeUrl + "#contact"}>{d.nav.cta}</a>
+</nav>

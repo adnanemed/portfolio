@@ -1,0 +1,94 @@
+---
+// Base layout: dark-only monochrome system, fonts, SEO (P7-lite).
+// frPath / enPath are the same page in each locale (for canonical + hreflang).
+import "@/styles/global.css";
+import { SITE_URL, type Locale } from "@/lib/site";
+import { t } from "@/lib/i18n";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  frPath: string;
+  enPath: string;
+  /** Optional extra JSON-LD (e.g. BreadcrumbList on case studies) */
+  jsonLd?: Record<string, unknown>;
+}
+
+const { locale, title, description, frPath, enPath, jsonLd } = Astro.props;
+const d = t[locale];
+const canonical = SITE_URL + (locale === "fr" ? frPath : enPath);
+const ogImage = SITE_URL + "/og-image.png";
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "StackLab",
+  url: SITE_URL,
+  logo: SITE_URL + "/logo-stacklab.svg",
+  description:
+    locale === "fr"
+      ? "Studio de développement à Casablanca : sites web et tableaux de bord pour PME."
+      : "Development studio in Casablanca: websites and dashboards for SMEs.",
+};
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "StackLab",
+  url: SITE_URL,
+  inLanguage: locale,
+};
+---
+
+<!doctype html>
+<html lang={d.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="color-scheme" content="dark" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="fr" href={SITE_URL + frPath} />
+    <link rel="alternate" hreflang="en" href={SITE_URL + enPath} />
+    <link rel="alternate" hreflang="x-default" href={SITE_URL + frPath} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="StackLab" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="StackLab — studio de développement, Casablanca" />
+    <meta property="og:locale" content={d.ogLocale} />
+    <meta property="og:locale:alternate" content={d.ogLocaleAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(siteJsonLd)} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{d.skipToContent}</a>
+    <div class="preloader" id="preloader" aria-hidden="true">
+      <span class="plabel">{d.preloaderLabel}</span>
+      <span class="count" id="count">0%</span>
+      <span class="bar" id="bar"></span>
+    </div>
+    <div class="cursor" id="cursor" aria-hidden="true"></div>
+    <slot />
+    <script>
+      import "@/scripts/site";
+    </script>
+  </body>
+</html>

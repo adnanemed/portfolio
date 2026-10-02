@@ -1,0 +1,177 @@
+---
+// Case-study view — 8 blocks per PLAN-v2 §2.2, rendered from the
+// build-time content.json (runtime refresh via data-cs / data-cs-hash).
+import { t, tagLabel } from "@/lib/i18n";
+import {
+  projectByLocale,
+  type Locale,
+  type Project,
+} from "@/lib/site";
+import { hashJson } from "@/lib/hash";
+import Nav from "@/components/Nav.astro";
+import BrowserMockup from "@/components/BrowserMockup.astro";
+import ScreenshotGallery from "@/components/ScreenshotGallery.astro";
+import ArchitectureViewer from "@/components/ArchitectureViewer.astro";
+import CtaBand from "@/components/CtaBand.astro";
+import ProjectNav from "@/components/ProjectNav.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import { caseStudyView } from "@/lib/refresh-views";
+
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+const { project: p, locale } = Astro.props;
+const d = t[locale];
+const c = projectByLocale(p, locale);
+
+const firstMetric = p.metrics[0] ?? null;
+const showEmbed = p.iframeEmbeddable && p.liveUrl;
+const hasScreens = p.fallbackScreenshots.length > 0;
+
+// breadcrumb JSON-LD
+const crumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "StackLab", item: locale === "fr" ? "/" : "/en/" },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: locale === "fr" ? "Projets" : "Projects",
+      item: (locale === "fr" ? "/" : "/en/") + "#projets",
+    },
+    { "@type": "ListItem", position: 3, name: c.name },
+  ],
+};
+---
+
+<Nav locale={locale} altPath={locale === "fr" ? `/en/projects/${p.slug}/` : `/projets/${p.slug}/`} />
+
+<main id="main" data-cs-hash={`${p.slug}:${hashJson(caseStudyView(p))}`}>
+  <script type="application/ld+json" set:html={JSON.stringify(crumb)} />
+  <header class="cs-hero">
+    <a class="back" href={d.homeUrl}>← {d.caseStudy.back}</a>
+    <h1 data-cs="name">{c.name}</h1>
+    <div class="meta">
+      <span data-cs="sector">{c.sector}</span>
+      <span class="sep">·</span>
+      {p.type !== "client" && (
+        <span class="demo-badge" data-cs="type-badge">{d.caseStudy.typeBadge[p.type as "demo" | "own"]}</span>
+      )}
+      {p.tags.slice(0, 3).map((tag) => (
+        <span class="mono" style="font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">
+          {tagLabel(tag, locale)}
+        </span>
+      ))}
+    </div>
+    {firstMetric && (
+      <div class="outcome">
+        <span class="big" data-cs="metric-value">{firstMetric.value}{firstMetric.suffix}</span>
+        <span class="lbl" data-cs="metric-label">{locale === "fr" ? firstMetric.labelFr : firstMetric.labelEn}</span>
+      </div>
+    )}
+    <p class="arch-caption" style="margin-top:1.6rem;max-width:58ch;font-size:1rem" data-cs="summary">{c.summary}</p>
+  </header>
+
+  <section class="cs-block" style="padding-top:0">
+    <div class="inner">
+      <span class="blk-idx">{d.caseStudy.problemIdx}</span>
+      <h2 set:html={d.caseStudy.problemTitle} />
+      <p data-cs="problem">{c.problem}</p>
+    </div>
+  </section>
+
+  <section class="cs-block" style="border-top:1px solid var(--line)">
+    <div class="inner">
+      <span class="blk-idx">{d.caseStudy.solutionIdx}</span>
+      <h2 set:html={d.caseStudy.solutionTitle} />
+      <p data-cs="solution">{c.solution}</p>
+    </div>
+  </section>
+
+  <section class="cs-block" style="border-top:1px solid var(--line)">
+    <div class="inner" style="max-width:none">
+      <span class="blk-idx">{d.caseStudy.featuresIdx}</span>
+      <h2 set:html={d.caseStudy.featuresTitle} />
+      <div class="features" data-cs="features">
+        {c.features.map((f) => (
+          <div class="feat-row">
+            <span class="ft">{f.title}</span>
+            <span class="fd">{f.body}</span>
+          </div>
+        ))}
+      </div>
+      {p.metrics.length > 1 && (
+        <div class="cs-metrics" data-cs="metrics">
+          {p.metrics.map((m) => (
+            <div>
+              <div class="v">{m.value}{m.suffix}</div>
+              <div class="l">{locale === "fr" ? m.labelFr : m.labelEn}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="cs-block" style="border-top:1px solid var(--line)">
+    <span class="blk-idx">{d.caseStudy.liveIdx}</span>
+    <h2 set:html={d.caseStudy.liveTitle} />
+
+    {showEmbed && (
+      <BrowserMockup url={p.liveUrl!} locale={locale} title={c.name} uid={p.slug} />
+    )}
+
+    {!showEmbed && hasScreens && (
+      <>
+        <ScreenshotGallery project={p} locale={locale} />
+        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+          {p.liveUrl ? (
+            <a class="btn-wipe" href={p.liveUrl} target="_blank" rel="noopener noreferrer">
+              {d.caseStudy.openSite} <span class="arr" aria-hidden="true">↗</span>
+            </a>
+          ) : (
+            <>
+              <a class="btn-wipe" href={d.homeUrl + "#contact"}>
+                {d.caseStudy.withheldCta} <span class="arr" aria-hidden="true">↗</span>
+              </a>
+              <p class="demo-note" style="margin-top:0">{d.caseStudy.withheldNote}</p>
+            </>
+          )}
+        </div>
+      </>
+    )}
+  </section>
+
+  {p.architectureImage && (
+    <section class="cs-block" style="border-top:1px solid var(--line)">
+      <span class="blk-idx">{d.caseStudy.archIdx}</span>
+      <h2 set:html={d.caseStudy.archTitle} />
+      <ArchitectureViewer
+        locale={locale}
+        uid={p.slug}
+        diagrams={[
+          {
+            key: p.slug,
+            name: c.name,
+            src: p.architectureImage,
+            alt: `${c.name} — ${locale === "fr" ? "schéma d'architecture" : "architecture diagram"}`,
+            caption: c.archCaption ?? "",
+          },
+        ]}
+      />
+    </section>
+  )}
+
+  <CtaBand locale={locale} projectName={c.name} />
+
+  <ProjectNav project={p} locale={locale} />
+</main>
+
+<SiteFooter locale={locale} />
+
+<script>
+  import { initRefresh } from "@/lib/refresh";
+  initRefresh();
+</script>

@@ -1,0 +1,19 @@
+---
+import { t } from "@/lib/i18n";
+import type { Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+---
+
+<div class="stats" aria-label="Chiffres clés">
+  {d.stats.map((s) => (
+    <div>
+      <div class="num">{s.num}</div>
+      <div class="lbl">{s.lbl}</div>
+    </div>
+  ))}
+</div>

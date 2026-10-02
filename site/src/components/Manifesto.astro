@@ -1,0 +1,26 @@
+---
+// stacklab.txt — anonymous mono manifesto file block.
+import { t } from "@/lib/i18n";
+import type { Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+---
+
+<section id="manifeste">
+  <div class="sec-head sr">
+    <h2 set:html={d.manifesto.title} />
+    <span class="idx">{d.manifesto.idx}</span>
+  </div>
+
+  <div class="fileblock sr">
+    <div class="fb-head">
+      <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>stacklab.txt</span>
+    </div>
+    <div class="fb-body">{d.manifesto.body}</div>
+  </div>
+</section>

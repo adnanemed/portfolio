@@ -1,0 +1,36 @@
+---
+// Footer — socials rendered only if present (from content.json / API
+// refresh), rights, back-to-top.
+import { t } from "@/lib/i18n";
+import { SOCIALS, type Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+const socials = [
+  { key: "instagram", label: "Instagram", href: SOCIALS.instagram },
+  { key: "linkedin", label: "LinkedIn", href: SOCIALS.linkedin },
+  { key: "whatsapp", label: "WhatsApp", href: SOCIALS.whatsapp ? `https://wa.me/${SOCIALS.whatsapp.replace(/[^\d]/g, "")}` : null },
+  { key: "email", label: "Email", href: SOCIALS.email ? `mailto:${SOCIALS.email}` : null },
+].filter((s) => s.href);
+---
+
+<footer>
+  <span>{d.footer.rights}</span>
+  <span data-socials class="footer-socials">
+    {socials.map((s) => (
+      <a
+        href={s.href!}
+        data-social={s.key}
+        {...(s.href!.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        {...(s.key === "email" ? { "data-public-email": "" } : {})}
+      >
+        {s.label} ↗
+      </a>
+    ))}
+  </span>
+  <span>{d.footer.tagline}</span>
+  <a href={d.homeUrl + "#top"}>{d.footer.top}</a>
+</footer>

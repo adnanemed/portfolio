@@ -1,0 +1,699 @@
+{
+  "generatedAt": "2026-10-02T23:24:10.469Z",
+  "source": "docs/content-drafts (owner-validated via dashboard export)",
+  "socials": {
+    "whatsapp": null,
+    "instagram": null,
+    "linkedin": null,
+    "email": null
+  },
+  "projects": [
+    {
+      "slug": "lahyani",
+      "nameFr": "Centre Dentaire Lahyani",
+      "nameEn": "Centre Dentaire Lahyani",
+      "sectorFr": "Cabinet dentaire, Rabat",
+      "sectorEn": "Dental clinic, Rabat",
+      "type": "client",
+      "featured": true,
+      "summaryFr": "Site vitrine bilingue avec prise de rendez-vous en ligne, doublé d'un tableau de bord complet pour gérer l'agenda, les dossiers patients et la facturation du cabinet.",
+      "summaryEn": "A bilingual showcase website with online booking, paired with a full dashboard to manage the clinic's schedule, patient records and billing.",
+      "problemFr": "Le cabinet ne disposait d'aucune présence en ligne digne de son positionnement haut de gamme. Les patients devaient appeler pendant les heures d'ouverture pour réserver, et le personnel gérait l'agenda, les dossiers et les ordonnances à la main. Impossible non plus de s'adresser correctement aux deux publics du cabinet : francophone et arabophone.",
+      "problemEn": "The clinic had no online presence worthy of its premium positioning. Patients had to call during opening hours to book, and staff managed the schedule, records and prescriptions by hand. There was also no proper way to serve the clinic's two audiences: French and Arabic speakers.",
+      "solutionFr": "Nous avons livré une plateforme à deux visages. Côté patient : un site bilingue FR/AR qui présente les soins, les avis Google et la galerie du cabinet, avec un parcours de réservation en ligne disponible 24h/24. Côté équipe : un tableau de bord sécurisé qui centralise l'agenda, les dossiers patients, l'odontogramme, les ordonnances, les factures et les messages du site.",
+      "solutionEn": "We delivered a platform with two faces. For patients: a bilingual FR/AR website presenting treatments, Google reviews and the clinic gallery, with an online booking flow available around the clock. For the team: a secure dashboard that brings together the schedule, patient records, dental chart, prescriptions, invoices and website messages.",
+      "tags": [
+        "Next.js",
+        "Prise de RDV en ligne",
+        "Tableau de bord",
+        "FR / AR"
+      ],
+      "metrics": [
+        {
+          "labelFr": "Réservation en ligne",
+          "labelEn": "Online booking",
+          "value": "24/7",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Langues du site",
+          "labelEn": "Site languages",
+          "value": "2",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Ans d'expérience du praticien",
+          "labelEn": "Years of practitioner experience",
+          "value": "15+",
+          "suffix": ""
+        }
+      ],
+      "liveUrl": "https://cabinet-lahyani.vercel.app/fr",
+      "liveUrlWithheld": false,
+      "iframeEmbeddable": false,
+      "architectureImage": "/diagrams/lahyani.webp",
+      "architectureCaptionFr": "Le patient réserve en ligne à toute heure ; l'équipe du cabinet gère agenda, dossiers et factures depuis son tableau de bord sécurisé.",
+      "architectureCaptionEn": "The patient books online at any hour; the clinic team manages the schedule, records and invoices from its secure dashboard.",
+      "fallbackScreenshots": [
+        "/projects/lahyani/lahyani-hero.webp",
+        "/projects/lahyani/lahyani-booking.webp"
+      ],
+      "featuresFr": [
+        {
+          "title": "Réservation en ligne 24h/24",
+          "body": "Le patient choisit son soin, sa date et son heure en trois étapes ; le système vérifie les horaires du cabinet, la pause déjeuner et les créneaux déjà pris, sans erreur possible."
+        },
+        {
+          "title": "Site bilingue français / arabe",
+          "body": "Tout le site existe en français et en arabe, avec lecture de droite à gauche native — un vrai avantage sur le marché rabati, où la plupart des cabinets ne sont qu'en une langue."
+        },
+        {
+          "title": "Agenda maîtrisé pour l'équipe",
+          "body": "Le personnel voit les rendez-vous du jour, confirme, déplace ou annule chaque créneau en un clic, et reçoit une notification sonore à chaque nouvelle réservation."
+        },
+        {
+          "title": "Dossiers patients complets",
+          "body": "Historique médical, traitements en cours, notes privées et coordonnées regroupés sur une seule fiche, avec import Excel pour reprendre les dossiers existants."
+        },
+        {
+          "title": "Odontogramme interactif",
+          "body": "La dentition complète du patient est visualisée dent par dent (carie, couronne, implant…), ce qui rend le suivi clinique immédiat et lisible."
+        },
+        {
+          "title": "Ordonnances et factures en un clic",
+          "body": "Le praticien rédige une ordonnance sur modèle et l'imprime en PDF, puis établit la facture dont le total est calculé automatiquement côté serveur."
+        },
+        {
+          "title": "Preuve sociale Google intégrée",
+          "body": "Les avis Google du cabinet s'affichent directement sur le site, avec un lien pour laisser un avis — la réputation en ligne travaille pour le cabinet."
+        }
+      ],
+      "featuresEn": [
+        {
+          "title": "Online booking, 24/7",
+          "body": "The patient picks a treatment, a date and a time in three steps; the system checks opening hours, lunch break and taken slots, so double-bookings are impossible."
+        },
+        {
+          "title": "Bilingual French / Arabic website",
+          "body": "The whole site exists in French and Arabic, with native right-to-left support — a real edge in the Rabat market, where most clinics operate in one language only."
+        },
+        {
+          "title": "A schedule the team controls",
+          "body": "Staff see the day's appointments, confirm, move or cancel each slot in one click, and get a sound notification for every new booking."
+        },
+        {
+          "title": "Complete patient records",
+          "body": "Medical history, ongoing treatments, private notes and contact details on a single file, with Excel import to bring existing records across."
+        },
+        {
+          "title": "Interactive dental chart",
+          "body": "The patient's full dentition is visualised tooth by tooth (cavity, crown, implant…), making clinical follow-up immediate and readable."
+        },
+        {
+          "title": "Prescriptions and invoices in one click",
+          "body": "The practitioner writes a prescription on a template and prints it as a PDF, then issues the invoice with the total computed automatically on the server."
+        },
+        {
+          "title": "Built-in Google social proof",
+          "body": "The clinic's Google reviews display directly on the site, with a link to leave a new one — the online reputation keeps working for the clinic."
+        }
+      ],
+      "orderIndex": 1
+    },
+    {
+      "slug": "auradrive",
+      "nameFr": "AuraDrive",
+      "nameEn": "AuraDrive",
+      "sectorFr": "Location de voitures de luxe, Maroc",
+      "sectorEn": "Luxury car rental, Morocco",
+      "type": "client",
+      "featured": false,
+      "summaryFr": "Site vitrine et portail de gestion complet pour une agence de location de voitures de luxe au Maroc. Le client réserve en ligne et suit sa réservation en temps réel ; l'agence pilote sa flotte, ses contrats et ses clients depuis un tableau de bord.",
+      "summaryEn": "Showcase site and full management portal for a luxury car rental agency in Morocco. Customers book online and track their reservation in real time; the agency manages its fleet, contracts and clients from a single dashboard.",
+      "problemFr": "L'agence gérait ses réservations à la main : appels, messages, fiches papier. Vérifier l'identité d'un client, rédiger un contrat, suivre l'entretien des véhicules — tout se faisait à côté du site. Résultat : du temps perdu chaque jour et un risque d'erreur sur les clients et les documents.",
+      "problemEn": "The agency handled bookings by hand: phone calls, messages, paper files. Checking a client's identity, writing a contract, keeping up with vehicle maintenance — it all happened outside the website. The result: hours lost every day and real risk of errors on clients and documents.",
+      "solutionFr": "Un site vitrine haut de gamme avec réservation en ligne, suivi de réservation et vue 3D à 360° des véhicules. Derrière, un portail d'administration complet : réservations, flotte, liste noire, entretien, documents. Le contrat et la facture PDF sont générés automatiquement à la confirmation, et le client reçoit son code de suivi immédiatement.",
+      "solutionEn": "A premium showcase site with online booking, reservation tracking and a 360° 3D vehicle viewer. Behind it, a complete admin portal: bookings, fleet, blacklist, maintenance, documents. The contract and invoice PDFs are generated automatically on confirmation, and the customer gets their tracking code right away.",
+      "tags": [
+        "Next.js",
+        "Prisma",
+        "Tableau de bord",
+        "WhatsApp",
+        "Paiement/Contrats PDF"
+      ],
+      "metrics": [
+        {
+          "labelFr": "Suivi de réservation",
+          "labelEn": "Reservation tracking",
+          "value": "temps réel",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Contrat + facture PDF",
+          "labelEn": "Contract + invoice PDF",
+          "value": "automatiques",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Vérification liste noire",
+          "labelEn": "Blacklist screening",
+          "value": "à chaque réservation",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Vue des véhicules",
+          "labelEn": "Vehicle showcase",
+          "value": "3D 360°",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Conciergerie",
+          "labelEn": "Concierge service",
+          "value": "24h/24",
+          "suffix": ""
+        }
+      ],
+      "liveUrl": "https://auradrive-pi.vercel.app/",
+      "liveUrlWithheld": false,
+      "iframeEmbeddable": true,
+      "architectureImage": "/diagrams/auradrive.webp",
+      "architectureCaptionFr": "Le client réserve en ligne et suit sa réservation avec son code. L'agence voit tout dans son portail : réservations, flotte, contrats PDF, entretien et clients. Les documents sont archivés dans le cloud.",
+      "architectureCaptionEn": "The customer books online and tracks the reservation with their code. The agency sees everything in its portal: bookings, fleet, PDF contracts, maintenance and clients. Documents are archived in the cloud.",
+      "fallbackScreenshots": [
+        "/projects/auradrive/auradrive-hero.webp",
+        "/projects/auradrive/auradrive-catalog.webp",
+        "/projects/auradrive/auradrive-admin.webp"
+      ],
+      "featuresFr": [
+        {
+          "title": "Réservation en ligne avec options",
+          "body": "Le client choisit son véhicule, ses dates, ses options (siège bébé, GPS, second conducteur) et le prix total est calculé automatiquement, caution incluse."
+        },
+        {
+          "title": "Suivi de réservation en temps réel",
+          "body": "Chaque réservation reçoit un code unique. Le client entre son code sur le site et voit le statut, les dates, le véhicule et télécharge son contrat et sa facture."
+        },
+        {
+          "title": "Contrat et facture PDF automatiques",
+          "body": "À la confirmation d'une réservation, le contrat de location et la facture officiels sont générés en PDF, aux couleurs de l'agence, et archivés en ligne."
+        },
+        {
+          "title": "Vérification automatique des clients",
+          "body": "La liste noire est vérifiée à chaque réservation : un client déjà signalé est bloqué automatiquement, et seul un responsable peut passer outre."
+        },
+        {
+          "title": "Lecture automatique des documents",
+          "body": "Le client envoie la photo de sa CNI et de son permis. Le système lit les numéros automatiquement et archive les documents de façon sécurisée."
+        },
+        {
+          "title": "Gestion de flotte et entretien",
+          "body": "L'agence suit chaque véhicule : disponibilité, kilométrage, vidange, contrôle technique, assurance. Les alertes d'entretien sont déclenchées automatiquement, et la flotte peut être importée depuis Excel."
+        },
+        {
+          "title": "Notifications WhatsApp",
+          "body": "Le portail se connecte à WhatsApp par QR code et prépare l'envoi des confirmations de réservation directement au téléphone du client."
+        },
+        {
+          "title": "Véhicules en 3D à 360°",
+          "body": "La page d'accueil présente les véhicules phares dans une scène 3D immersive, façon showroom, avec les spécifications techniques à portée de clic."
+        }
+      ],
+      "featuresEn": [
+        {
+          "title": "Online booking with add-ons",
+          "body": "The customer picks a vehicle, dates and add-ons (child seat, GPS, second driver); the total price is calculated automatically, deposit included."
+        },
+        {
+          "title": "Real-time reservation tracking",
+          "body": "Every booking gets a unique code. The customer enters it on the site and sees status, dates, vehicle, and downloads the contract and invoice."
+        },
+        {
+          "title": "Automatic contract and invoice PDFs",
+          "body": "When a booking is confirmed, the official rental contract and invoice are generated as branded PDFs and archived online."
+        },
+        {
+          "title": "Automatic customer screening",
+          "body": "The blacklist is checked on every booking: a previously flagged customer is blocked automatically, and only a manager can override it."
+        },
+        {
+          "title": "Automatic document reading",
+          "body": "The customer uploads photos of their ID card and driving licence. The system reads the numbers automatically and stores the documents securely."
+        },
+        {
+          "title": "Fleet and maintenance management",
+          "body": "The agency tracks every vehicle: availability, mileage, oil changes, inspections, insurance. Maintenance alerts fire automatically, and the fleet can be imported from Excel."
+        },
+        {
+          "title": "WhatsApp notifications",
+          "body": "The portal connects to WhatsApp via QR code and prepares booking confirmations sent straight to the customer's phone."
+        },
+        {
+          "title": "360° 3D vehicle showcase",
+          "body": "The homepage features flagship cars in an immersive 3D showroom scene, with technical specs one click away."
+        }
+      ],
+      "orderIndex": 2
+    },
+    {
+      "slug": "saveur-charme",
+      "nameFr": "Saveur & Charme",
+      "nameEn": "Saveur & Charme",
+      "sectorFr": "Démo pour restaurants",
+      "sectorEn": "Restaurant demo",
+      "type": "demo",
+      "featured": true,
+      "summaryFr": "Démo complète pour un restaurant gastronomique : commande en ligne, réservation de table sur plan 2D, et tableau de bord temps réel pour le gérant. Essayez la démo en direct — côté client ET côté gérant.",
+      "summaryEn": "A complete demo for a fine-dining restaurant: online ordering, table booking on an interactive 2D floor plan, and a realtime dashboard for the owner. Try the live demo — both the customer side and the manager side.",
+      "problemFr": "Un restaurant sans outil numérique perd du temps et des couverts. Les commandes arrivent par téléphone, on les note à la main. Les réservations se chevauchent : deux familles sur la même table, le même soir. Le menu change et les sites « vitrine » ne suivent jamais. Ce projet montre ce que le gérant peut avoir à la place.",
+      "problemEn": "A restaurant without digital tools loses time and covers. Orders come in by phone and are written down by hand. Reservations overlap: two families, one table, same evening. The menu changes and static brochure sites never keep up. This project shows what the owner can have instead.",
+      "solutionFr": "Un site complet, pensé du client jusqu'à la cuisine. Le client parcourt la carte, commande sur place, à emporter ou en livraison, et choisit sa table sur un plan de salle interactif. En coulisses, le gérant reçoit chaque commande avec une alerte sonore, gère les réservations, met à jour la carte et bloque une table en un clic. C'est une démo : testez-la en direct, rien à installer.",
+      "solutionEn": "A complete site, designed from the customer to the kitchen. The customer browses the menu, orders dine-in, takeaway or delivery, and picks a table on an interactive floor plan. Behind the scenes, the owner receives every order with a sound alert, manages reservations, updates the menu and blocks a table in one click. It's a demo: try it live, nothing to install.",
+      "tags": [
+        "Démo",
+        "Commande en ligne",
+        "Plan 2D interactif",
+        "Tableau de bord temps réel"
+      ],
+      "metrics": [
+        {
+          "labelFr": "Réservation en ligne",
+          "labelEn": "Online booking",
+          "value": "24h/24",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Double réservation",
+          "labelEn": "Double bookings",
+          "value": "0",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Alerte à chaque commande",
+          "labelEn": "Alert on every order",
+          "value": "Sons",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Menu importé en masse",
+          "labelEn": "Bulk menu import",
+          "value": "Excel/JSON",
+          "suffix": ""
+        }
+      ],
+      "liveUrl": "https://restaurant-app-liart-seven.vercel.app/",
+      "liveUrlWithheld": false,
+      "iframeEmbeddable": true,
+      "architectureImage": "/diagrams/saveur-charme.webp",
+      "architectureCaptionFr": "Le client commande et réserve sur le site. Tout arrive en direct dans le tableau de bord du gérant : commandes, réservations, carte et retours clients.",
+      "architectureCaptionEn": "The customer orders and books on the site. Everything lands live in the owner's dashboard: orders, reservations, the menu and customer feedback.",
+      "fallbackScreenshots": [
+        "/projects/saveur-charme/saveur-charme-hero.webp",
+        "/projects/saveur-charme/saveur-charme-menu.webp",
+        "/projects/saveur-charme/saveur-charme-admin.webp",
+        "/projects/saveur-charme/saveur-charme-admin-menu.webp"
+      ],
+      "featuresFr": [
+        {
+          "title": "Commande en ligne, trois modes",
+          "body": "Le client choisit sur place, à emporter ou en livraison, avec son adresse et sa table. Le panier calcule le total et envoie la commande directement dans le tableau de bord."
+        },
+        {
+          "title": "Réservation sur plan de salle 2D",
+          "body": "Le client voit les tables libres et occupées en un coup d'œil, clique sur celle qu'il veut et réserve pour la date de son choix."
+        },
+        {
+          "title": "Zéro double réservation",
+          "body": "Une table déjà prise passe en rouge sur le plan, et une vérification finale empêche deux clients de réserver la même table au même moment."
+        },
+        {
+          "title": "Tableau de bord temps réel",
+          "body": "Chaque nouvelle commande ou réservation arrive instantanément, avec une alerte sonore. Le gérant voit tout, sans rien rafraîchir."
+        },
+        {
+          "title": "Carte modifiable en quelques secondes",
+          "body": "Ajouter un plat, changer un prix, marquer « épuisé » : tout se fait depuis le tableau de bord et s'affiche aussitôt côté client. Import en masse depuis un fichier Excel ou JSON."
+        },
+        {
+          "title": "Contrôle des tables à la main",
+          "body": "Client march-in, groupe imprévu, table à bloquer : le gérant ouvre ou ferme n'importe quelle table directement sur le plan."
+        },
+        {
+          "title": "Équipe avec rôles",
+          "body": "Un compte Super Admin et des comptes Staff. Chacun voit ce dont il a besoin, chacun garde son mot de passe."
+        },
+        {
+          "title": "Adresse, horaires et retours clients",
+          "body": "Page localisation avec itinéraire Google Maps, et formulaire d'avis qui arrive directement dans le tableau de bord du gérant."
+        }
+      ],
+      "featuresEn": [
+        {
+          "title": "Online ordering, three modes",
+          "body": "The customer chooses dine-in, takeaway or delivery, with their address and table. The cart totals everything and sends the order straight to the dashboard."
+        },
+        {
+          "title": "Booking on an interactive 2D floor plan",
+          "body": "Free and taken tables are visible at a glance. The customer clicks the table they want and books for their chosen date."
+        },
+        {
+          "title": "Zero double bookings",
+          "body": "A taken table turns red on the plan, and a final check stops two customers from booking the same table at the same time."
+        },
+        {
+          "title": "Realtime dashboard",
+          "body": "Every new order or reservation lands instantly, with a sound alert. The owner sees everything without refreshing anything."
+        },
+        {
+          "title": "Menu editable in seconds",
+          "body": "Add a dish, change a price, mark it as sold out — all from the dashboard, live on the customer side. Bulk import from an Excel or JSON file."
+        },
+        {
+          "title": "Hands-on table control",
+          "body": "Walk-in guest, surprise group, table to block: the owner opens or closes any table directly on the floor plan."
+        },
+        {
+          "title": "Team with roles",
+          "body": "One Super Admin account and Staff accounts. Everyone sees what they need and keeps their own password."
+        },
+        {
+          "title": "Address, hours and customer feedback",
+          "body": "A location page with Google Maps directions, and a feedback form that lands directly in the owner's dashboard."
+        }
+      ],
+      "orderIndex": 3
+    },
+    {
+      "slug": "kfresh",
+      "nameFr": "KFresh",
+      "nameEn": "KFresh",
+      "sectorFr": "Supermarché, Ottawa (Canada)",
+      "sectorEn": "Supermarket, Ottawa (Canada)",
+      "type": "client",
+      "featured": false,
+      "summaryFr": "Épicerie afro-caribéenne d'Ottawa : commande en ligne de courses et de plats cuisinés, retrait sur place planifiable et livraison via Uber Eats et DoorDash.",
+      "summaryEn": "An Afro-Caribbean grocery store in Ottawa: online ordering for groceries and ready-to-eat meals, scheduled in-store pickup, and delivery through Uber Eats and DoorDash.",
+      "problemFr": "KFresh propose des produits africains et internationaux difficiles à trouver à Ottawa, plus des plats traditionnels préparés chaque jour sur place. Les clients devaient passer en magasin ou commander par téléphone pour savoir ce qui était disponible. L'équipe avait besoin d'une vitrine en ligne simple : commander ses courses, réserver un plat, venir le chercher. Et d'un tableau de bord pour gérer tout cela sans compétence technique.",
+      "problemEn": "KFresh carries African and international products that are hard to find in Ottawa, plus traditional dishes prepared fresh daily in-store. Customers had to visit the store or call to know what was available. The team needed a simple online storefront: order groceries, book a meal, come pick it up. And a dashboard to manage it all without technical skills.",
+      "solutionFr": "Un site e-commerce complet : boutique en ligne avec panier et paiement par carte, section « Fresh Meals » pour les plats cuisinés prêts à emporter, réservation de créneau de retrait, et redirection vers Uber Eats et DoorDash pour la livraison. Le gérant pilote produits, commandes et contenus depuis son tableau de bord.",
+      "solutionEn": "A full e-commerce site: an online store with cart and card payment, a \"Fresh Meals\" section for ready-to-eat dishes, pickup time booking, and redirects to Uber Eats and DoorDash for delivery. The owner manages products, orders and content from an admin dashboard.",
+      "tags": [
+        "E-commerce",
+        "Next.js",
+        "Tableau de bord admin",
+        "Plats cuisinés",
+        "Ottawa"
+      ],
+      "metrics": [
+        {
+          "labelFr": "Note affichée sur le site",
+          "labelEn": "Rating displayed on the site",
+          "value": "4.9",
+          "suffix": "/5"
+        },
+        {
+          "labelFr": "Minimum de commande en ligne",
+          "labelEn": "Online order minimum",
+          "value": "50",
+          "suffix": "$"
+        },
+        {
+          "labelFr": "Plates-formes de livraison partenaires",
+          "labelEn": "Partner delivery platforms",
+          "value": "2",
+          "suffix": ""
+        }
+      ],
+      "liveUrl": "https://www.kfresh.ca/",
+      "liveUrlWithheld": false,
+      "iframeEmbeddable": true,
+      "architectureImage": null,
+      "architectureCaptionFr": null,
+      "architectureCaptionEn": null,
+      "fallbackScreenshots": [
+        "/projects/kfresh/kfresh-hero.webp",
+        "/projects/kfresh/kfresh-shop.webp"
+      ],
+      "featuresFr": [
+        {
+          "title": "Boutique en ligne",
+          "body": "Catalogue d'épicerie afro-caribéenne avec panier, compte client et paiement Visa / Mastercard."
+        },
+        {
+          "title": "Plats cuisinés prêts à emporter",
+          "body": "Section « Fresh Meals » : plats traditionnels préparés chaque jour par les chefs de la maison."
+        },
+        {
+          "title": "Retrait sur place planifiable",
+          "body": "Le client réserve un créneau de retrait en ligne et récupère sa commande au magasin."
+        },
+        {
+          "title": "Livraison via partenaires",
+          "body": "Commandes de courses et de repas acheminées par Uber Eats et DoorDash."
+        },
+        {
+          "title": "Avis clients visibles",
+          "body": "Section avis intégrée au site pour rassurer les nouveaux clients."
+        },
+        {
+          "title": "Tableau de bord pour le gérant",
+          "body": "Gestion des produits, des commandes et du contenu sans intervention technique."
+        }
+      ],
+      "featuresEn": [
+        {
+          "title": "Online store",
+          "body": "Afro-Caribbean grocery catalogue with cart, customer accounts, and Visa / Mastercard payment."
+        },
+        {
+          "title": "Ready-to-eat meals",
+          "body": "A \"Fresh Meals\" section featuring traditional dishes prepared daily by the in-house chefs."
+        },
+        {
+          "title": "Scheduled pickup",
+          "body": "Customers book a pickup slot online and collect their order at the store."
+        },
+        {
+          "title": "Delivery through partners",
+          "body": "Grocery and meal orders fulfilled via Uber Eats and DoorDash."
+        },
+        {
+          "title": "Visible customer reviews",
+          "body": "An on-site reviews section that reassures first-time visitors."
+        },
+        {
+          "title": "Owner dashboard",
+          "body": "Products, orders and content managed without any technical intervention."
+        }
+      ],
+      "orderIndex": 4
+    },
+    {
+      "slug": "sigmaparts",
+      "nameFr": "SigmaParts",
+      "nameEn": "SigmaParts",
+      "sectorFr": "Vente de pièces industrielles, Maroc",
+      "sectorEn": "Industrial parts retailer, Morocco",
+      "type": "client",
+      "featured": false,
+      "summaryFr": "Distributeur marocain de pièces de rechange pour engins de chantier Volvo : catalogue en ligne avec recherche par référence et demande de devis en quatre étapes.",
+      "summaryEn": "A Moroccan distributor of spare parts for Volvo construction equipment: an online catalogue with reference search and a four-step quote request flow.",
+      "problemFr": "SigmaParts importe et distribue des pièces pour engins Volvo au Maroc. Ses clients sont des professionnels du BTP qui ne peuvent pas se permettre une erreur : la bonne référence, au bon moment, sinon la machine reste à l'arrêt. Tout passait par des appels et des échanges pour identifier la pièce. Il fallait un catalogue en ligne où un client retrouve sa pièce par référence, vérifie la disponibilité, puis se fait rappeler — sans vente en ligne, le métier restant basé sur le conseil et le devis.",
+      "problemEn": "SigmaParts imports and distributes parts for Volvo machinery in Morocco. Its customers are construction professionals who cannot afford a mistake: the right reference, at the right time, or the machine sits idle. Part identification used to happen entirely over the phone. They needed an online catalogue where a customer finds a part by reference, checks availability, then gets called back — with no online checkout, since the business runs on advice and quotes.",
+      "solutionFr": "Un site catalogue en français, pensé pour le professionnel pressé : recherche par référence VOE ou désignation de pièce, six familles de produits claires, vérification de disponibilité, puis un parcours simple en quatre étapes qui se termine par un contact (formulaire, WhatsApp direct ou téléphone). Un blog technique complète le tout pour aider le client à choisir entre pièce d'origine et pièce adaptable.",
+      "solutionEn": "A French-language catalogue site designed for the busy professional: search by VOE reference or part designation, six clear product families, availability checking, then a simple four-step flow ending in contact (form, direct WhatsApp, or phone). A technical blog rounds it out, helping customers choose between original and compatible parts.",
+      "tags": [
+        "Catalogue en ligne",
+        "Recherche par référence",
+        "B2B",
+        "Industrie",
+        "Maroc"
+      ],
+      "metrics": [
+        {
+          "labelFr": "Familles de pièces au catalogue",
+          "labelEn": "Product families in the catalogue",
+          "value": "6",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Canaux de contact proposés",
+          "labelEn": "Contact channels offered",
+          "value": "4",
+          "suffix": ""
+        }
+      ],
+      "liveUrl": "https://sigmaparts.ma/",
+      "liveUrlWithheld": false,
+      "iframeEmbeddable": false,
+      "architectureImage": null,
+      "architectureCaptionFr": null,
+      "architectureCaptionEn": null,
+      "fallbackScreenshots": [
+        "/projects/sigmaparts/sigmaparts-hero.webp"
+      ],
+      "featuresFr": [
+        {
+          "title": "Catalogue de pièces Volvo",
+          "body": "Six familles : filtration, composants moteur, hydraulique, transmission, pièces d'usure et électrique."
+        },
+        {
+          "title": "Recherche par référence VOE",
+          "body": "Le client tape sa référence (format VOE + 7 ou 8 chiffres) ou le nom de la pièce et trouve directement le bon article."
+        },
+        {
+          "title": "Vérification de disponibilité",
+          "body": "Le stock est consultable en ligne avant toute demande."
+        },
+        {
+          "title": "Demande de devis en 4 étapes",
+          "body": "Rechercher, vérifier, exprimer son intérêt, être contacté : un parcours clair, sans achat en ligne."
+        },
+        {
+          "title": "Contact direct",
+          "body": "Formulaire, WhatsApp direct, téléphone et email : chaque client choisit son canal."
+        },
+        {
+          "title": "Conseils techniques",
+          "body": "Un blog sur la maintenance des engins et le choix entre pièces d'origine et adaptables."
+        }
+      ],
+      "featuresEn": [
+        {
+          "title": "Volvo parts catalogue",
+          "body": "Six families: filtration, engine components, hydraulics, transmission, wear parts, and electrical."
+        },
+        {
+          "title": "Search by VOE reference",
+          "body": "Customers type their reference (VOE + 7 or 8 digits) or the part name and land directly on the right item."
+        },
+        {
+          "title": "Availability checking",
+          "body": "Stock can be checked online before any request is made."
+        },
+        {
+          "title": "Four-step quote request",
+          "body": "Search, verify, express interest, get contacted: a clear flow with no online checkout."
+        },
+        {
+          "title": "Direct contact",
+          "body": "Form, direct WhatsApp, phone, and email: every customer picks their channel."
+        },
+        {
+          "title": "Technical guidance",
+          "body": "A blog covering equipment maintenance and choosing between original and compatible parts."
+        }
+      ],
+      "orderIndex": 5
+    },
+    {
+      "slug": "promptifyapp",
+      "nameFr": "PromptifyApp",
+      "nameEn": "PromptifyApp",
+      "sectorFr": "Produit propre — SaaS",
+      "sectorEn": "Own product — SaaS",
+      "type": "own",
+      "featured": false,
+      "summaryFr": "Extension navigateur qui transforme une idée vague en prompt structuré, prêt pour ChatGPT, Claude, Gemini ou Copilot — en un clic.",
+      "summaryEn": "A browser extension that turns a vague idea into a structured prompt, ready for ChatGPT, Claude, Gemini, or Copilot — in one click.",
+      "problemFr": "Tout le monde utilise l'IA, mais peu obtiennent la réponse voulue du premier coup : les prompts restent vagues, on passe du temps à les reformuler à la main. PromptifyApp est né de ce constat — un produit conçu et exploité par StackLab lui-même, de l'idée au modèle économique.",
+      "problemEn": "Everyone uses AI, but few get the answer they want on the first try: prompts stay vague and people waste time rewriting them by hand. PromptifyApp was born from that observation — a product designed and run by StackLab itself, from idea to business model.",
+      "solutionFr": "Une extension disponible sur cinq navigateurs : on entre une idée brute, on clique sur « Forge It », et on obtient un prompt structuré (rôle, tâche, ton, structure, longueur) à envoyer dans l'IA de son choix. Des personas experts, un contrôle du ton et du niveau de détail, et un historique cloud complètent l'outil. Modèle freemium : plan gratuit à crédits, puis abonnements Pro et Elite.",
+      "solutionEn": "An extension available on five browsers: enter a raw idea, click \"Forge It\", and get a structured prompt (role, task, tone, structure, length) to send to the AI of your choice. Expert personas, tone and detail controls, and cloud history complete the tool. Freemium model: a free credit-based plan, then Pro and Elite subscriptions.",
+      "tags": [
+        "SaaS",
+        "Extension navigateur",
+        "IA",
+        "Produit",
+        "Freemium"
+      ],
+      "metrics": [
+        {
+          "labelFr": "Crédits offerts chaque mois (plan gratuit)",
+          "labelEn": "Free monthly credits (free plan)",
+          "value": "450",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Navigateurs pris en charge",
+          "labelEn": "Supported browsers",
+          "value": "5",
+          "suffix": ""
+        },
+        {
+          "labelFr": "Abonnement Pro (annuel)",
+          "labelEn": "Pro subscription (yearly)",
+          "value": "5.52",
+          "suffix": "$/mois"
+        },
+        {
+          "labelFr": "Gain de temps annoncé",
+          "labelEn": "Claimed time saved",
+          "value": "1 h",
+          "suffix": "/jour"
+        }
+      ],
+      "liveUrl": null,
+      "liveUrlWithheld": true,
+      "iframeEmbeddable": false,
+      "architectureImage": null,
+      "architectureCaptionFr": null,
+      "architectureCaptionEn": null,
+      "fallbackScreenshots": [
+        "/projects/promptifyapp/promptifyapp-hero.webp"
+      ],
+      "featuresFr": [
+        {
+          "title": "Smart Enhancer",
+          "body": "Une idée vague devient un prompt complet : rôle, tâche, ton, structure et longueur."
+        },
+        {
+          "title": "Persona Library",
+          "body": "Plus de 10 rôles d'experts — « Senior Developer », « CMO » — pour cadrer la réponse de l'IA."
+        },
+        {
+          "title": "Contrôle du ton et du détail",
+          "body": "L'utilisateur règle le style et la précision, ainsi qu'un « Ghost Mode » pour la discrétion."
+        },
+        {
+          "title": "Historique cloud et copie rapide",
+          "body": "Les prompts sont conservés et recopiés en un geste, sur tous les appareils."
+        },
+        {
+          "title": "Multilingue",
+          "body": "Écrire dans sa langue, générer le prompt en anglais : l'IA reçoit toujours une instruction claire."
+        },
+        {
+          "title": "Freemium avec abonnements",
+          "body": "Plan gratuit à 450 crédits par mois, Pro et Elite pour les gros usages, garantie 14 jours."
+        }
+      ],
+      "featuresEn": [
+        {
+          "title": "Smart Enhancer",
+          "body": "A vague idea becomes a complete prompt: role, task, tone, structure, and length."
+        },
+        {
+          "title": "Persona Library",
+          "body": "Over 10 expert roles — \"Senior Developer\", \"CMO\" — to frame the AI's answer."
+        },
+        {
+          "title": "Tone and detail control",
+          "body": "Users dial in style and precision, plus a \"Ghost Mode\" for privacy."
+        },
+        {
+          "title": "Cloud history and quick copy",
+          "body": "Prompts are kept and copied in one gesture, across devices."
+        },
+        {
+          "title": "Multilingual",
+          "body": "Write in your own language, generate the prompt in English: the AI always gets a clear instruction."
+        },
+        {
+          "title": "Freemium with subscriptions",
+          "body": "A free plan with 450 credits per month, Pro and Elite for heavy use, 14-day money-back guarantee."
+        }
+      ],
+      "orderIndex": 6
+    }
+  ]
+}

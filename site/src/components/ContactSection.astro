@@ -1,0 +1,33 @@
+---
+// Contact — Peak-End: biggest, most physical control (mega solid pill,
+// magnetic on fine pointers) + inline contact form.
+// Mega CTA: WhatsApp (wa.me) when socials.whatsapp exists, else mailto,
+// else form anchor.
+import { t } from "@/lib/i18n";
+import { primaryContactHref, type Locale } from "@/lib/site";
+import ContactForm from "./ContactForm.astro";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+const cta = primaryContactHref(d.contact.waText);
+---
+
+<section id="contact" class="contact">
+  <h2 class="sr" set:html={d.contact.title} />
+  <p class="note sr">{d.contact.note}</p>
+  <a
+    class="btn-mega sr"
+    href={cta.href}
+    data-magnetic
+    data-contact-cta
+    data-wa-text={d.contact.waText}
+    {...(cta.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+  >
+    {d.contact.megaCta} <span class="chip" aria-hidden="true">↗</span>
+  </a>
+  <p class="arch-hint mono sr" style="text-align:center;margin-top:3rem">{d.contact.formTitle}</p>
+  <ContactForm locale={locale} />
+</section>

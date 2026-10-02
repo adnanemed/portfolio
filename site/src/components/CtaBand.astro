@@ -1,0 +1,33 @@
+---
+// Case-study CTA band — WhatsApp primary + form anchor secondary.
+import { t } from "@/lib/i18n";
+import { primaryContactHref, localePath, type Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+  projectName: string;
+}
+const { locale, projectName } = Astro.props;
+const d = t[locale];
+const waText = d.caseStudy.waText.replace("{name}", projectName);
+const cta = primaryContactHref(waText);
+---
+
+<div class="cta-band">
+  <div>
+    <h2 set:html={d.caseStudy.ctaTitle} />
+    <p class="arch-caption" style="margin-top:.8rem">{d.caseStudy.ctaNote}</p>
+  </div>
+  <div class="actions">
+    <a
+      class="btn-wipe"
+      href={cta.href}
+      data-contact-cta
+      data-wa-text={waText}
+      {...(cta.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {d.contact.megaCta} <span class="arr" aria-hidden="true">↗</span>
+    </a>
+    <a class="btn-wipe" href={localePath("/#contact", locale)}>{d.nav.contact} <span class="arr" aria-hidden="true">↗</span></a>
+  </div>
+</div>

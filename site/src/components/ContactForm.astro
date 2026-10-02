@@ -1,0 +1,48 @@
+---
+// Contact form — POST {API}/api/public/contact with honeypot + min-fill
+// time. Inline idle/sending/success/error states; graceful failure with
+// an email fallback when the API is unreachable.
+import { t } from "@/lib/i18n";
+import { API_BASE_URL, type Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+---
+
+<form id="contactForm" class="form-wrap" novalidate data-api-base={API_BASE_URL} data-locale={locale}>
+  <div class="form-row">
+    <div class="field">
+      <label for="cf-name">{d.contact.form.name}</label>
+      <input id="cf-name" name="name" type="text" required minlength="2" maxlength="120" autocomplete="name" placeholder={d.contact.form.namePh} />
+    </div>
+    <div class="field">
+      <label for="cf-email">{d.contact.form.email}</label>
+      <input id="cf-email" name="email" type="email" required maxlength="200" autocomplete="email" placeholder={d.contact.form.emailPh} />
+    </div>
+  </div>
+  <div class="field">
+    <label for="cf-phone">{d.contact.form.phone} <span class="opt">{d.contact.form.optional}</span></label>
+    <input id="cf-phone" name="phone" type="tel" maxlength="30" autocomplete="tel" />
+  </div>
+  <div class="field">
+    <label for="cf-message">{d.contact.form.message}</label>
+    <textarea id="cf-message" name="message" required minlength="10" maxlength="4000" placeholder={d.contact.form.messagePh}></textarea>
+  </div>
+  {/* Honeypot — must stay empty; hidden from users, filled by bots */}
+  <div class="hp" aria-hidden="true">
+    <label for="cf-website">Website</label>
+    <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <button class="btn-wipe" type="submit" id="cf-submit">
+    {d.contact.form.submit} <span class="arr" aria-hidden="true">↗</span>
+  </button>
+  <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  import { initContactForm } from "@/scripts/contact-form";
+  initContactForm();
+</script>

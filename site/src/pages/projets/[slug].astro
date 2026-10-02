@@ -1,0 +1,29 @@
+---
+// FR case-study pages: /projets/[slug]/ ×6
+import Base from "@/layouts/Base.astro";
+import CaseStudyView from "@/components/CaseStudyView.astro";
+import { projects, projectByLocale, type Locale } from "@/lib/site";
+import { t } from "@/lib/i18n";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const locale: Locale = "fr";
+const d = t[locale];
+const c = projectByLocale(project, locale);
+---
+
+<Base
+  locale={locale}
+  title={`${c.name} ${d.seo.caseTitleSuffix}`}
+  description={c.summary}
+  frPath={`/projets/${project.slug}/`}
+  enPath={`/en/projects/${project.slug}/`}
+>
+  <CaseStudyView project={project} locale={locale} />
+</Base>

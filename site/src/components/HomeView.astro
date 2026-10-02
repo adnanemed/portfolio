@@ -1,0 +1,117 @@
+---
+// Home view shared by / (FR) and /en/ (EN) — sections exactly per the
+// approved preview: hero, stats, marquee, case index, coulisses, live
+// demo, architecture, anatomy, manifesto, process, contact, footer.
+import { t } from "@/lib/i18n";
+import { projects, getProject, SOCIALS, WHATSAPP_FALLBACK, waLink, type Locale } from "@/lib/site";
+import Nav from "@/components/Nav.astro";
+import Hero from "@/components/Hero.astro";
+import Stats from "@/components/Stats.astro";
+import SectorMarquee from "@/components/SectorMarquee.astro";
+import CaseIndex from "@/components/CaseIndex.astro";
+import ShotsGrid from "@/components/ShotsGrid.astro";
+import BrowserMockup from "@/components/BrowserMockup.astro";
+import ArchitectureViewer from "@/components/ArchitectureViewer.astro";
+import AnatomyRows from "@/components/AnatomyRows.astro";
+import Manifesto from "@/components/Manifesto.astro";
+import ContactSection from "@/components/ContactSection.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+
+// Live demo: the Saveur & Charme demo (iframe-embeddable per docs/iframe-check.md)
+const demoProject = getProject("saveur-charme")!;
+
+// Architecture viewer: the three projects with real diagrams
+const ALT: Record<string, { fr: string; en: string }> = {
+  "saveur-charme": {
+    fr: "Architecture de Saveur & Charme : site client, base de données temps réel, tableau de bord gérant",
+    en: "Saveur & Charme architecture: customer site, realtime database, owner dashboard",
+  },
+  lahyani: {
+    fr: "Architecture du Centre Dentaire Lahyani : site patient bilingue, réservation en ligne, tableau de bord sécurisé du cabinet",
+    en: "Centre Dentaire Lahyani architecture: bilingual patient site, online booking, secure clinic dashboard",
+  },
+  auradrive: {
+    fr: "Architecture d'AuraDrive : site client avec réservation et suivi, portail d'agence, contrats PDF automatiques",
+    en: "AuraDrive architecture: customer site with booking and tracking, agency portal, automatic PDF contracts",
+  },
+};
+const diagrams = projects
+  .filter((p) => p.architectureImage)
+  .map((p) => ({
+    key: p.slug,
+    name: locale === "fr" ? p.nameFr : p.nameEn,
+    src: p.architectureImage!,
+    alt: locale === "fr" ? ALT[p.slug]?.fr ?? p.nameFr : ALT[p.slug]?.en ?? p.nameEn,
+    caption: (locale === "fr" ? p.architectureCaptionFr : p.architectureCaptionEn) ?? "",
+  }));
+
+const waNumber = SOCIALS.whatsapp || WHATSAPP_FALLBACK || null;
+const waHref = waNumber ? waLink(waNumber, d.contact.waText) : null;
+---
+
+<Nav locale={locale} altPath={locale === "fr" ? "/en/" : "/"} />
+
+<main id="main">
+  <Hero locale={locale} />
+  <Stats locale={locale} />
+  <SectorMarquee locale={locale} />
+
+  <CaseIndex locale={locale} />
+
+  <ShotsGrid locale={locale} />
+
+  <section id="apercu">
+    <div class="sec-head sr">
+      <h2 set:html={d.demo.title} />
+      <span class="idx">{d.demo.idx}</span>
+    </div>
+    <BrowserMockup url={demoProject.liveUrl!} locale={locale} title={d.demo.iframeTitle} />
+  </section>
+
+  <section id="architecture">
+    <div class="sec-head sr">
+      <h2 set:html={d.arch.title} />
+      <span class="idx">{d.arch.idx}</span>
+    </div>
+    <ArchitectureViewer locale={locale} diagrams={diagrams} />
+  </section>
+
+  <section id="anatomie">
+    <div class="sec-head sr">
+      <h2 set:html={d.anatomy.title} />
+      <span class="idx">{d.anatomy.idx}</span>
+    </div>
+    <AnatomyRows rows={d.anatomy.rows} />
+  </section>
+
+  <Manifesto locale={locale} />
+
+  <section id="processus">
+    <div class="sec-head sr">
+      <h2 set:html={d.process.title} />
+      <span class="idx">{d.process.idx}</span>
+    </div>
+    <AnatomyRows rows={d.process.rows} />
+  </section>
+
+  <ContactSection locale={locale} />
+</main>
+
+<SiteFooter locale={locale} />
+
+{waHref && (
+  <a class="wa-float" href={waHref} target="_blank" rel="noopener noreferrer" data-wa-float>
+    {d.waFloat} <span aria-hidden="true">↗</span>
+  </a>
+)}
+
+<script>
+  import { initRefresh } from "@/lib/refresh";
+  initRefresh();
+</script>

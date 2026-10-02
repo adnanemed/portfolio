@@ -1,0 +1,115 @@
+---
+// "Dans les coulisses" — asymmetric 12-col grid of real screenshots.
+// Captions link to the matching case study (entry point for /projets/*).
+import { t } from "@/lib/i18n";
+import type { Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+
+const SHOTS = [
+  {
+    img: "/projects/saveur-charme/saveur-charme-admin.webp",
+    key: "saveur-charme-admin",
+    slug: "saveur-charme",
+    cls: "s12",
+    width: 1440,
+    height: 630,
+    altFr: "Tableau de bord gérant de Saveur & Charme : commandes et réservations en temps réel",
+    altEn: "Saveur & Charme owner dashboard: orders and reservations in real time",
+  },
+  {
+    img: "/projects/saveur-charme/saveur-charme-admin-menu.webp",
+    key: "saveur-charme-admin-menu",
+    slug: "saveur-charme",
+    cls: "s7",
+    width: 1440,
+    height: 900,
+    altFr: "Administration du menu de Saveur & Charme avec import Excel",
+    altEn: "Saveur & Charme menu administration with Excel import",
+  },
+  {
+    img: "/projects/lahyani/lahyani-booking.webp",
+    key: "lahyani-booking",
+    slug: "lahyani",
+    cls: "s5",
+    width: 1440,
+    height: 1080,
+    altFr: "Parcours de réservation en ligne du Centre Dentaire Lahyani",
+    altEn: "Centre Dentaire Lahyani online booking flow",
+  },
+  {
+    img: "/projects/kfresh/kfresh-shop.webp",
+    key: "kfresh-shop",
+    slug: "kfresh",
+    cls: "s5",
+    width: 1440,
+    height: 1080,
+    altFr: "Boutique en ligne KFresh : courses et plats cuisinés",
+    altEn: "KFresh online store: groceries and ready-to-eat meals",
+  },
+  {
+    img: "/projects/auradrive/auradrive-hero.webp",
+    key: "auradrive-hero",
+    slug: "auradrive",
+    cls: "s7",
+    width: 1440,
+    height: 900,
+    altFr: "Showroom 3D 360° des véhicules AuraDrive",
+    altEn: "AuraDrive 360° 3D vehicle showroom",
+  },
+  {
+    img: "/projects/lahyani/lahyani-hero.webp",
+    key: "lahyani-hero",
+    slug: "lahyani",
+    cls: "s7",
+    width: 1440,
+    height: 900,
+    altFr: "Site vitrine bilingue du Centre Dentaire Lahyani",
+    altEn: "Centre Dentaire Lahyani bilingual showcase site",
+  },
+  {
+    img: "/projects/promptifyapp/promptifyapp-hero.webp",
+    key: "promptifyapp-hero",
+    slug: "promptifyapp",
+    cls: "s5",
+    width: 1440,
+    height: 1080,
+    altFr: "PromptifyApp, extension navigateur pour structurer ses prompts IA",
+    altEn: "PromptifyApp, a browser extension to structure your AI prompts",
+  },
+] as const;
+---
+
+<section id="coulisses">
+  <div class="sec-head sr">
+    <h2 set:html={d.coulisses.title} />
+    <span class="idx">{d.coulisses.idx}</span>
+  </div>
+
+  <div class="shots">
+    {SHOTS.map((s) => (
+      <figure class={`shot ${s.cls} sr`}>
+        <div class="frame">
+          <img
+            src={s.img}
+            alt={locale === "fr" ? s.altFr : s.altEn}
+            width={s.width}
+            height={s.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>
+          <a href={locale === "fr" ? `/projets/${s.slug}/` : `/en/projects/${s.slug}/`} aria-label={d.shotCaptions[s.key]}>
+            {d.shotCaptions[s.key]}
+          </a>
+          <span class="arr" aria-hidden="true">↗</span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>

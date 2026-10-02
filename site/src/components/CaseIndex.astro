@@ -1,0 +1,34 @@
+---
+// Case index — the row is the link (live URL, new tab). PromptifyApp row
+// links to #contact with the "Produit propre" badge + R1 note (risk R1).
+import { t } from "@/lib/i18n";
+import { projects, type Locale } from "@/lib/site";
+import { caseIndexHtml } from "@/lib/render-case-index";
+import { caseIndexView } from "@/lib/refresh-views";
+import { hashJson } from "@/lib/hash";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+const strings = {
+  demoBadge: d.cases.demoBadge,
+  ownBadge: d.cases.ownBadge,
+  r1Note: d.cases.r1Note,
+  studyLink: "",
+};
+---
+
+<section id="projets">
+  <div class="sec-head sr">
+    <h2 set:html={d.cases.title} />
+    <span class="idx">{d.cases.idx}</span>
+  </div>
+  <div
+    id="caseIndex"
+    data-refresh="case-index"
+    data-hash={hashJson(projects.map((p) => caseIndexView(p)))}
+    set:html={caseIndexHtml(projects, locale, strings)}
+  />
+</section>

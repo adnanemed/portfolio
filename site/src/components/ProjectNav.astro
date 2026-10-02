@@ -1,0 +1,27 @@
+---
+// Prev / next project navigation (wraps around by orderIndex).
+import { projects, projectPath, type Locale, type Project } from "@/lib/site";
+import { t } from "@/lib/i18n";
+
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+const { project, locale } = Astro.props;
+const d = t[locale];
+const idx = projects.findIndex((p) => p.slug === project.slug);
+const prev = projects[(idx - 1 + projects.length) % projects.length];
+const next = projects[(idx + 1) % projects.length];
+const nameOf = (p: Project) => (locale === "fr" ? p.nameFr : p.nameEn);
+---
+
+<nav class="proj-nav" aria-label={locale === "fr" ? "Autres projets" : "Other projects"}>
+  <a href={projectPath(prev, locale)}>
+    <span class="dir">← {d.caseStudy.prev}</span>
+    <span class="pname">{nameOf(prev)}</span>
+  </a>
+  <a href={projectPath(next, locale)}>
+    <span class="dir">{d.caseStudy.next} →</span>
+    <span class="pname">{nameOf(next)}</span>
+  </a>
+</nav>
