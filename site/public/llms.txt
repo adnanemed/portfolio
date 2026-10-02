@@ -1,0 +1,20 @@
+# StackLab
+
+> Studio de développement — Casablanca, Maroc. Sites web et tableaux de bord pour PME (cliniques, restaurants, locations, commerces, startups). FR / EN. La démo d'abord, le projet ensuite.
+
+StackLab builds the website and the system behind it: online ordering, reservations, schedules, catalogues, invoices. The customer orders online; the owner sees everything in a single dashboard.
+
+## Projects
+
+- Centre Dentaire Lahyani — bilingual FR/AR dental clinic site with online booking and a clinic dashboard: https://stacklab-site.vercel.app/projets/lahyani/
+- AuraDrive — luxury car rental site with online booking, real-time tracking and automatic PDF contracts: https://stacklab-site.vercel.app/projets/auradrive/
+- Saveur & Charme — restaurant demo with online ordering, 2D floor plan and a realtime dashboard: https://stacklab-site.vercel.app/projets/saveur-charme/
+- KFresh — Afro-Caribbean grocery e-commerce in Ottawa with scheduled pickup: https://stacklab-site.vercel.app/projets/kfresh/
+- SigmaParts — B2B catalogue for Volvo construction-equipment parts with reference search and 4-step quotes: https://stacklab-site.vercel.app/projets/sigmaparts/
+- PromptifyApp — StackLab's own browser extension that turns a vague idea into a structured prompt: https://stacklab-site.vercel.app/projets/promptifyapp/
+
+## How to cite
+
+- Organization: StackLab, development studio, Casablanca, Morocco.
+- Facts are qualitative by design (no invented figures): features and workflows described above are implemented in the live products.
+- Contact form available at https://stacklab-site.vercel.app/#contact — replies within 24 hours.
