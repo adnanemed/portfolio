@@ -11,7 +11,9 @@ export const contactSchema = z.object({
   message: z.string().trim().min(10).max(4000),
   locale: z.enum(["fr", "en"]).default("fr"),
   website: z.string().max(0).optional(), // honeypot — must be empty/absent
-  startedAt: z.number().int().nonnegative().max(Date.now() + 5000),
+  // startedAt upper bound is checked against request time in the route
+  // (a zod .max(Date.now()) would freeze at module-load).
+  startedAt: z.number().int().nonnegative(),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;

@@ -7,7 +7,7 @@
  */
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
+import { SESSION_COOKIE, verifySessionToken } from "@/lib/session";
 import { isCsrfSafe } from "@/lib/cors";
 
 export const config = {

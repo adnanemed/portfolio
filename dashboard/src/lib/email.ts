@@ -1,3 +1,5 @@
+import { Resend } from "resend";
+
 /**
  * Transactional email via Resend. Contact flow inserts into Neon FIRST,
  * then sends — a Resend failure must never lose the message (R7).
@@ -43,7 +45,6 @@ export async function sendContactNotification(
   ].filter((l): l is string => l !== null);
 
   try {
-    const { default: { Resend } } = await import("resend");
     const resend = new Resend(apiKey);
     const result = await resend.emails.send({
       from,

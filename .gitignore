@@ -31,3 +31,6 @@ plan.md
 PRD.md
 portfolio.md
 preview-v2.html
+
+# dashboard runtime uploads (dev fallback)
+dashboard/public/uploads/
