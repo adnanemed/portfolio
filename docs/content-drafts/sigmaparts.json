@@ -1,0 +1,97 @@
+{
+  "slug": "sigmaparts",
+  "nameFr": "SigmaParts",
+  "nameEn": "SigmaParts",
+  "sectorFr": "Vente de pièces industrielles, Maroc",
+  "sectorEn": "Industrial parts retailer, Morocco",
+  "type": "client",
+  "featured": false,
+  "summaryFr": "Distributeur marocain de pièces de rechange pour engins de chantier Volvo : catalogue en ligne avec recherche par référence et demande de devis en quatre étapes.",
+  "summaryEn": "A Moroccan distributor of spare parts for Volvo construction equipment: an online catalogue with reference search and a four-step quote request flow.",
+  "tags": ["Catalogue en ligne", "Recherche par référence", "B2B", "Industrie", "Maroc"],
+  "problemFr": "SigmaParts importe et distribue des pièces pour engins Volvo au Maroc. Ses clients sont des professionnels du BTP qui ne peuvent pas se permettre une erreur : la bonne référence, au bon moment, sinon la machine reste à l'arrêt. Tout passait par des appels et des échanges pour identifier la pièce. Il fallait un catalogue en ligne où un client retrouve sa pièce par référence, vérifie la disponibilité, puis se fait rappeler — sans vente en ligne, le métier restant basé sur le conseil et le devis.",
+  "problemEn": "SigmaParts imports and distributes parts for Volvo machinery in Morocco. Its customers are construction professionals who cannot afford a mistake: the right reference, at the right time, or the machine sits idle. Part identification used to happen entirely over the phone. They needed an online catalogue where a customer finds a part by reference, checks availability, then gets called back — with no online checkout, since the business runs on advice and quotes.",
+  "solutionFr": "Un site catalogue en français, pensé pour le professionnel pressé : recherche par référence VOE ou désignation de pièce, six familles de produits claires, vérification de disponibilité, puis un parcours simple en quatre étapes qui se termine par un contact (formulaire, WhatsApp direct ou téléphone). Un blog technique complète le tout pour aider le client à choisir entre pièce d'origine et pièce adaptable.",
+  "solutionEn": "A French-language catalogue site designed for the busy professional: search by VOE reference or part designation, six clear product families, availability checking, then a simple four-step flow ending in contact (form, direct WhatsApp, or phone). A technical blog rounds it out, helping customers choose between original and compatible parts.",
+  "featuresFr": [
+    {
+      "title": "Catalogue de pièces Volvo",
+      "body": "Six familles : filtration, composants moteur, hydraulique, transmission, pièces d'usure et électrique."
+    },
+    {
+      "title": "Recherche par référence VOE",
+      "body": "Le client tape sa référence (format VOE + 7 ou 8 chiffres) ou le nom de la pièce et trouve directement le bon article."
+    },
+    {
+      "title": "Vérification de disponibilité",
+      "body": "Le stock est consultable en ligne avant toute demande."
+    },
+    {
+      "title": "Demande de devis en 4 étapes",
+      "body": "Rechercher, vérifier, exprimer son intérêt, être contacté : un parcours clair, sans achat en ligne."
+    },
+    {
+      "title": "Contact direct",
+      "body": "Formulaire, WhatsApp direct, téléphone et email : chaque client choisit son canal."
+    },
+    {
+      "title": "Conseils techniques",
+      "body": "Un blog sur la maintenance des engins et le choix entre pièces d'origine et adaptables."
+    }
+  ],
+  "featuresEn": [
+    {
+      "title": "Volvo parts catalogue",
+      "body": "Six families: filtration, engine components, hydraulics, transmission, wear parts, and electrical."
+    },
+    {
+      "title": "Search by VOE reference",
+      "body": "Customers type their reference (VOE + 7 or 8 digits) or the part name and land directly on the right item."
+    },
+    {
+      "title": "Availability checking",
+      "body": "Stock can be checked online before any request is made."
+    },
+    {
+      "title": "Four-step quote request",
+      "body": "Search, verify, express interest, get contacted: a clear flow with no online checkout."
+    },
+    {
+      "title": "Direct contact",
+      "body": "Form, direct WhatsApp, phone, and email: every customer picks their channel."
+    },
+    {
+      "title": "Technical guidance",
+      "body": "A blog covering equipment maintenance and choosing between original and compatible parts."
+    }
+  ],
+  "metrics": [
+    {
+      "labelFr": "Familles de pièces au catalogue",
+      "labelEn": "Product families in the catalogue",
+      "value": "6",
+      "suffix": "",
+      "confirmed": false,
+      "source": "live site",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Canaux de contact proposés",
+      "labelEn": "Contact channels offered",
+      "value": "4",
+      "suffix": "",
+      "confirmed": false,
+      "source": "live site",
+      "confidence": "high"
+    }
+  ],
+  "liveUrl": "https://sigmaparts.ma/",
+  "iframeEmbeddable": false,
+  "architectureImage": null,
+  "architectureSource": null,
+  "architectureCaptionFr": null,
+  "architectureCaptionEn": null,
+  "fallbackScreenshots": [],
+  "orderIndex": 5,
+  "notes": "Site lisible via WebFetch (https://sigmaparts.ma/) — pas de blocage, contenu riche récupéré (catégories, processus en 4 étapes, recherche VOE, coordonnées Casablanca). Modèle devis/mise en relation, pas de panier e-commerce : reflété fidèlement dans le copy. Le site se présente comme « Importateur officiel / Distributeur pièces Volvo » avec support technique ; formulation reprise telle quelle. Peu de chiffres mesurables publics, d'où 2 métriques factuelles seulement. Iframe non embeddable (X-Frame-Options SAMEORIGIN, docs/iframe-check.md) → galerie screenshots + bouton « Ouvrir le site ». Permission client accordée pour les screenshots (cf. iframe-check.md)."
+}

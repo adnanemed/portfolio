@@ -1,0 +1,128 @@
+{
+  "slug": "lahyani",
+  "nameFr": "Centre Dentaire Lahyani",
+  "nameEn": "Centre Dentaire Lahyani",
+  "sectorFr": "Cabinet dentaire, Rabat",
+  "sectorEn": "Dental clinic, Rabat",
+  "type": "client",
+  "featured": true,
+  "summaryFr": "Site vitrine bilingue avec prise de rendez-vous en ligne, doublé d'un tableau de bord complet pour gérer l'agenda, les dossiers patients et la facturation du cabinet.",
+  "summaryEn": "A bilingual showcase website with online booking, paired with a full dashboard to manage the clinic's schedule, patient records and billing.",
+  "tags": ["Next.js", "Prise de RDV en ligne", "Tableau de bord", "FR / AR"],
+  "problemFr": "Le cabinet ne disposait d'aucune présence en ligne digne de son positionnement haut de gamme. Les patients devaient appeler pendant les heures d'ouverture pour réserver, et le personnel gérait l'agenda, les dossiers et les ordonnances à la main. Impossible non plus de s'adresser correctement aux deux publics du cabinet : francophone et arabophone.",
+  "problemEn": "The clinic had no online presence worthy of its premium positioning. Patients had to call during opening hours to book, and staff managed the schedule, records and prescriptions by hand. There was also no proper way to serve the clinic's two audiences: French and Arabic speakers.",
+  "solutionFr": "Nous avons livré une plateforme à deux visages. Côté patient : un site bilingue FR/AR qui présente les soins, les avis Google et la galerie du cabinet, avec un parcours de réservation en ligne disponible 24h/24. Côté équipe : un tableau de bord sécurisé qui centralise l'agenda, les dossiers patients, l'odontogramme, les ordonnances, les factures et les messages du site.",
+  "solutionEn": "We delivered a platform with two faces. For patients: a bilingual FR/AR website presenting treatments, Google reviews and the clinic gallery, with an online booking flow available around the clock. For the team: a secure dashboard that brings together the schedule, patient records, dental chart, prescriptions, invoices and website messages.",
+  "featuresFr": [
+    {
+      "title": "Réservation en ligne 24h/24",
+      "body": "Le patient choisit son soin, sa date et son heure en trois étapes ; le système vérifie les horaires du cabinet, la pause déjeuner et les créneaux déjà pris, sans erreur possible."
+    },
+    {
+      "title": "Site bilingue français / arabe",
+      "body": "Tout le site existe en français et en arabe, avec lecture de droite à gauche native — un vrai avantage sur le marché rabati, où la plupart des cabinets ne sont qu'en une langue."
+    },
+    {
+      "title": "Agenda maîtrisé pour l'équipe",
+      "body": "Le personnel voit les rendez-vous du jour, confirme, déplace ou annule chaque créneau en un clic, et reçoit une notification sonore à chaque nouvelle réservation."
+    },
+    {
+      "title": "Dossiers patients complets",
+      "body": "Historique médical, traitements en cours, notes privées et coordonnées regroupés sur une seule fiche, avec import Excel pour reprendre les dossiers existants."
+    },
+    {
+      "title": "Odontogramme interactif",
+      "body": "La dentition complète du patient est visualisée dent par dent (carie, couronne, implant…), ce qui rend le suivi clinique immédiat et lisible."
+    },
+    {
+      "title": "Ordonnances et factures en un clic",
+      "body": "Le praticien rédige une ordonnance sur modèle et l'imprime en PDF, puis établit la facture dont le total est calculé automatiquement côté serveur."
+    },
+    {
+      "title": "Preuve sociale Google intégrée",
+      "body": "Les avis Google du cabinet s'affichent directement sur le site, avec un lien pour laisser un avis — la réputation en ligne travaille pour le cabinet."
+    }
+  ],
+  "featuresEn": [
+    {
+      "title": "Online booking, 24/7",
+      "body": "The patient picks a treatment, a date and a time in three steps; the system checks opening hours, lunch break and taken slots, so double-bookings are impossible."
+    },
+    {
+      "title": "Bilingual French / Arabic website",
+      "body": "The whole site exists in French and Arabic, with native right-to-left support — a real edge in the Rabat market, where most clinics operate in one language only."
+    },
+    {
+      "title": "A schedule the team controls",
+      "body": "Staff see the day's appointments, confirm, move or cancel each slot in one click, and get a sound notification for every new booking."
+    },
+    {
+      "title": "Complete patient records",
+      "body": "Medical history, ongoing treatments, private notes and contact details on a single file, with Excel import to bring existing records across."
+    },
+    {
+      "title": "Interactive dental chart",
+      "body": "The patient's full dentition is visualised tooth by tooth (cavity, crown, implant…), making clinical follow-up immediate and readable."
+    },
+    {
+      "title": "Prescriptions and invoices in one click",
+      "body": "The practitioner writes a prescription on a template and prints it as a PDF, then issues the invoice with the total computed automatically on the server."
+    },
+    {
+      "title": "Built-in Google social proof",
+      "body": "The clinic's Google reviews display directly on the site, with a link to leave a new one — the online reputation keeps working for the clinic."
+    }
+  ],
+  "metrics": [
+    {
+      "labelFr": "Réservation en ligne",
+      "labelEn": "Online booking",
+      "value": "24/7",
+      "suffix": "",
+      "confirmed": false,
+      "source": "Booking wizard + server-side slot validation in apps/web/app/api/booking/route.ts; patients can book outside opening hours",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Langues du site",
+      "labelEn": "Site languages",
+      "value": "2",
+      "suffix": "",
+      "confirmed": false,
+      "source": "Full FR/AR i18n with native RTL: apps/web/messages/fr.json, apps/web/messages/ar.json, apps/web/i18n.ts",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Ans d'expérience du praticien",
+      "labelEn": "Years of practitioner experience",
+      "value": "15+",
+      "suffix": "",
+      "confirmed": false,
+      "source": "Clinic's own claim on site copy (apps/web/messages/fr.json hero: \"15+ Ans d'Expérience\") — owner to confirm before publishing",
+      "confidence": "medium"
+    }
+  ],
+  "liveUrl": "https://cabinet-lahyani.vercel.app/fr",
+  "iframeEmbeddable": false,
+  "architectureImage": "/projects/lahyani/architecture.webp",
+  "architectureSource": "docs/content-drafts/assets/lahyani-architecture.png",
+  "architectureCaptionFr": "Le patient réserve en ligne à toute heure ; l'équipe du cabinet gère agenda, dossiers et factures depuis son tableau de bord sécurisé.",
+  "architectureCaptionEn": "The patient books online at any hour; the clinic team manages the schedule, records and invoices from its secure dashboard.",
+  "fallbackScreenshots": [],
+  "orderIndex": 1,
+  "evidence": [
+    "apps/web/app/api/booking/route.ts — booking POST: rate-limit, CIN validation, server-side slot checks (opening hours, lunch break, Sundays, past slots), patient dedup, auto-confirm",
+    "apps/web/app/[locale]/booking/page.tsx — multi-step booking wizard (service → date/time → details → confirmation)",
+    "apps/web/messages/fr.json + apps/web/messages/ar.json — full bilingual copy, RTL, 6 specialties, hero trust claims (15+ ans, 5000+ patients)",
+    "apps/web/i18n.ts + apps/web/components/DirectionSetter.tsx — locale routing and native RTL direction",
+    "apps/web/lib/google-reviews.ts + apps/web/app/api/reviews/route.ts — Google reviews with fallback snapshot + moderated review submission",
+    "apps/admin/app/dashboard/appointments/page.tsx + apps/admin/app/api/appointments/route.ts — schedule view, status changes, slot locking",
+    "apps/admin/app/dashboard/patients/page.tsx + apps/admin/app/api/patients/import/route.ts — patient directory, full record, Excel import (exceljs)",
+    "apps/admin/components/admin/Odontogram.tsx + packages/db/prisma/schema.prisma (ToothCondition, FDI 11–48) — interactive 32-tooth dental chart",
+    "apps/admin/app/api/patients/[id]/ordonnances/route.ts + factures/route.ts — prescriptions (template + annotations + medications) and invoices with server-computed total",
+    "packages/db/prisma/schema.prisma — Patient, Appointment, Treatment, ToothCondition, Passation, Ordonnance, Facture, Message, Setting models",
+    "docs/project-memory/rapport-general-technique.md — executive summary, admin module map, security hardening (JWT, RBAC, rate-limiting), GEO/SEO strategy",
+    "apps/admin/next.config.js — X-Frame-Options DENY; apps/web security headers SAMEORIGIN (why iframe embed is disabled)",
+    "packages/auth/rate-limit.ts + packages/auth/index.ts — shared rate-limiting and JWT/bcrypt auth package"
+  ]
+}

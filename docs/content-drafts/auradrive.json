@@ -1,0 +1,153 @@
+{
+  "slug": "auradrive",
+  "nameFr": "AuraDrive",
+  "nameEn": "AuraDrive",
+  "sectorFr": "Location de voitures de luxe, Maroc",
+  "sectorEn": "Luxury car rental, Morocco",
+  "type": "client",
+  "featured": false,
+  "summaryFr": "Site vitrine et portail de gestion complet pour une agence de location de voitures de luxe au Maroc. Le client réserve en ligne et suit sa réservation en temps réel ; l'agence pilote sa flotte, ses contrats et ses clients depuis un tableau de bord.",
+  "summaryEn": "Showcase site and full management portal for a luxury car rental agency in Morocco. Customers book online and track their reservation in real time; the agency manages its fleet, contracts and clients from a single dashboard.",
+  "tags": ["Next.js", "Prisma", "Tableau de bord", "WhatsApp", "Paiement/Contrats PDF"],
+  "problemFr": "L'agence gérait ses réservations à la main : appels, messages, fiches papier. Vérifier l'identité d'un client, rédiger un contrat, suivre l'entretien des véhicules — tout se faisait à côté du site. Résultat : du temps perdu chaque jour et un risque d'erreur sur les clients et les documents.",
+  "problemEn": "The agency handled bookings by hand: phone calls, messages, paper files. Checking a client's identity, writing a contract, keeping up with vehicle maintenance — it all happened outside the website. The result: hours lost every day and real risk of errors on clients and documents.",
+  "solutionFr": "Un site vitrine haut de gamme avec réservation en ligne, suivi de réservation et vue 3D à 360° des véhicules. Derrière, un portail d'administration complet : réservations, flotte, liste noire, entretien, documents. Le contrat et la facture PDF sont générés automatiquement à la confirmation, et le client reçoit son code de suivi immédiatement.",
+  "solutionEn": "A premium showcase site with online booking, reservation tracking and a 360° 3D vehicle viewer. Behind it, a complete admin portal: bookings, fleet, blacklist, maintenance, documents. The contract and invoice PDFs are generated automatically on confirmation, and the customer gets their tracking code right away.",
+  "featuresFr": [
+    {
+      "title": "Réservation en ligne avec options",
+      "body": "Le client choisit son véhicule, ses dates, ses options (siège bébé, GPS, second conducteur) et le prix total est calculé automatiquement, caution incluse."
+    },
+    {
+      "title": "Suivi de réservation en temps réel",
+      "body": "Chaque réservation reçoit un code unique. Le client entre son code sur le site et voit le statut, les dates, le véhicule et télécharge son contrat et sa facture."
+    },
+    {
+      "title": "Contrat et facture PDF automatiques",
+      "body": "À la confirmation d'une réservation, le contrat de location et la facture officiels sont générés en PDF, aux couleurs de l'agence, et archivés en ligne."
+    },
+    {
+      "title": "Vérification automatique des clients",
+      "body": "La liste noire est vérifiée à chaque réservation : un client déjà signalé est bloqué automatiquement, et seul un responsable peut passer outre."
+    },
+    {
+      "title": "Lecture automatique des documents",
+      "body": "Le client envoie la photo de sa CNI et de son permis. Le système lit les numéros automatiquement et archive les documents de façon sécurisée."
+    },
+    {
+      "title": "Gestion de flotte et entretien",
+      "body": "L'agence suit chaque véhicule : disponibilité, kilométrage, vidange, contrôle technique, assurance. Les alertes d'entretien sont déclenchées automatiquement, et la flotte peut être importée depuis Excel."
+    },
+    {
+      "title": "Notifications WhatsApp",
+      "body": "Le portail se connecte à WhatsApp par QR code et prépare l'envoi des confirmations de réservation directement au téléphone du client."
+    },
+    {
+      "title": "Véhicules en 3D à 360°",
+      "body": "La page d'accueil présente les véhicules phares dans une scène 3D immersive, façon showroom, avec les spécifications techniques à portée de clic."
+    }
+  ],
+  "featuresEn": [
+    {
+      "title": "Online booking with add-ons",
+      "body": "The customer picks a vehicle, dates and add-ons (child seat, GPS, second driver); the total price is calculated automatically, deposit included."
+    },
+    {
+      "title": "Real-time reservation tracking",
+      "body": "Every booking gets a unique code. The customer enters it on the site and sees status, dates, vehicle, and downloads the contract and invoice."
+    },
+    {
+      "title": "Automatic contract and invoice PDFs",
+      "body": "When a booking is confirmed, the official rental contract and invoice are generated as branded PDFs and archived online."
+    },
+    {
+      "title": "Automatic customer screening",
+      "body": "The blacklist is checked on every booking: a previously flagged customer is blocked automatically, and only a manager can override it."
+    },
+    {
+      "title": "Automatic document reading",
+      "body": "The customer uploads photos of their ID card and driving licence. The system reads the numbers automatically and stores the documents securely."
+    },
+    {
+      "title": "Fleet and maintenance management",
+      "body": "The agency tracks every vehicle: availability, mileage, oil changes, inspections, insurance. Maintenance alerts fire automatically, and the fleet can be imported from Excel."
+    },
+    {
+      "title": "WhatsApp notifications",
+      "body": "The portal connects to WhatsApp via QR code and prepares booking confirmations sent straight to the customer's phone."
+    },
+    {
+      "title": "360° 3D vehicle showcase",
+      "body": "The homepage features flagship cars in an immersive 3D showroom scene, with technical specs one click away."
+    }
+  ],
+  "metrics": [
+    {
+      "labelFr": "Suivi de réservation",
+      "labelEn": "Reservation tracking",
+      "value": "temps réel",
+      "suffix": "",
+      "confirmed": false,
+      "source": "Suivi par code de réservation unique (src/app/(client)/track/page.tsx, api/bookings/track/[code])",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Contrat + facture PDF",
+      "labelEn": "Contract + invoice PDF",
+      "value": "automatiques",
+      "suffix": "",
+      "confirmed": false,
+      "source": "Génération à la confirmation (src/lib/pdf-service.tsx, api/admin/bookings/confirm)",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Vérification liste noire",
+      "labelEn": "Blacklist screening",
+      "value": "à chaque réservation",
+      "suffix": "",
+      "confirmed": false,
+      "source": "Contrôle automatique CNI/permis (api/bookings/route.ts)",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Vue des véhicules",
+      "labelEn": "Vehicle showcase",
+      "value": "3D 360°",
+      "suffix": "",
+      "confirmed": false,
+      "source": "Scrollytelling 3D three.js sur la page d'accueil (components/showcase/SupercarScrollytelling.tsx)",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Conciergerie",
+      "labelEn": "Concierge service",
+      "value": "24h/24",
+      "suffix": "",
+      "confirmed": false,
+      "source": "Argument visible sur le site live auradrive-pi.vercel.app",
+      "confidence": "medium"
+    }
+  ],
+  "liveUrl": "https://auradrive-pi.vercel.app/",
+  "iframeEmbeddable": true,
+  "architectureImage": "/projects/auradrive/architecture.webp",
+  "architectureSource": "docs/content-drafts/assets/auradrive-architecture.png",
+  "architectureCaptionFr": "Le client réserve en ligne et suit sa réservation avec son code. L'agence voit tout dans son portail : réservations, flotte, contrats PDF, entretien et clients. Les documents sont archivés dans le cloud.",
+  "architectureCaptionEn": "The customer books online and tracks the reservation with their code. The agency sees everything in its portal: bookings, fleet, PDF contracts, maintenance and clients. Documents are archived in the cloud.",
+  "fallbackScreenshots": [],
+  "orderIndex": 2,
+  "evidence": [
+    "src/app/(client)/catalog/page.tsx, src/app/(client)/reservation/page.tsx (catalogue + réservation en ligne)",
+    "src/app/api/bookings/route.ts (calcul du prix, options/addons, vérification blacklist automatique, upload CNI/permis)",
+    "src/app/(client)/track/page.tsx + src/app/api/bookings/track/[code]/route.ts (suivi par code AD-XXXXX, statut, contrat/facture téléchargeables)",
+    "src/lib/pdf-service.tsx + src/app/api/admin/bookings/confirm/route.ts (contrat et facture PDF @react-pdf/renderer, marque AuraDrive Maroc)",
+    "src/lib/whatsapp-service.ts + src/app/(admin)/portal-auth/whatsapp/page.tsx (Baileys, connexion QR, formatage numéros marocains, config/status/test-send)",
+    "src/lib/ocr-service.ts (tesseract.js, extraction CNI/permis) + src/lib/storage-service.ts (Supabase)",
+    "prisma/schema.prisma (Vehicle, Booking, Customer, Blacklist, DamageReport, MaintenanceLog, WhatsAppConfig)",
+    "src/app/(admin)/portal-auth/ : dashboard, bookings, fleet, blacklist, maintenance, documents, team, settings",
+    "src/lib/excel-fleet-importer.ts + src/app/api/admin/fleet/import-excel/route.ts (import flotte Excel)",
+    "src/components/showcase/SupercarScrollytelling.tsx, src/components/3d/CarModel.tsx (three.js, GLTF, scrollytelling)",
+    "src/components/admin/RealTimeBookingNotification.tsx (notifications de nouvelles réservations)",
+    "Site live https://auradrive-pi.vercel.app/ (ton premium, conciergerie 24/7, livraison VIP)"
+  ]
+}

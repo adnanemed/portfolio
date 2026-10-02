@@ -1,0 +1,145 @@
+{
+  "slug": "saveur-charme",
+  "nameFr": "Saveur & Charme",
+  "nameEn": "Saveur & Charme",
+  "sectorFr": "Démo pour restaurants",
+  "sectorEn": "Restaurant demo",
+  "type": "demo",
+  "featured": true,
+  "summaryFr": "Démo complète pour un restaurant gastronomique : commande en ligne, réservation de table sur plan 2D, et tableau de bord temps réel pour le gérant. Essayez la démo en direct — côté client ET côté gérant.",
+  "summaryEn": "A complete demo for a fine-dining restaurant: online ordering, table booking on an interactive 2D floor plan, and a realtime dashboard for the owner. Try the live demo — both the customer side and the manager side.",
+  "tags": ["Démo", "Commande en ligne", "Plan 2D interactif", "Tableau de bord temps réel"],
+  "problemFr": "Un restaurant sans outil numérique perd du temps et des couverts. Les commandes arrivent par téléphone, on les note à la main. Les réservations se chevauchent : deux familles sur la même table, le même soir. Le menu change et les sites « vitrine » ne suivent jamais. Ce projet montre ce que le gérant peut avoir à la place.",
+  "problemEn": "A restaurant without digital tools loses time and covers. Orders come in by phone and are written down by hand. Reservations overlap: two families, one table, same evening. The menu changes and static brochure sites never keep up. This project shows what the owner can have instead.",
+  "solutionFr": "Un site complet, pensé du client jusqu'à la cuisine. Le client parcourt la carte, commande sur place, à emporter ou en livraison, et choisit sa table sur un plan de salle interactif. En coulisses, le gérant reçoit chaque commande avec une alerte sonore, gère les réservations, met à jour la carte et bloque une table en un clic. C'est une démo : testez-la en direct, rien à installer.",
+  "solutionEn": "A complete site, designed from the customer to the kitchen. The customer browses the menu, orders dine-in, takeaway or delivery, and picks a table on an interactive floor plan. Behind the scenes, the owner receives every order with a sound alert, manages reservations, updates the menu and blocks a table in one click. It's a demo: try it live, nothing to install.",
+  "featuresFr": [
+    {
+      "title": "Commande en ligne, trois modes",
+      "body": "Le client choisit sur place, à emporter ou en livraison, avec son adresse et sa table. Le panier calcule le total et envoie la commande directement dans le tableau de bord."
+    },
+    {
+      "title": "Réservation sur plan de salle 2D",
+      "body": "Le client voit les tables libres et occupées en un coup d'œil, clique sur celle qu'il veut et réserve pour la date de son choix."
+    },
+    {
+      "title": "Zéro double réservation",
+      "body": "Une table déjà prise passe en rouge sur le plan, et une vérification finale empêche deux clients de réserver la même table au même moment."
+    },
+    {
+      "title": "Tableau de bord temps réel",
+      "body": "Chaque nouvelle commande ou réservation arrive instantanément, avec une alerte sonore. Le gérant voit tout, sans rien rafraîchir."
+    },
+    {
+      "title": "Carte modifiable en quelques secondes",
+      "body": "Ajouter un plat, changer un prix, marquer « épuisé » : tout se fait depuis le tableau de bord et s'affiche aussitôt côté client. Import en masse depuis un fichier Excel ou JSON."
+    },
+    {
+      "title": "Contrôle des tables à la main",
+      "body": "Client march-in, groupe imprévu, table à bloquer : le gérant ouvre ou ferme n'importe quelle table directement sur le plan."
+    },
+    {
+      "title": "Équipe avec rôles",
+      "body": "Un compte Super Admin et des comptes Staff. Chacun voit ce dont il a besoin, chacun garde son mot de passe."
+    },
+    {
+      "title": "Adresse, horaires et retours clients",
+      "body": "Page localisation avec itinéraire Google Maps, et formulaire d'avis qui arrive directement dans le tableau de bord du gérant."
+    }
+  ],
+  "featuresEn": [
+    {
+      "title": "Online ordering, three modes",
+      "body": "The customer chooses dine-in, takeaway or delivery, with their address and table. The cart totals everything and sends the order straight to the dashboard."
+    },
+    {
+      "title": "Booking on an interactive 2D floor plan",
+      "body": "Free and taken tables are visible at a glance. The customer clicks the table they want and books for their chosen date."
+    },
+    {
+      "title": "Zero double bookings",
+      "body": "A taken table turns red on the plan, and a final check stops two customers from booking the same table at the same time."
+    },
+    {
+      "title": "Realtime dashboard",
+      "body": "Every new order or reservation lands instantly, with a sound alert. The owner sees everything without refreshing anything."
+    },
+    {
+      "title": "Menu editable in seconds",
+      "body": "Add a dish, change a price, mark it as sold out — all from the dashboard, live on the customer side. Bulk import from an Excel or JSON file."
+    },
+    {
+      "title": "Hands-on table control",
+      "body": "Walk-in guest, surprise group, table to block: the owner opens or closes any table directly on the floor plan."
+    },
+    {
+      "title": "Team with roles",
+      "body": "One Super Admin account and Staff accounts. Everyone sees what they need and keeps their own password."
+    },
+    {
+      "title": "Address, hours and customer feedback",
+      "body": "A location page with Google Maps directions, and a feedback form that lands directly in the owner's dashboard."
+    }
+  ],
+  "metrics": [
+    {
+      "labelFr": "Réservation en ligne",
+      "labelEn": "Online booking",
+      "value": "24h/24",
+      "suffix": "",
+      "confirmed": false,
+      "source": "app/reservation/page.tsx — formulaire de réservation public avec plan 2D",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Double réservation",
+      "labelEn": "Double bookings",
+      "value": "0",
+      "suffix": "",
+      "confirmed": false,
+      "source": "app/reservation/page.tsx — vérification finale en live avant l'insert",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Alerte à chaque commande",
+      "labelEn": "Alert on every order",
+      "value": "Sons",
+      "suffix": "",
+      "confirmed": false,
+      "source": "lib/sound.ts — carillon 3 tons + polling 3 s (app/admin/page.tsx)",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Menu importé en masse",
+      "labelEn": "Bulk menu import",
+      "value": "Excel/JSON",
+      "suffix": "",
+      "confirmed": false,
+      "source": "app/admin/page.tsx — parsing xlsx/csv/json avant insert Supabase",
+      "confidence": "high"
+    }
+  ],
+  "liveUrl": "https://restaurant-app-liart-seven.vercel.app/",
+  "iframeEmbeddable": true,
+  "architectureImage": "/projects/saveur-charme/architecture.webp",
+  "architectureSource": "docs/content-drafts/assets/saveur-charme-architecture.png",
+  "architectureCaptionFr": "Le client commande et réserve sur le site. Tout arrive en direct dans le tableau de bord du gérant : commandes, réservations, carte et retours clients.",
+  "architectureCaptionEn": "The customer orders and books on the site. Everything lands live in the owner's dashboard: orders, reservations, the menu and customer feedback.",
+  "fallbackScreenshots": [],
+  "orderIndex": 3,
+  "evidence": [
+    "app/page.tsx — accueil Saveur & Charme, 4 modules (Menu, Localisation, Réservation, Avis)",
+    "app/menu/page.tsx — carte depuis Supabase, recherche, filtres par catégorie, notes, ajout au panier",
+    "context/CartContext.tsx — panier global avec compteur animé dans le header",
+    "app/cart/page.tsx — commande sur place / à emporter / livraison, total calculé, insert dans 'orders'",
+    "app/reservation/page.tsx — plan de salle 2D (tables libres/rouges), realtime Supabase, anti double-réservation",
+    "app/localisation/page.tsx — adresse, horaires, carte Google Maps intégrée, itinéraire",
+    "app/reclamations/page.tsx — formulaire d'avis/réclamation inséré dans 'reclamations'",
+    "app/admin/page.tsx — dashboard : commandes temps réel (canal Supabase + polling 3 s), réservations, CRUD menu, import xlsx/csv/json, blocage manuel de tables, comptes Super Admin/Staff, réglages",
+    "lib/sound.ts — carillon de notification (3 tons, Web Audio API)",
+    "lib/supabase.ts — client Supabase (base + realtime)",
+    "types/restaurant.ts — modèles Order, Reservation, Reclamation, AdminUser, TableInfo",
+    "docs/brief.md — périmètre fonctionnel du projet (client + admin)",
+    "docs/iframe-check.md — restaurant-app-liart-seven.vercel.app : embeddable = true"
+  ]
+}

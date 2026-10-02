@@ -1,0 +1,115 @@
+{
+  "slug": "promptifyapp",
+  "nameFr": "PromptifyApp",
+  "nameEn": "PromptifyApp",
+  "sectorFr": "Produit propre — SaaS",
+  "sectorEn": "Own product — SaaS",
+  "type": "own",
+  "featured": false,
+  "summaryFr": "Extension navigateur qui transforme une idée vague en prompt structuré, prêt pour ChatGPT, Claude, Gemini ou Copilot — en un clic.",
+  "summaryEn": "A browser extension that turns a vague idea into a structured prompt, ready for ChatGPT, Claude, Gemini, or Copilot — in one click.",
+  "tags": ["SaaS", "Extension navigateur", "IA", "Produit", "Freemium"],
+  "problemFr": "Tout le monde utilise l'IA, mais peu obtiennent la réponse voulue du premier coup : les prompts restent vagues, on passe du temps à les reformuler à la main. PromptifyApp est né de ce constat — un produit conçu et exploité par StackLab lui-même, de l'idée au modèle économique.",
+  "problemEn": "Everyone uses AI, but few get the answer they want on the first try: prompts stay vague and people waste time rewriting them by hand. PromptifyApp was born from that observation — a product designed and run by StackLab itself, from idea to business model.",
+  "solutionFr": "Une extension disponible sur cinq navigateurs : on entre une idée brute, on clique sur « Forge It », et on obtient un prompt structuré (rôle, tâche, ton, structure, longueur) à envoyer dans l'IA de son choix. Des personas experts, un contrôle du ton et du niveau de détail, et un historique cloud complètent l'outil. Modèle freemium : plan gratuit à crédits, puis abonnements Pro et Elite.",
+  "solutionEn": "An extension available on five browsers: enter a raw idea, click \"Forge It\", and get a structured prompt (role, task, tone, structure, length) to send to the AI of your choice. Expert personas, tone and detail controls, and cloud history complete the tool. Freemium model: a free credit-based plan, then Pro and Elite subscriptions.",
+  "featuresFr": [
+    {
+      "title": "Smart Enhancer",
+      "body": "Une idée vague devient un prompt complet : rôle, tâche, ton, structure et longueur."
+    },
+    {
+      "title": "Persona Library",
+      "body": "Plus de 10 rôles d'experts — « Senior Developer », « CMO » — pour cadrer la réponse de l'IA."
+    },
+    {
+      "title": "Contrôle du ton et du détail",
+      "body": "L'utilisateur règle le style et la précision, ainsi qu'un « Ghost Mode » pour la discrétion."
+    },
+    {
+      "title": "Historique cloud et copie rapide",
+      "body": "Les prompts sont conservés et recopiés en un geste, sur tous les appareils."
+    },
+    {
+      "title": "Multilingue",
+      "body": "Écrire dans sa langue, générer le prompt en anglais : l'IA reçoit toujours une instruction claire."
+    },
+    {
+      "title": "Freemium avec abonnements",
+      "body": "Plan gratuit à 450 crédits par mois, Pro et Elite pour les gros usages, garantie 14 jours."
+    }
+  ],
+  "featuresEn": [
+    {
+      "title": "Smart Enhancer",
+      "body": "A vague idea becomes a complete prompt: role, task, tone, structure, and length."
+    },
+    {
+      "title": "Persona Library",
+      "body": "Over 10 expert roles — \"Senior Developer\", \"CMO\" — to frame the AI's answer."
+    },
+    {
+      "title": "Tone and detail control",
+      "body": "Users dial in style and precision, plus a \"Ghost Mode\" for privacy."
+    },
+    {
+      "title": "Cloud history and quick copy",
+      "body": "Prompts are kept and copied in one gesture, across devices."
+    },
+    {
+      "title": "Multilingual",
+      "body": "Write in your own language, generate the prompt in English: the AI always gets a clear instruction."
+    },
+    {
+      "title": "Freemium with subscriptions",
+      "body": "A free plan with 450 credits per month, Pro and Elite for heavy use, 14-day money-back guarantee."
+    }
+  ],
+  "metrics": [
+    {
+      "labelFr": "Crédits offerts chaque mois (plan gratuit)",
+      "labelEn": "Free monthly credits (free plan)",
+      "value": "450",
+      "suffix": "",
+      "confirmed": false,
+      "source": "live site",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Navigateurs pris en charge",
+      "labelEn": "Supported browsers",
+      "value": "5",
+      "suffix": "",
+      "confirmed": false,
+      "source": "live site",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Abonnement Pro (annuel)",
+      "labelEn": "Pro subscription (yearly)",
+      "value": "5.52",
+      "suffix": "$/mois",
+      "confirmed": false,
+      "source": "live site",
+      "confidence": "high"
+    },
+    {
+      "labelFr": "Gain de temps annoncé",
+      "labelEn": "Claimed time saved",
+      "value": "1 h",
+      "suffix": "/jour",
+      "confirmed": false,
+      "source": "live site",
+      "confidence": "medium"
+    }
+  ],
+  "liveUrl": "https://promptifyapp.com/",
+  "iframeEmbeddable": false,
+  "architectureImage": null,
+  "architectureSource": null,
+  "architectureCaptionFr": null,
+  "architectureCaptionEn": null,
+  "fallbackScreenshots": [],
+  "orderIndex": 6,
+  "notes": "⚠️ R1 — footer du site affiche « © 2026 aysobeka (dba PromptifyApp). All rights reserved. » (geste personnel) : lien live à activer uniquement après correction du footer (décision owner, reportée avec le coéquipier). D'ici là, la page case-study utilise la galerie screenshots (iframeEmbeddable=false de toute façon, SAMEORIGIN). Site lisible via WebFetch : proposition de valeur, 3 étapes, noms exacts des fonctionnalités (Smart Enhancer, Persona Library, Ghost Mode, Quick Copy History, Cloud History) et grille tarifaire complète récupérés (Free 450 crédits/mois ; Pro 6,49 $/mois ou 5,52 $/mois en annuel ; Elite 12,49 $/mois ou 10,62 $/mois en annuel). L'allégation « jusqu'à 1 h de réécriture économisée par jour » est un chiffre marketing du site : confiance moyenne. Compatible Chrome, Edge, Brave, Firefox, Opera (source : site)."
+}
