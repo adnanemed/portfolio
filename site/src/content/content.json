@@ -56,7 +56,8 @@
       "architectureCaptionEn": "The patient books online at any hour; the clinic team manages the schedule, records and invoices from its secure dashboard.",
       "fallbackScreenshots": [
         "/projects/lahyani/lahyani-hero.webp",
-        "/projects/lahyani/lahyani-booking.webp"
+        "/projects/lahyani/lahyani-booking.webp",
+        "/projects/lahyani/lahyani-admin.webp"
       ],
       "featuresFr": [
         {
@@ -504,8 +505,7 @@
       "fallbackScreenshots": [
         "/projects/saveur-charme/saveur-charme-hero.webp",
         "/projects/saveur-charme/saveur-charme-menu.webp",
-        "/projects/saveur-charme/saveur-charme-admin.webp",
-        "/projects/saveur-charme/saveur-charme-admin-menu.webp"
+        "/projects/saveur-charme/saveur-charme-admin.webp"
       ],
       "featuresFr": [
         {
@@ -720,7 +720,8 @@
       "architectureCaptionEn": null,
       "fallbackScreenshots": [
         "/projects/kfresh/kfresh-hero.webp",
-        "/projects/kfresh/kfresh-shop.webp"
+        "/projects/kfresh/kfresh-shop.webp",
+        "/projects/kfresh/kfresh-cart.webp"
       ],
       "featuresFr": [
         {
@@ -898,14 +899,16 @@
           "suffix": ""
         }
       ],
-      "liveUrl": "https://sigmaparts.ma/",
+      "liveUrl": "/demos/sigmaparts/",
       "liveUrlWithheld": false,
-      "iframeEmbeddable": false,
+      "iframeEmbeddable": true,
       "architectureImage": null,
       "architectureCaptionFr": null,
       "architectureCaptionEn": null,
       "fallbackScreenshots": [
-        "/projects/sigmaparts/sigmaparts-hero.webp"
+        "/projects/sigmaparts/sigmaparts-hero.webp",
+        "/projects/sigmaparts/sigmaparts-catalog.webp",
+        "/projects/sigmaparts/sigmaparts-quote.webp"
       ],
       "featuresFr": [
         {
@@ -1095,14 +1098,16 @@
           "suffix": "/jour"
         }
       ],
-      "liveUrl": null,
-      "liveUrlWithheld": true,
-      "iframeEmbeddable": false,
+      "liveUrl": "/demos/promptifyapp/",
+      "liveUrlWithheld": false,
+      "iframeEmbeddable": true,
       "architectureImage": null,
       "architectureCaptionFr": null,
       "architectureCaptionEn": null,
       "fallbackScreenshots": [
-        "/projects/promptifyapp/promptifyapp-hero.webp"
+        "/projects/promptifyapp/promptifyapp-hero.webp",
+        "/projects/promptifyapp/promptifyapp-library.webp",
+        "/projects/promptifyapp/promptifyapp-studio.webp"
       ],
       "featuresFr": [
         {

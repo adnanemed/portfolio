@@ -12,16 +12,19 @@ interface Props {
   locale: Locale;
   title?: string;
   uid?: string; // unique id suffix when several mockups share a page
+  displayHost?: string;
+  openUrl?: string;
 }
-const { url, locale, uid = "main" } = Astro.props;
+const { url, locale, uid = "main", displayHost, openUrl } = Astro.props;
 const d = t[locale];
-const host = (() => {
+const host = displayHost || (() => {
   try {
     return new URL(url).host;
   } catch {
     return url;
   }
 })();
+const targetOpen = openUrl || url;
 const id = (name: string) => `${name}-${uid}`;
 ---
 
@@ -38,7 +41,7 @@ const id = (name: string) => `${name}-${uid}`;
       <button class="btn-wipe" id={id("demoLoad")} type="button" data-demo-src={url} data-demo-slot={id("demoSlot")} data-demo-note={id("demoNote")} data-demo-screen={id("demoScreen")}>
         {d.demo.load} <span class="arr" aria-hidden="true">↗</span>
       </button>
-      <a class="alt-link" href={url} target="_blank" rel="noopener noreferrer">{d.demo.open} ↗</a>
+      <a class="alt-link" href={targetOpen} target="_blank" rel="noopener noreferrer">{d.demo.open} ↗</a>
     </div>
     <div id={id("demoSlot")}></div>
   </div>

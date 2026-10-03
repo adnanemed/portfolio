@@ -1,10 +1,8 @@
 ---
-// "Dans les coulisses" — asymmetric editorial 12-col grid driven by the
-// projects' own orderIndex: one full-width feature tile (the first project),
-// then interlocking 7/5 and 5/7 rows. Every tile is a stretched link to its
-// case study. A prev/next navigator steps through projects in the same order,
-// scrolls to the first tile of the selected project, highlights it, and
-// announces it politely for assistive tech.
+// "Dans les coulisses" — Modern showcase with screen-by-screen navigation.
+// Driven by the shared ProjectNavigator. When a project is selected, its 2-3
+// high-resolution screenshots are displayed inside a modern interactive screen viewer
+// with Prev/Next controls, screen tabs/pills, and interactive thumbnail previews.
 import { t } from "@/lib/i18n";
 import { projects, projectPath, type Locale } from "@/lib/site";
 import ProjectNavigator from "@/components/ProjectNavigator.astro";
@@ -15,29 +13,10 @@ interface Props {
 const { locale } = Astro.props;
 const d = t[locale];
 
-// Every screenshot a project actually has, taken from its own
-// `fallbackScreenshots` list — nothing hardcoded, nothing repeated, and a
-// project with four captures shows all four.
 function shotsOf(p: (typeof projects)[number]): string[] {
   const shots = (p.fallbackScreenshots ?? []).filter((u) => /\.webp$/i.test(u));
   return shots.length ? shots : [];
 }
-
-/** Column spans for N tiles with no empty cell:
- *  odd N  -> one full-width opener, then 7/5 pairs
- *  even N -> 7/5 pairs throughout                          */
-function spans(n: number): string[] {
-  if (n <= 1) return ["s12"];
-  const out = n % 2 === 1 ? ["s12"] : [];
-  while (out.length < n) out.push(out.length % 2 === (n % 2 === 1 ? 1 : 0) ? "s7" : "s5");
-  return out.slice(0, n);
-}
-
-const ASPECT: Record<string, [number, number]> = {
-  s12: [1440, 630],
-  s7: [1440, 900],
-  s5: [1440, 1080],
-};
 
 const SHORT: Record<string, { fr: string; en: string }> = {
   lahyani: { fr: "Lahyani", en: "Lahyani" },
@@ -53,13 +32,12 @@ const captionOf = (src: string, fallback: string) => {
   return d.shotCaptions[key as keyof typeof d.shotCaptions] ?? fallback;
 };
 
-// Projects in display order (orderIndex asc), each owning all of its shots.
+// Projects in display order (orderIndex asc), each with 2-3 screenshots.
 const ordered = [...projects]
   .map((p) => ({ p, shots: shotsOf(p) }))
   .filter((x) => x.shots.length)
   .sort((a, b) => (a.p.orderIndex ?? 99) - (b.p.orderIndex ?? 99))
   .map(({ p, shots }, i) => {
-    const cols = spans(shots.length);
     const fallback = `${locale === "fr" ? p.nameFr : p.nameEn} — ${locale === "fr" ? p.sectorFr : p.sectorEn}`;
     return {
       index: i,
@@ -67,13 +45,12 @@ const ordered = [...projects]
       short: SHORT[p.slug]?.[locale] ?? (locale === "fr" ? p.nameFr : p.nameEn),
       href: projectPath(p, locale),
       tiles: shots.map((src, t) => {
-        const cls = cols[t];
-        const [w, h] = ASPECT[cls] ?? ASPECT.s7;
-        return { img: src, w, h, cls, cap: captionOf(src, fallback) };
+        const cap = captionOf(src, fallback);
+        const label = cap.includes("—") ? cap.split("—")[1]?.trim() : cap;
+        return { img: src, cap, label: label || `Écran 0${t + 1}` };
       }),
     };
   });
-
 ---
 
 <section id="coulisses">
@@ -88,77 +65,188 @@ const ordered = [...projects]
     items={ordered.map((g) => ({ slug: g.slug, name: g.short }))}
   />
 
-  <div class="shots">
-    {ordered.map((g) => (
-      <div class="shots-group" data-shots-group={g.slug}>
-        {g.tiles.map((tile) => (
-          <figure class={`shot ${tile.cls} sr`}>
-            <a class="shot-link" href={g.href} aria-label={tile.cap} />
-            <div class="frame">
-              <img
-                src={tile.img}
-                alt={tile.cap}
-                width={tile.w}
-                height={tile.h}
-                loading="lazy"
-                decoding="async"
-              />
+  <div class="shots-showcase" data-shots-showcase>
+    {ordered.map((g, gi) => (
+      <div class="shots-project" data-shots-project={g.slug} hidden={gi !== 0}>
+        <!-- Screen Navigation Header -->
+        <div class="screen-nav">
+          <div class="screen-controls">
+            <button class="screen-arrow-btn" type="button" data-screen-dir="prev" aria-label={locale === "fr" ? "Écran précédent" : "Previous screen"}>
+              <span aria-hidden="true">←</span>
+            </button>
+            <div class="screen-pills">
+              {g.tiles.map((tile, ti) => (
+                <button
+                  class={`screen-pill ${ti === 0 ? "active" : ""}`}
+                  type="button"
+                  data-screen-index={ti}
+                  aria-pressed={ti === 0 ? "true" : "false"}
+                >
+                  <span class="mono pill-num">0{ti + 1}</span>
+                  <span class="pill-title">{tile.label}</span>
+                </button>
+              ))}
             </div>
-            <figcaption>
-              <span class="cap">{tile.cap}</span>
-              <span class="arr" aria-hidden="true">↗</span>
-            </figcaption>
-          </figure>
-        ))}
+            <button class="screen-arrow-btn" type="button" data-screen-dir="next" aria-label={locale === "fr" ? "Écran suivant" : "Next screen"}>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="screen-meta">
+            <span class="screen-counter mono" data-screen-counter>01 / 0{g.tiles.length}</span>
+            <a class="screen-case-link" href={g.href}>
+              {locale === "fr" ? "Étude de cas" : "Case study"} <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Featured Viewport -->
+        <div class="screen-viewport browser sr">
+          <div class="chrome">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="url">{g.short} · {locale === "fr" ? "Captures réelles" : "Real screenshots"}</span>
+            <span class="screen-badge mono" data-screen-badge>01 / 0{g.tiles.length}</span>
+          </div>
+
+          <div class="screen-slides-wrap">
+            {g.tiles.map((tile, ti) => (
+              <figure class={`screen-slide ${ti === 0 ? "active" : ""}`} data-slide={ti}>
+                <a class="screen-slide-link" href={g.href} aria-label={tile.cap} />
+                <div class="screen-img-wrap">
+                  <img
+                    src={tile.img}
+                    alt={tile.cap}
+                    width="1440"
+                    height="900"
+                    loading={gi === 0 && ti === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                </div>
+                <figcaption class="screen-caption">
+                  <span class="cap mono">{tile.cap}</span>
+                  <span class="arr" aria-hidden="true">↗</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+
+        <!-- Thumbnail Navigation Strip -->
+        <div class="screen-thumbs">
+          {g.tiles.map((tile, ti) => (
+            <button
+              class={`screen-thumb ${ti === 0 ? "active" : ""}`}
+              type="button"
+              data-thumb-index={ti}
+              aria-label={`Écran 0${ti + 1}: ${tile.label}`}
+            >
+              <div class="thumb-img-wrap">
+                <img src={tile.img} alt="" width="144" height="90" loading="lazy" />
+              </div>
+              <div class="thumb-info">
+                <span class="mono thumb-num">ÉCRAN 0{ti + 1}</span>
+                <span class="thumb-text">{tile.label}</span>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
     ))}
   </div>
 </section>
 
 <script>
-  // Only the selected project's screenshots are visible; the shared
-  // navigator (the same one driving the live preview and the flow map)
-  // decides which one that is, so the three sections never disagree.
+  // Project & screen navigation
   document.querySelectorAll<HTMLElement>("#coulisses").forEach((root) => {
-    const groups = [...root.querySelectorAll<HTMLElement>("[data-shots-group]")];
-    if (!groups.length) return;
+    const projects = [...root.querySelectorAll<HTMLElement>("[data-shots-project]")];
+    if (!projects.length) return;
 
-    const show = (slug: string) => {
-      const next = groups.find((g) => g.dataset.shotsGroup === slug) ?? groups[0];
-      groups.forEach((g) => {
-        g.hidden = g !== next;
-        g.querySelectorAll<HTMLElement>(".shot").forEach((t) => {
-          t.toggleAttribute("data-active", g === next);
-          // Tiles start hidden (opacity 0) until the scroll reveal marks them.
-          // A tile revealed by a project switch — especially one chosen while
-          // this section is off-screen — would otherwise stay invisible, so the
-          // reveal is forced here instead of waiting on the observer.
-          if (g === next) t.classList.add("in");
-        });
+    // Show selected project
+    const showProject = (slug: string) => {
+      const match = projects.find((p) => p.dataset.shotsProject === slug) ?? projects[0];
+      projects.forEach((p) => {
+        p.hidden = p !== match;
+        if (p === match) {
+          // Promote lazy images in active project
+          p.querySelectorAll<HTMLImageElement>("img").forEach((im) => {
+            if (!im.complete) im.loading = "eager";
+          });
+          p.querySelectorAll<HTMLElement>(".sr").forEach((el) => el.classList.add("in"));
+        }
       });
-      // A lazy image that was inside a hidden group never started fetching, and
-      // revealing the group does not always restart it — promote it to eager.
-      next?.querySelectorAll<HTMLImageElement>("img").forEach((im) => {
-        if (!im.complete) im.loading = "eager";
-      });
-
-      // Picking a project from anywhere on the page must visibly land the
-      // reader on the result: if the screenshots are off-screen, bring them
-      // into view instead of swapping them silently behind the fold.
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const rect = root.getBoundingClientRect();
-      const offScreen = rect.bottom < 120 || rect.top > window.innerHeight - 80;
-      if (offScreen) {
-        const top = rect.top + window.scrollY - 40;
-        window.scrollTo({ top, behavior: reduced ? "instant" : "smooth" });
-      }
     };
 
+    // Attach per-project screen slider logic
+    projects.forEach((proj) => {
+      const slides = [...proj.querySelectorAll<HTMLElement>("[data-slide]")];
+      const pills = [...proj.querySelectorAll<HTMLElement>("[data-screen-index]")];
+      const thumbs = [...proj.querySelectorAll<HTMLElement>("[data-thumb-index]")];
+      const counter = proj.querySelector<HTMLElement>("[data-screen-counter]");
+      const badge = proj.querySelector<HTMLElement>("[data-screen-badge]");
+      const total = slides.length;
+      let activeIndex = 0;
+
+      const setScreen = (idx: number) => {
+        if (idx < 0) idx = total - 1;
+        if (idx >= total) idx = 0;
+        activeIndex = idx;
+
+        slides.forEach((sl, i) => {
+          sl.classList.toggle("active", i === activeIndex);
+        });
+        pills.forEach((pl, i) => {
+          pl.classList.toggle("active", i === activeIndex);
+          pl.setAttribute("aria-pressed", i === activeIndex ? "true" : "false");
+        });
+        thumbs.forEach((th, i) => {
+          th.classList.toggle("active", i === activeIndex);
+        });
+
+        const numText = `0${activeIndex + 1} / 0${total}`;
+        if (counter) counter.textContent = numText;
+        if (badge) badge.textContent = numText;
+      };
+
+      // Button controls
+      proj.querySelectorAll<HTMLButtonElement>("[data-screen-dir]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const dir = btn.dataset.screenDir;
+          setScreen(dir === "next" ? activeIndex + 1 : activeIndex - 1);
+        });
+      });
+
+      pills.forEach((pl) => {
+        pl.addEventListener("click", () => {
+          const idx = Number(pl.dataset.screenIndex ?? "0");
+          setScreen(idx);
+        });
+      });
+
+      thumbs.forEach((th) => {
+        th.addEventListener("click", () => {
+          const idx = Number(th.dataset.thumbIndex ?? "0");
+          setScreen(idx);
+        });
+      });
+
+      // Swipe support on slides
+      let touchStartX = 0;
+      proj.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      proj.addEventListener("touchend", (e) => {
+        const diff = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(diff) > 40) {
+          setScreen(diff < 0 ? activeIndex + 1 : activeIndex - 1);
+        }
+      }, { passive: true });
+    });
+
+    // Sync with project navigator
     root.addEventListener("pnav:change", (e) => {
-      show((e as CustomEvent<{ slug: string }>).detail?.slug ?? "");
+      showProject((e as CustomEvent<{ slug: string }>).detail?.slug ?? "");
     });
 
     const current = document.documentElement.getAttribute("data-active-project");
-    if (current) show(current);
+    if (current) showProject(current);
   });
 </script>

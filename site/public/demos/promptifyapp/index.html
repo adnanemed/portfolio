@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PromptifyApp — Live AI Prompt Studio Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090d16;
+    --card: #0f172a;
+    --card-hover: #1e293b;
+    --border: #1e293b;
+    --border-glow: #334155;
+    --primary: #a855f7;
+    --primary-gradient: linear-gradient(135deg, #a855f7, #6366f1);
+    --cyan: #38bdf8;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+  body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  header { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+  .logo { font-size: 20px; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .credits-pill { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.3); padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; color: #c084fc; display: flex; align-items: center; gap: 6px; }
+
+  .studio-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; padding: 24px 28px; max-width: 1300px; margin: 0 auto; width: 100%; flex: 1; }
+  @media (max-width: 900px) { .studio-grid { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 16px; position: relative; }
+  .panel-head { display: flex; justify-content: space-between; align-items: center; }
+  .panel-title { font-size: 15px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; }
+
+  .presets-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .chip { background: #1e293b; border: 1px solid #334155; color: #cbd5e1; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: 0.15s; }
+  .chip:hover, .chip.active { background: rgba(168,85,247,0.2); border-color: var(--primary); color: #f8fafc; }
+
+  textarea { background: #030712; border: 1px solid var(--border); border-radius: 10px; color: #f8fafc; padding: 14px; font-size: 14px; line-height: 1.6; min-height: 120px; resize: vertical; outline: none; transition: border-color 0.2s; }
+  textarea:focus { border-color: var(--primary); }
+
+  .controls-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .control-group label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+  select { width: 100%; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: white; padding: 8px 10px; font-size: 12px; outline: none; }
+
+  .btn-forge { background: var(--primary-gradient); border: none; border-radius: 10px; padding: 14px 20px; color: white; font-weight: 700; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 10px 25px -5px rgba(168,85,247,0.4); transition: transform 0.15s, opacity 0.15s; }
+  .btn-forge:hover { opacity: 0.95; transform: translateY(-1px); }
+  .btn-forge:active { transform: translateY(0); }
+
+  .output-box { background: #030712; border: 1px solid var(--border); border-radius: 10px; padding: 16px; font-size: 13px; color: var(--cyan); line-height: 1.7; flex: 1; min-height: 320px; overflow-y: auto; white-space: pre-wrap; position: relative; }
+  .copy-btn { position: absolute; top: 12px; right: 12px; background: #1e293b; border: 1px solid #334155; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.15s; }
+  .copy-btn:hover { background: #334155; }
+  .copy-btn.copied { background: #10b981; border-color: #10b981; }
+
+  .stat-badge { font-size: 11px; color: #10b981; font-weight: 700; background: rgba(16,185,129,0.12); padding: 3px 8px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">
+    ⚡ PromptifyApp <span style="font-size:11px;padding:3px 8px;border-radius:4px;background:#1e293b;color:#a855f7;font-weight:700;">LIVE DEMO</span>
+  </a>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="credits-pill">
+      <span>✨ 450 Credits Available</span>
+    </div>
+    <select style="width:auto;padding:6px 12px;" class="mono">
+      <option>Target: Claude 3.7 Sonnet</option>
+      <option>Target: GPT-4o</option>
+      <option>Target: Gemini 2.5 Pro</option>
+    </select>
+  </div>
+</header>
+
+<div class="studio-grid">
+  <!-- Left Input Panel -->
+  <div class="panel">
+    <div class="panel-head">
+      <div class="panel-title"><span>Raw Input (Your Rough Idea)</span></div>
+      <span class="stat-badge">● Smart Enhancer Active</span>
+    </div>
+
+    <div class="presets-chips">
+      <button class="chip active" onclick="loadPreset('b2b')">Industrial B2B Portal</button>
+      <button class="chip" onclick="loadPreset('saas')">SaaS Landing Page</button>
+      <button class="chip" onclick="loadPreset('code')">API Architecture</button>
+      <button class="chip" onclick="loadPreset('marketing')">Viral Cold Email</button>
+    </div>
+
+    <textarea id="prompt-input">build a high-converting catalog for volvo heavy machine spare parts with live VOE reference search and 4-step instant quote request for morocco contractors</textarea>
+
+    <div class="controls-row">
+      <div class="control-group">
+        <label>Persona / Role</label>
+        <select id="persona-select">
+          <option value="architect">Staff Cloud Architect</option>
+          <option value="copywriter">Direct-Response Copywriter</option>
+          <option value="product">Principal Product Manager</option>
+          <option value="security">DevSecOps Specialist</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label>Tone</label>
+        <select id="tone-select">
+          <option value="executive">Executive & Technical</option>
+          <option value="persuasive">High-Impact / Persuasive</option>
+          <option value="concise">Zero-Fluff / Bulleted</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label>Structure</label>
+        <select id="structure-select">
+          <option value="xml">XML Tags (CoT Reasoning)</option>
+          <option value="markdown">Clean Markdown Sections</option>
+          <option value="json">Schema Enforced JSON</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-forge" id="forge-btn">
+      <span>⚡ Forge Structured Prompt</span>
+    </button>
+  </div>
+
+  <!-- Right Output Panel -->
+  <div class="panel">
+    <div class="panel-head">
+      <div class="panel-title"><span>Production-Ready Prompt</span></div>
+      <span style="font-size:11px;color:var(--cyan);font-weight:700;">+340% Higher Output Quality</span>
+    </div>
+
+    <div class="output-box mono" id="output-box">
+<button class="copy-btn" id="copy-btn" onclick="copyOutput()">Copy Prompt ↗</button>
+<span id="output-text">Click "⚡ Forge Structured Prompt" to compile your raw idea into a battle-tested instruction.</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const PRESETS = {
+  b2b: "build a high-converting catalog for volvo heavy machine spare parts with live VOE reference search and 4-step instant quote request for morocco contractors",
+  saas: "create an irresistible above-the-fold hero section for an AI prompt enhancement extension, emphasizing 1-click transformation and 450 free monthly credits",
+  code: "design a secure Next.js and Postgres architecture with Row-Level Security, rate-limiting and CSP frame-ancestors for a multi-tenant client portal",
+  marketing: "write a 3-part cold email sequence to dental clinic directors showing how 24/7 online booking reduces missed calls by 40%"
+};
+
+function loadPreset(key) {
+  document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+  event.target.classList.add("active");
+  document.getElementById("prompt-input").value = PRESETS[key];
+  forgePrompt();
+}
+
+function forgePrompt() {
+  const idea = document.getElementById("prompt-input").value;
+  const persona = document.getElementById("persona-select").value;
+  const tone = document.getElementById("tone-select").value;
+  const structure = document.getElementById("structure-select").value;
+
+  const btn = document.getElementById("forge-btn");
+  btn.innerHTML = "<span>✨ Compiling structured prompt...</span>";
+  btn.style.opacity = "0.7";
+
+  let personaTitle = "Staff Cloud & Solutions Architect";
+  if (persona === "copywriter") personaTitle = "Elite Direct-Response Conversion Copywriter";
+  if (persona === "product") personaTitle = "Principal Product Manager & Systems Designer";
+  if (persona === "security") personaTitle = "Senior DevSecOps & Zero-Trust Security Engineer";
+
+  setTimeout(() => {
+    btn.innerHTML = "<span>⚡ Forge Structured Prompt</span>";
+    btn.style.opacity = "1";
+
+    const formatted = `<role>
+You are an expert ${personaTitle}. You operate with ${tone} precision, zero boilerplate, and production-grade execution standards.
+</role>
+
+<context>
+The goal is to transform the user's objective into an immediate high-value solution:
+"${idea.trim()}"
+</context>
+
+<instructions>
+1. Deconstruct the core architecture into distinct modular phases.
+2. Address edge cases, security considerations, and latency bottlenecks upfront.
+3. Provide immediately executable code snippets, schemas, and UX wireframes.
+4. Adhere to strict industrial standards: WCAG accessibility, responsive viewport guarantees, and defensive error handling.
+</instructions>
+
+<output_format>
+- Executive Blueprint & Key Metrics
+- Implementation Details with verified parameters
+- Next Steps Checklist for deployment
+</output_format>`;
+
+    document.getElementById("output-text").textContent = formatted;
+  }, 350);
+}
+
+document.getElementById("forge-btn").addEventListener("click", forgePrompt);
+
+function copyOutput() {
+  const txt = document.getElementById("output-text").textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.getElementById("copy-btn");
+    btn.textContent = "Copied! ✓";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.textContent = "Copy Prompt ↗";
+      btn.classList.remove("copied");
+    }, 2000);
+  });
+}
+
+// Initial forge
+forgePrompt();
+</script>
+
+</body>
+</html>

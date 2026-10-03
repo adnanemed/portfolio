@@ -66,5 +66,22 @@ const d = t[locale];
     btn.addEventListener("click", () => {
       apply(root.getAttribute("data-theme") === "light" ? "dark" : "light", true);
     });
+
+    // Proximity reveal: button stays invisible until mouse approaches
+    window.addEventListener("pointermove", (e) => {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+      if (dist < 130 || (e.clientX < 110 && e.clientY > window.innerHeight - 110)) {
+        btn.setAttribute("data-visible", "true");
+      } else {
+        btn.removeAttribute("data-visible");
+      }
+    }, { passive: true });
+
+    window.addEventListener("pointerleave", () => {
+      btn.removeAttribute("data-visible");
+    });
   })();
 </script>
