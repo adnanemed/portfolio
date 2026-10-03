@@ -1085,3 +1085,43 @@ footer a:hover { color: var(--text); }
   transition: color var(--hover) var(--ease-out);
 }
 .theme-toggle:hover .theme-toggle-icon { color: var(--text); }
+
+/* ============================================================
+   Live preview — the project's remaining screenshots sit under
+   the main preview as a compact strip, captions on one line.
+   ============================================================ */
+.demo-shot figcaption {
+  margin-top: .6rem;
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.demo-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.demo-strip-item {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg2);
+  display: flex; flex-direction: column;
+}
+.demo-strip-item img {
+  width: 100%; height: auto; aspect-ratio: 4 / 3;
+  object-fit: cover; display: block;
+}
+.demo-strip-item figcaption {
+  padding: .55rem .7rem;
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
