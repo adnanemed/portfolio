@@ -1,12 +1,12 @@
 ---
-// "Dans les coulisses" (FIX 1) — asymmetric editorial 12-col grid that
-// FILLS the container width with zero voids: one full-width feature
-// tile, then interlocking 7/5 and 5/7 rows (12 = 7+5 = 5+7 = 7+5).
-// Each tile is a single link to its case study (stretched link), with
-// object-fit cover, reserved aspect-ratio and a single-line mono
-// caption below the image. Arrow travels diagonally on hover.
+// "Dans les coulisses" — asymmetric editorial 12-col grid driven by the
+// projects' own orderIndex: one full-width feature tile (the first project),
+// then interlocking 7/5 and 5/7 rows. Every tile is a stretched link to its
+// case study. A prev/next navigator steps through projects in the same order,
+// scrolls to the first tile of the selected project, highlights it, and
+// announces it politely for assistive tech.
 import { t } from "@/lib/i18n";
-import { getProject, projectPath, type Locale } from "@/lib/site";
+import { getProject, projects, projectPath, type Locale } from "@/lib/site";
 
 interface Props {
   locale: Locale;
@@ -14,79 +14,85 @@ interface Props {
 const { locale } = Astro.props;
 const d = t[locale];
 
-// Curated composition: (slug, screenshot basename, span, aspect ratio)
-const SHOTS = [
-  {
-    img: "/projects/saveur-charme/saveur-charme-admin.webp",
-    key: "saveur-charme-admin",
-    slug: "saveur-charme",
-    cls: "s12",
-    width: 1440,
-    height: 630,
-    altFr: "Tableau de bord gérant de Saveur & Charme : commandes et réservations en temps réel",
-    altEn: "Saveur & Charme owner dashboard: orders and reservations in real time",
+// Which screenshot plays each layout role, per project (order = orderIndex),
+// with the i18n caption key for each tile.
+const SHOTS: Record<string, { full: string; a: string; b: string }> = {
+  "lahyani": {
+    full: "/projects/lahyani/lahyani-booking.webp",
+    a: "/projects/lahyani/lahyani-hero.webp",
+    b: "/projects/lahyani/lahyani-booking.webp",
   },
-  {
-    img: "/projects/saveur-charme/saveur-charme-admin-menu.webp",
-    key: "saveur-charme-admin-menu",
-    slug: "saveur-charme",
-    cls: "s7",
-    width: 1440,
-    height: 900,
-    altFr: "Administration du menu de Saveur & Charme avec import Excel",
-    altEn: "Saveur & Charme menu administration with Excel import",
+  "auradrive": {
+    full: "/projects/auradrive/auradrive-hero.webp",
+    a: "/projects/auradrive/auradrive-catalog.webp",
+    b: "/projects/auradrive/auradrive-admin.webp",
   },
-  {
-    img: "/projects/lahyani/lahyani-booking.webp",
-    key: "lahyani-booking",
-    slug: "lahyani",
-    cls: "s5",
-    width: 1440,
-    height: 1080,
-    altFr: "Parcours de réservation en ligne du Centre Dentaire Lahyani",
-    altEn: "Centre Dentaire Lahyani online booking flow",
+  "saveur-charme": {
+    full: "/projects/saveur-charme/saveur-charme-admin.webp",
+    a: "/projects/saveur-charme/saveur-charme-menu.webp",
+    b: "/projects/saveur-charme/saveur-charme-admin-menu.webp",
   },
-  {
-    img: "/projects/kfresh/kfresh-shop.webp",
-    key: "kfresh-shop",
-    slug: "kfresh",
-    cls: "s5",
-    width: 1440,
-    height: 1080,
-    altFr: "Boutique en ligne KFresh : courses et plats cuisinés",
-    altEn: "KFresh online store: groceries and ready-to-eat meals",
+  "kfresh": {
+    full: "/projects/kfresh/kfresh-shop.webp",
+    a: "/projects/kfresh/kfresh-hero.webp",
+    b: "/projects/kfresh/kfresh-shop.webp",
   },
-  {
-    img: "/projects/auradrive/auradrive-hero.webp",
-    key: "auradrive-hero",
-    slug: "auradrive",
-    cls: "s7",
-    width: 1440,
-    height: 900,
-    altFr: "Showroom 3D 360° des véhicules AuraDrive",
-    altEn: "AuraDrive 360° 3D vehicle showroom",
+  "sigmaparts": {
+    full: "/projects/sigmaparts/sigmaparts-hero.webp",
+    a: "/projects/sigmaparts/sigmaparts-hero.webp",
+    b: "/projects/sigmaparts/sigmaparts-hero.webp",
   },
-  {
-    img: "/projects/lahyani/lahyani-hero.webp",
-    key: "lahyani-hero",
-    slug: "lahyani",
-    cls: "s7",
-    width: 1440,
-    height: 900,
-    altFr: "Site vitrine bilingue du Centre Dentaire Lahyani",
-    altEn: "Centre Dentaire Lahyani bilingual showcase site",
+  "promptifyapp": {
+    full: "/projects/promptifyapp/promptifyapp-hero.webp",
+    a: "/projects/promptifyapp/promptifyapp-hero.webp",
+    b: "/projects/promptifyapp/promptifyapp-hero.webp",
   },
-  {
-    img: "/projects/promptifyapp/promptifyapp-hero.webp",
-    key: "promptifyapp-hero",
-    slug: "promptifyapp",
-    cls: "s5",
-    width: 1440,
-    height: 1080,
-    altFr: "PromptifyApp, extension navigateur pour structurer ses prompts IA",
-    altEn: "PromptifyApp, a browser extension to structure your AI prompts",
-  },
-] as const;
+};
+
+const CAPTION: Record<string, string> = {
+  "lahyani": { full: "lahyani-booking", a: "lahyani-hero", b: "lahyani-booking" },
+  "auradrive": { full: "auradrive-hero", a: "auradrive-catalog", b: "auradrive-admin" },
+  "saveur-charme": { full: "saveur-charme-admin", a: "saveur-charme-menu", b: "saveur-charme-admin-menu" },
+  kfresh: { full: "kfresh-shop", a: "kfresh-hero", b: "kfresh-shop" },
+  sigmaparts: { full: "sigmaparts-hero", a: "sigmaparts-hero", b: "sigmaparts-hero" },
+  promptifyapp: { full: "promptifyapp-hero", a: "promptifyapp-hero", b: "promptifyapp-hero" },
+} as any;
+
+const SHORT: Record<string, { fr: string; en: string }> = {
+  lahyani: { fr: "Lahyani", en: "Lahyani" },
+  auradrive: { fr: "AuraDrive", en: "AuraDrive" },
+  "saveur-charme": { fr: "Saveur & Charme", en: "Saveur & Charme" },
+  kfresh: { fr: "KFresh", en: "KFresh" },
+  sigmaparts: { fr: "SigmaParts", en: "SigmaParts" },
+  promptifyapp: { fr: "PromptifyApp", en: "PromptifyApp" },
+};
+
+// Projects in display order (orderIndex asc), each with the tiles it owns.
+const ordered = [...projects]
+  .filter((p) => SHOTS[p.slug])
+  .sort((a, b) => (a.orderIndex ?? 99) - (b.orderIndex ?? 99))
+  .map((p, i) => {
+    const s = SHOTS[p.slug];
+    const cap = CAPTION[p.slug];
+    const fallback = `${p.nameFr} — ${p.sectorFr}`;
+    const capOf = (key: "full" | "a" | "b") =>
+      d.shotCaptions[cap[key] as keyof typeof d.shotCaptions] ?? fallback;
+    return {
+      index: i,
+      slug: p.slug,
+      short: SHORT[p.slug][locale],
+      name: locale === "fr" ? p.nameFr : p.nameEn,
+      href: projectPath(p, locale),
+      // First project gets the full-width feature tile; the rest alternate 7/5.
+      full: i === 0,
+      tiles: i === 0
+        ? [{ img: s.full, w: 1440, h: 630, cls: "s12", cap: capOf("full") }]
+        : [
+            { img: s.a, w: 1440, h: 900, cls: "s7", cap: capOf("a") },
+            { img: s.b, w: 1440, h: 1080, cls: "s5", cap: capOf("b") },
+          ],
+    };
+  });
 ---
 
 <section id="coulisses">
@@ -95,30 +101,110 @@ const SHOTS = [
     <span class="idx">{d.coulisses.idx}</span>
   </div>
 
+  <nav class="shots-nav sr" aria-label={d.coulisses.navAria}>
+    <button
+      type="button"
+      class="shots-nav-btn"
+      data-shots-prev
+      aria-label={d.coulisses.prev}
+      title={d.coulisses.prev}
+    >←</button>
+    <div class="shots-nav-chips">
+      {ordered.map((g, i) => (
+        <button
+          type="button"
+          class="chip"
+          data-shots-chip={g.slug}
+          aria-pressed={i === 0 ? "true" : "false"}
+        >
+          <span class="chip-n">{String(i + 1).padStart(2, "0")}</span>
+          {g.short}
+        </button>
+      ))}
+    </div>
+    <button
+      type="button"
+      class="shots-nav-btn"
+      data-shots-next
+      aria-label={d.coulisses.next}
+      title={d.coulisses.next}
+    >→</button>
+    <p class="sr-only" aria-live="polite" data-shots-status></p>
+  </nav>
+
   <div class="shots">
-    {SHOTS.map((s) => {
-      const project = getProject(s.slug);
-      const href = project ? projectPath(project, locale) : "#";
-      const caption = d.shotCaptions[s.key];
-      return (
-        <figure class={`shot ${s.cls} sr`}>
-          <a class="shot-link" href={href} aria-label={caption} />
-          <div class="frame">
-            <img
-              src={s.img}
-              alt={locale === "fr" ? s.altFr : s.altEn}
-              width={s.width}
-              height={s.height}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <figcaption>
-            <span class="cap">{caption}</span>
-            <span class="arr" aria-hidden="true">↗</span>
-          </figcaption>
-        </figure>
-      );
-    })}
+    {ordered.map((g) => (
+      <div class="shots-group" data-shots-group={g.slug}>
+        {g.tiles.map((tile) => (
+          <figure class={`shot ${tile.cls} sr`}>
+            <a class="shot-link" href={g.href} aria-label={tile.cap} />
+            <div class="frame">
+              <img
+                src={tile.img}
+                alt={tile.cap}
+                width={tile.w}
+                height={tile.h}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption>
+              <span class="cap">{tile.cap}</span>
+              <span class="arr" aria-hidden="true">↗</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    ))}
   </div>
 </section>
+
+<script>
+  (function () {
+    "use strict";
+    const section = document.getElementById("coulisses");
+    if (!section) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const chips = Array.from(section.querySelectorAll<HTMLButtonElement>("[data-shots-chip]"));
+    const groups = new Map<string, HTMLElement>();
+    section.querySelectorAll<HTMLElement>("[data-shots-group]").forEach((g) => {
+      groups.set(g.dataset.shotsGroup!, g);
+    });
+    const prev = section.querySelector<HTMLButtonElement>("[data-shots-prev]");
+    const next = section.querySelector<HTMLButtonElement>("[data-shots-next]");
+    const status = section.querySelector<HTMLElement>("[data-shots-status]");
+    if (!chips.length || !groups.size) return;
+
+    let current = 0;
+
+    function select(i: number, announce: boolean) {
+      const n = chips.length;
+      current = ((i % n) + n) % n;
+      chips.forEach((c, idx) => c.setAttribute("aria-pressed", idx === current ? "true" : "false"));
+
+      const slug = chips[current].dataset.shotsChip!;
+      const group = groups.get(slug);
+      if (group) {
+        group.querySelectorAll<HTMLElement>(".shot").forEach((tile) => tile.removeAttribute("data-active"));
+        group.querySelectorAll<HTMLElement>(".shot").forEach((tile) => tile.setAttribute("data-active", ""));
+        const top = group.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({ top, behavior: reduced ? "instant" : "smooth" });
+        const link = group.querySelector<HTMLAnchorElement>(".shot-link");
+        if (link) link.focus({ preventScroll: true });
+      }
+      if (announce && status) {
+        status.textContent = chips[current].textContent?.trim() ?? "";
+      }
+    }
+
+    chips.forEach((c, i) => c.addEventListener("click", () => select(i, true)));
+    prev?.addEventListener("click", () => select(current - 1, true));
+    next?.addEventListener("click", () => select(current + 1, true));
+
+    section.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); select(current + 1, true); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); select(current - 1, true); }
+    });
+  })();
+</script>

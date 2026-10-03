@@ -14,7 +14,8 @@ const d = t[locale];
 
 <nav class="nav" aria-label={d.navAria}>
   <a class="brand" href={d.homeUrl}>
-    <img src="/logo-stacklab.svg" alt="StackLab" width="150" height="34" />
+    <img class="logo-mark logo-mark--color" src="/logo-stacklab.svg" alt="StackLab" width="150" height="34" data-logo="color" />
+    <img class="logo-mark logo-mark--bw" src="/logo-stacklab-bw.png" alt="StackLab" width="150" height="34" data-logo="bw" aria-hidden="true" />
     <span>StackLab</span>
   </a>
   <a class="lang" href={altPath} aria-label={d.langSwitchAria} hreflang={locale === "fr" ? "en" : "fr"}>{d.langSwitch}</a>

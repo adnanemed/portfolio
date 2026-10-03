@@ -115,6 +115,16 @@ a, button, [role="button"] {
 }
 .nav .brand { display: flex; align-items: center; gap: .7rem; font-weight: 700; letter-spacing: .02em; }
 .nav .brand img { height: 34px; width: auto; }
+
+/* Theme-aware logo: black & white mark on dark (its black field melts into the
+   background via screen blend), colored mark whenever the page renders light. */
+.logo-mark--bw { display: none; mix-blend-mode: screen; }
+[data-theme="light"] .logo-mark--color { display: none; }
+[data-theme="light"] .logo-mark--bw { display: block; mix-blend-mode: normal; }
+@media (prefers-color-scheme: light) {
+  html:not([data-theme="dark"]) .logo-mark--color { display: none; }
+  html:not([data-theme="dark"]) .logo-mark--bw { display: block; mix-blend-mode: normal; }
+}
 .nav .lang {
   font-family: var(--mono); font-size: .78rem; letter-spacing: .1em;
   color: var(--muted); text-transform: uppercase;
@@ -321,16 +331,69 @@ section { padding: clamp(4rem, 10vw, 7rem) var(--pad); }
    Dans les coulisses
    ============================================================ */
 .shots { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; }
+/* Each project owns a full-width group so the navigator can scroll to and
+   highlight exactly one project's tiles without breaking the 12-col rhythm. */
+.shots-group {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem;
+}
+.shots-group:empty { display: none; }
+/* The selected project's tiles read as active (border + lift), transform only. */
+@media (prefers-reduced-motion: no-preference) {
+  .shot[data-active] { transform: translateY(-2px); }
+}
+.shot[data-active] { border-color: var(--text); }
+.shot[data-active] .cap { color: var(--text); }
 .shot {
   position: relative; overflow: hidden;
   border: 1px solid var(--line); border-radius: 4px;
   background: var(--bg2);
   display: flex; flex-direction: column;
+  transition: transform var(--hover) var(--ease-out), border-color var(--hover) var(--ease-out);
 }
-/* Interlocking spans: 12 = 12 = 7+5 = 5+7 = 7+5 — zero voids */
+/* Interlocking spans: 12 = 12 = 7+5 = 5+7 — zero voids */
 .shot.s12 { grid-column: span 12; }
 .shot.s7 { grid-column: span 7; }
 .shot.s5 { grid-column: span 5; }
+
+/* Prev / next navigator for the section */
+.shots-nav {
+  display: flex; align-items: center; gap: .75rem;
+  margin-block: 1.6rem 2rem;
+}
+.shots-nav-btn {
+  flex: none;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--line); background: transparent;
+  color: var(--muted); font-size: 1rem; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: color var(--hover) var(--ease-out), border-color var(--hover) var(--ease-out),
+              background var(--hover) var(--ease-out), transform var(--press) var(--ease-out);
+}
+.shots-nav-btn:hover { color: var(--text); border-color: var(--muted); background: var(--bg2); }
+.shots-nav-btn:active { transform: scale(0.96); }
+.shots-nav-chips {
+  display: flex; gap: .4rem; overflow-x: auto; scrollbar-width: none;
+  margin-inline: 0; padding-block: 2px;
+}
+.shots-nav-chips::-webkit-scrollbar { display: none; }
+.shots-nav-chips .chip {
+  flex: none; cursor: pointer;
+  min-height: 44px; padding: .5rem .9rem; border-radius: 999px;
+  border: 1px solid var(--line); background: transparent;
+  color: var(--muted);
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: .5rem; white-space: nowrap;
+  transition: color var(--hover) var(--ease-out), background var(--hover) var(--ease-out),
+              border-color var(--hover) var(--ease-out), transform var(--press) var(--ease-out);
+}
+.shots-nav-chips .chip:hover { color: var(--text); border-color: var(--muted); }
+.shots-nav-chips .chip:active { transform: scale(0.97); }
+.shots-nav-chips .chip[aria-pressed="true"] {
+  background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 700;
+}
+.shots-nav-chips .chip-n { opacity: .55; font-size: .68rem; }
+.shots-nav-chips .chip[aria-pressed="true"] .chip-n { opacity: .75; }
 /* Whole-tile link (stretched over the figure) */
 .shot .shot-link { position: absolute; inset: 0; z-index: 2; border-radius: inherit; }
 .shot .frame { overflow: hidden; flex: 1; }
