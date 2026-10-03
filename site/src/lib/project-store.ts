@@ -63,7 +63,9 @@ export function bindNavigator(nav: HTMLElement): (slug: string) => void {
 
   const pick = (i: number) => {
     selectProject(slugAt(chips, i));
-    chips[i]?.focus();
+    // preventScroll: focusing a chip that sits above the viewport would yank
+    // the reader away from the section they just switched.
+    chips[i]?.focus({ preventScroll: true });
   };
 
   chips.forEach((chip, i) => chip.addEventListener("click", () => pick(i)));

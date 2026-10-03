@@ -127,13 +127,31 @@ const ordered = [...projects]
       const next = groups.find((g) => g.dataset.shotsGroup === slug) ?? groups[0];
       groups.forEach((g) => {
         g.hidden = g !== next;
-        g.querySelectorAll<HTMLElement>(".shot").forEach((t) => t.toggleAttribute("data-active", g === next));
+        g.querySelectorAll<HTMLElement>(".shot").forEach((t) => {
+          t.toggleAttribute("data-active", g === next);
+          // Tiles start hidden (opacity 0) until the scroll reveal marks them.
+          // A tile revealed by a project switch — especially one chosen while
+          // this section is off-screen — would otherwise stay invisible, so the
+          // reveal is forced here instead of waiting on the observer.
+          if (g === next) t.classList.add("in");
+        });
       });
       // A lazy image that was inside a hidden group never started fetching, and
       // revealing the group does not always restart it — promote it to eager.
       next?.querySelectorAll<HTMLImageElement>("img").forEach((im) => {
         if (!im.complete) im.loading = "eager";
       });
+
+      // Picking a project from anywhere on the page must visibly land the
+      // reader on the result: if the screenshots are off-screen, bring them
+      // into view instead of swapping them silently behind the fold.
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const rect = root.getBoundingClientRect();
+      const offScreen = rect.bottom < 120 || rect.top > window.innerHeight - 80;
+      if (offScreen) {
+        const top = rect.top + window.scrollY - 40;
+        window.scrollTo({ top, behavior: reduced ? "instant" : "smooth" });
+      }
     };
 
     root.addEventListener("pnav:change", (e) => {
