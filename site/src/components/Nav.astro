@@ -19,15 +19,6 @@ const d = t[locale];
     <span>StackLab</span>
   </a>
   <a class="lang" href={altPath} aria-label={d.langSwitchAria} hreflang={locale === "fr" ? "en" : "fr"}>{d.langSwitch}</a>
-  <button
-    type="button"
-    class="theme-toggle"
-    data-theme-toggle
-    aria-label={d.themeToggleAria}
-    title={d.themeToggleAria}
-  >
-    <span class="theme-toggle-icon" aria-hidden="true"></span>
-  </button>
   <div class="links">
     <a href={d.homeUrl + "#projets"}>{d.nav.projects}</a>
     <a href={d.homeUrl + "#coulisses"}>{d.nav.coulisses}</a>
@@ -36,6 +27,19 @@ const d = t[locale];
   </div>
   <a class="btn-solid" href={d.homeUrl + "#contact"}>{d.nav.cta}</a>
 </nav>
+
+<!-- Theme control: fixed to the bottom-left edge so it stays reachable on
+     every page and at any scroll depth. The WhatsApp float owns the
+     bottom-right corner, so the two never collide. -->
+<button
+  type="button"
+  class="theme-toggle"
+  data-theme-toggle
+  aria-label={d.themeToggleAria}
+  title={d.themeToggleAria}
+>
+  <span class="theme-toggle-icon" aria-hidden="true"></span>
+</button>
 
 <script>
   // Theme toggle: flips data-theme, persists the choice, syncs theme-color.
