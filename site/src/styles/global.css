@@ -127,16 +127,18 @@ a, button, [role="button"] {
 /* ============================================================
    Nav
    ============================================================ */
+/* Nav sits in the normal flow at the top of the document and scrolls away
+   with the page — no fixed overlay, no blur scrim to fight with. It is
+   compact by design: small type, tight gaps, hairline rules. */
 .nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-  display: flex; align-items: center; gap: 2rem;
-  padding: .8rem var(--pad);
-  padding-top: calc(.8rem + env(safe-area-inset-top, 0px));
-  background: var(--scrim);
-  backdrop-filter: blur(8px);
+  position: absolute; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; gap: 1.4rem;
+  padding: .9rem var(--pad);
+  padding-top: calc(.9rem + env(safe-area-inset-top, 0px));
+  border-bottom: 1px solid var(--line);
 }
-.nav .brand { display: flex; align-items: center; gap: .7rem; font-weight: 700; letter-spacing: .02em; }
-.nav .brand img { height: 34px; width: auto; }
+.nav .brand { display: flex; align-items: center; gap: .5rem; font-weight: 700; letter-spacing: .02em; font-size: .92rem; }
+.nav .brand img { height: 24px; width: auto; }
 
 /* Theme-aware logo: the site is dark-first, so the black & white mark is the
    default and its black field melts into the page via screen blend. Whenever
@@ -150,15 +152,15 @@ a, button, [role="button"] {
   html:not([data-theme="dark"]) .logo-mark--bw { display: none; mix-blend-mode: normal; }
 }
 .nav .lang {
-  font-family: var(--mono); font-size: .78rem; letter-spacing: .1em;
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .1em;
   color: var(--muted); text-transform: uppercase;
-  min-height: 44px; display: inline-flex; align-items: center;
+  min-height: 34px; padding-inline: .3rem; display: inline-flex; align-items: center;
   transition: color var(--hover) var(--ease-out);
 }
 .nav .lang:hover { color: var(--text); }
-.nav .links { display: flex; gap: .4rem; margin-inline-start: auto; font-size: .9rem; color: var(--muted); }
+.nav .links { display: flex; gap: .15rem; margin-inline-start: auto; font-size: .8rem; color: var(--muted); }
 .nav .links a {
-  position: relative; padding: .6rem .8rem; display: inline-block;
+  position: relative; padding: .35rem .55rem; display: inline-block;
   transition: color var(--hover) var(--ease-out);
 }
 .nav .links a::after {
@@ -172,10 +174,10 @@ a, button, [role="button"] {
 
 .btn-solid {
   display: inline-flex; align-items: center; justify-content: center;
-  min-height: 44px;
+  min-height: 34px;
   background: var(--text); color: var(--bg);
   border-radius: 999px; border: 1px solid var(--text);
-  padding: .6rem 1.4rem; font-size: .85rem; font-weight: 700; letter-spacing: .02em;
+  padding: .35rem .95rem; font-size: .74rem; font-weight: 700; letter-spacing: .02em;
   transition: transform var(--press) var(--ease-out), background var(--hover) var(--ease-out),
               box-shadow var(--hover) var(--ease-out);
 }
