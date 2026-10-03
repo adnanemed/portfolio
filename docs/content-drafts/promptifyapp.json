@@ -131,5 +131,76 @@
   "previewCaptionFr": "extension navigateur — produit propre",
   "previewCaptionEn": "browser extension — own product",
   "orderIndex": 6,
-  "notes": "⚠️ R1 — footer du site affiche « © 2026 aysobeka (dba PromptifyApp). All rights reserved. » (geste personnel) : lien live à activer uniquement après correction du footer (décision owner, reportée avec le coéquipier). D'ici là, la page case-study utilise la galerie screenshots (iframeEmbeddable=false de toute façon, SAMEORIGIN). Site lisible via WebFetch : proposition de valeur, 3 étapes, noms exacts des fonctionnalités (Smart Enhancer, Persona Library, Ghost Mode, Quick Copy History, Cloud History) et grille tarifaire complète récupérés (Free 450 crédits/mois ; Pro 6,49 $/mois ou 5,52 $/mois en annuel ; Elite 12,49 $/mois ou 10,62 $/mois en annuel). L'allégation « jusqu'à 1 h de réécriture économisée par jour » est un chiffre marketing du site : confiance moyenne. Compatible Chrome, Edge, Brave, Firefox, Opera (source : site)."
+  "notes": "⚠️ R1 — footer du site affiche « © 2026 aysobeka (dba PromptifyApp). All rights reserved. » (geste personnel) : lien live à activer uniquement après correction du footer (décision owner, reportée avec le coéquipier). D'ici là, la page case-study utilise la galerie screenshots (iframeEmbeddable=false de toute façon, SAMEORIGIN). Site lisible via WebFetch : proposition de valeur, 3 étapes, noms exacts des fonctionnalités (Smart Enhancer, Persona Library, Ghost Mode, Quick Copy History, Cloud History) et grille tarifaire complète récupérés (Free 450 crédits/mois ; Pro 6,49 $/mois ou 5,52 $/mois en annuel ; Elite 12,49 $/mois ou 10,62 $/mois en annuel). L'allégation « jusqu'à 1 h de réécriture économisée par jour » est un chiffre marketing du site : confiance moyenne. Compatible Chrome, Edge, Brave, Firefox, Opera (source : site).",
+  "flowDetailed": {
+    "phases": [
+      {
+        "labelFr": "Côté utilisateur",
+        "labelEn": "User side",
+        "steps": [
+          {
+            "titleFr": "Écrire l'idée brute",
+            "titleEn": "Write the raw idea",
+            "bodyFr": "L'utilisateur entre son idée telle qu'elle vient, directement depuis l'extension, sans se soucier de la formulation.",
+            "bodyEn": "The user types the idea as it comes, straight from the extension, without worrying about wording.",
+            "tech": "Extension 5 navigateurs"
+          },
+          {
+            "titleFr": "Choisir son persona",
+            "titleEn": "Pick a persona",
+            "bodyFr": "Plus de 10 rôles d'experts — « Senior Developer », « CMO » — pour cadrer la réponse de l'IA dès le départ.",
+            "bodyEn": "Over 10 expert roles — \"Senior Developer\", \"CMO\" — to frame the AI's answer from the start.",
+            "tech": "Persona Library"
+          },
+          {
+            "titleFr": "Régler ton et détail",
+            "titleEn": "Dial tone and detail",
+            "bodyFr": "Style, niveau de précision, Ghost Mode pour la discrétion : chaque paramètre reste accessible avant de forger.",
+            "bodyEn": "Style, precision level, Ghost Mode for privacy: every control stays at hand before forging.",
+            "tech": "Ghost Mode"
+          }
+        ]
+      },
+      {
+        "labelFr": "La forge",
+        "labelEn": "The forge",
+        "steps": [
+          {
+            "titleFr": "Forge It en un clic",
+            "titleEn": "Forge It in one click",
+            "bodyFr": "L'idée vague devient un prompt structuré : rôle, tâche, ton, structure et longueur — tout ce que l'IA attend pour bien répondre.",
+            "bodyEn": "The vague idea becomes a structured prompt: role, task, tone, structure and length — everything the AI needs to answer well.",
+            "tech": "Smart Enhancer"
+          },
+          {
+            "titleFr": "Copier vers son IA",
+            "titleEn": "Copy to your AI",
+            "bodyFr": "Le prompt est prêt pour ChatGPT, Claude, Gemini ou Copilot, et se recopie en un geste. Écrite dans sa langue, l'idée sort en anglais.",
+            "bodyEn": "The prompt is ready for ChatGPT, Claude, Gemini or Copilot, copied in one gesture. Written in your language, the idea comes out in English.",
+            "tech": "Quick Copy"
+          }
+        ]
+      },
+      {
+        "labelFr": "Autour du produit",
+        "labelEn": "Around the product",
+        "steps": [
+          {
+            "titleFr": "Retrouver son historique",
+            "titleEn": "Find your history",
+            "bodyFr": "Les prompts sont conservés dans le cloud et disponibles sur tous les appareils : rien ne se perd entre deux sessions.",
+            "bodyEn": "Prompts are kept in the cloud and available on every device: nothing is lost between sessions.",
+            "tech": "Cloud History"
+          },
+          {
+            "titleFr": "Commencer gratuitement",
+            "titleEn": "Start for free",
+            "bodyFr": "450 crédits offerts chaque mois, puis les abonnements Pro et Elite pour les gros usages, avec garantie 14 jours.",
+            "bodyEn": "450 credits offered every month, then Pro and Elite subscriptions for heavy use, with a 14-day guarantee.",
+            "tech": "Freemium 450 crédits/mois"
+          }
+        ]
+      }
+    ]
+  }
 }

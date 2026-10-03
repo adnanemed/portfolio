@@ -162,5 +162,83 @@
     "types/restaurant.ts — modèles Order, Reservation, Reclamation, AdminUser, TableInfo",
     "docs/brief.md — périmètre fonctionnel du projet (client + admin)",
     "docs/iframe-check.md — restaurant-app-liart-seven.vercel.app : embeddable = true"
-  ]
+  ],
+  "flowDetailed": {
+    "phases": [
+      {
+        "labelFr": "Côté client",
+        "labelEn": "Customer side",
+        "steps": [
+          {
+            "titleFr": "Commander depuis la carte",
+            "titleEn": "Order from the menu",
+            "bodyFr": "Le client filtre la carte par catégorie, ajoute au panier et choisit sur place, à emporter ou en livraison. La commande part directement dans le tableau de bord.",
+            "bodyEn": "The customer filters the menu by category, adds to the cart and chooses dine-in, takeaway or delivery. The order lands straight in the owner's dashboard.",
+            "tech": "Supabase"
+          },
+          {
+            "titleFr": "Réserver sa table sur le plan",
+            "titleEn": "Book a table on the floor plan",
+            "bodyFr": "Tables libres et occupées visibles d'un coup d'œil : le client clique la sienne et réserve pour la date de son choix.",
+            "bodyEn": "Free and taken tables at a glance: the customer clicks theirs and books for the date they want.",
+            "tech": "Plan de salle 2D"
+          },
+          {
+            "titleFr": "Nous trouver, laisser un avis",
+            "titleEn": "Find us, leave a review",
+            "bodyFr": "Page localisation avec itinéraire intégré, et formulaire d'avis dont les retours arrivent au gérant.",
+            "bodyEn": "A location page with built-in directions, and a review form whose feedback reaches the owner.",
+            "tech": "Google Maps"
+          }
+        ]
+      },
+      {
+        "labelFr": "Côté gérant",
+        "labelEn": "Owner side",
+        "steps": [
+          {
+            "titleFr": "Recevoir chaque commande en direct",
+            "titleEn": "Receive every order live",
+            "bodyFr": "Nouvelle commande ou nouvelle réservation : l'alerte sonore retentit aussitôt, rien à rafraîchir.",
+            "bodyEn": "New order or new reservation: the sound alert rings at once, nothing to refresh.",
+            "tech": "Supabase Realtime + Web Audio"
+          },
+          {
+            "titleFr": "Piloter la carte en quelques secondes",
+            "titleEn": "Run the menu in seconds",
+            "bodyFr": "Ajouter un plat, changer un prix, marquer « épuisé » : tout se fait depuis le tableau de bord et s'affiche aussitôt côté client. Import en masse possible.",
+            "bodyEn": "Add a dish, change a price, mark it sold out: all from the dashboard, live on the customer side. Bulk import included.",
+            "tech": "Import xlsx / csv / json"
+          },
+          {
+            "titleFr": "Garder la main sur les tables",
+            "titleEn": "Keep control of the tables",
+            "bodyFr": "Client de passage, groupe imprévu, table à fermer : le gérant ouvre ou bloque n'importe quelle table, et une vérification finale empêche deux réservations sur la même.",
+            "bodyEn": "Walk-in guest, surprise group, table to close: the owner opens or blocks any table, and a final check stops two bookings on the same one.",
+            "tech": "Anti double-réservation"
+          }
+        ]
+      },
+      {
+        "labelFr": "Sous le capot",
+        "labelEn": "Under the hood",
+        "steps": [
+          {
+            "titleFr": "Des comptes pour chaque rôle",
+            "titleEn": "An account for every role",
+            "bodyFr": "Un Super Admin et des comptes Staff : chacun voit ce dont il a besoin, chacun garde son mot de passe.",
+            "bodyEn": "One Super Admin and Staff accounts: everyone sees what they need and keeps their own password.",
+            "tech": "Rôles Super Admin / Staff"
+          },
+          {
+            "titleFr": "Un seul socle, tout en direct",
+            "titleEn": "One backbone, everything live",
+            "bodyFr": "Une même base alimente le site et le tableau de bord : commandes, réservations, carte et avis synchronisés en continu.",
+            "bodyEn": "A single database feeds the site and the dashboard: orders, reservations, menu and reviews kept in sync.",
+            "tech": "Base + canaux temps réel"
+          }
+        ]
+      }
+    ]
+  }
 }

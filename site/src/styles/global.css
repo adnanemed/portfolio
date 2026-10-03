@@ -845,3 +845,122 @@ footer a:hover { color: var(--text); }
 @media (min-width: 900px) { .wa-float { display: none; } }
 
 /* Architecture chips on case-study single diagram: reuse .chips/.chip */
+
+/* ============================================================
+   Detailed flow map — case-study section 06 ("Comment ça marche").
+   Case-study version of the home flow map: same node/connector
+   language, grouped in mono-labeled phases, steps carry body copy
+   and a muted mono tech badge. No images. Transform/opacity only.
+   ============================================================ */
+.dfm {
+  border: 1px solid var(--line); border-radius: 8px;
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(246,246,246,.04), transparent 70%),
+    var(--bg2);
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+}
+.dfm-phase + .dfm-phase { margin-top: clamp(2rem, 4vw, 3rem); }
+.dfm-phase-head {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;
+}
+.dfm-phase-label {
+  color: var(--text); font-size: .75rem; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase; margin: 0;
+}
+.dfm-phase-count { color: var(--muted); font-size: .7rem; letter-spacing: .12em; flex: none; }
+.dfm-phase-rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
+
+.dfm-steps {
+  display: flex; flex-wrap: wrap; align-items: stretch;
+  list-style: none; padding: 0; margin: 0; row-gap: 1rem;
+}
+.dfm-step { display: flex; align-items: stretch; flex: 1 1 clamp(240px, 30%, 1fr); min-width: 0; }
+.dfm-node {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: .7rem;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--bg);
+  padding: 1.1rem 1.2rem;
+  transition: border-color var(--hover) var(--ease-out), background var(--hover) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .dfm-node:hover { border-color: var(--muted); background: var(--bg2); }
+}
+.dfm-top { display: flex; align-items: baseline; gap: .7rem; }
+.dfm-idx { color: var(--muted); font-size: .7rem; letter-spacing: .15em; flex: none; }
+.dfm-title { font-weight: 700; font-size: .95rem; line-height: 1.4; letter-spacing: -0.01em; margin: 0; }
+.dfm-body { color: var(--muted); font-size: .88rem; line-height: 1.65; }
+.dfm-tech {
+  align-self: flex-start;
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: .2rem .7rem; margin-top: auto;
+  color: var(--muted); font-size: .68rem; letter-spacing: .05em;
+}
+/* Connector between steps: line + travelling dot + arrow tip */
+.dfm-link { flex: 0 0 44px; align-self: center; position: relative; height: 2px; }
+.dfm-line {
+  position: absolute; inset-block-start: 50%; inset-inline: 0 10px; height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, var(--line), var(--muted));
+}
+.dfm-tip {
+  position: absolute; inset-inline-end: 0; inset-block-start: 50%;
+  transform: translateY(-54%);
+  color: var(--muted); font-family: var(--mono); font-size: .8rem; line-height: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dfm-dot {
+    position: absolute; inset-block-start: 50%; inset-inline-start: 0;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--text);
+    transform: translate(0, -50%); opacity: 0;
+    animation: dfmdot 2.4s var(--ease-in-out) infinite;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+  @keyframes dfmdot {
+    0% { transform: translate(0, -50%); opacity: 0; }
+    20%, 60% { opacity: 1; }
+    100% { transform: translate(39px, -50%); opacity: 0; }
+  }
+  /* One-shot stagger on first reveal (IntersectionObserver adds .dfm-play).
+     Nodes stay visible without JS; the "both" fill hides them only when
+     the animation actually runs. */
+  .dfm-play .dfm-node {
+    animation: dfmnodein .55s var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+  .dfm-play .dfm-link {
+    animation: dfmlinkin .4s var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 70ms + 150ms);
+  }
+  @keyframes dfmnodein { from { opacity: 0; transform: translateY(14px); } }
+  @keyframes dfmlinkin { from { opacity: 0; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dfm-dot { display: none; }
+}
+@media (max-width: 860px) {
+  .dfm-steps { flex-direction: column; flex-wrap: nowrap; row-gap: 0; }
+  .dfm-step { flex-direction: column; flex: none; }
+  .dfm-node { width: 100%; }
+  .dfm-link {
+    flex: none; width: auto; height: 36px; align-self: flex-start; margin-inline-start: 2rem;
+  }
+  .dfm-line {
+    inset-block: 0 10px; inset-inline: auto; inset-inline-start: 50%;
+    width: 1px; height: auto; transform: translateX(-50%);
+    background: linear-gradient(180deg, var(--line), var(--muted));
+  }
+  .dfm-tip {
+    inset-inline: auto; inset-block-end: -2px; inset-inline-start: 50%;
+    transform: translateX(-50%) rotate(90deg);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .dfm-dot { animation-name: dfmdotv; }
+    @keyframes dfmdotv {
+      0% { transform: translate(-50%, 0); opacity: 0; }
+      20%, 60% { opacity: 1; }
+      100% { transform: translate(-50%, 31px); opacity: 0; }
+    }
+  }
+}

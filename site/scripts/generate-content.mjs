@@ -88,6 +88,8 @@ async function main() {
       flowIntroEn: d.flowIntroEn ?? null,
       flowStepsFr: d.flowStepsFr ?? [],
       flowStepsEn: d.flowStepsEn ?? [],
+      // Case-study "how it works" — detailed phased flow map (06)
+      flowDetailed: d.flowDetailed ?? null,
       previewCaptionFr: d.previewCaptionFr ?? null,
       previewCaptionEn: d.previewCaptionEn ?? null,
       orderIndex: d.orderIndex ?? 99,

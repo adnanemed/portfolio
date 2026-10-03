@@ -124,5 +124,76 @@
   "previewCaptionFr": "boutique en ligne + tableau de bord gérant",
   "previewCaptionEn": "online store + owner dashboard",
   "orderIndex": 4,
-  "notes": "Site lisible via WebFetch (https://www.kfresh.ca/). Épicerie afro-caribéenne à Nepean (2090 Robertson Rd, Ottawa). La note 4,9/5 (~12 600 avis) est un chiffre auto-déclaré affiché sur le site : confiance moyenne, à valider par le client avant publication. La « livraison gratuite le week-end dès 300 $ » est marquée « Coming Soon » sur le site : volontairement omise des features et métriques. Applications mobiles (Google Play / App Store) mentionnées sur le site mais rôle de StackLab non confirmé : non mises en avant. Iframe embeddable confirmé (aucune restriction de frame, docs/iframe-check.md)."
+  "notes": "Site lisible via WebFetch (https://www.kfresh.ca/). Épicerie afro-caribéenne à Nepean (2090 Robertson Rd, Ottawa). La note 4,9/5 (~12 600 avis) est un chiffre auto-déclaré affiché sur le site : confiance moyenne, à valider par le client avant publication. La « livraison gratuite le week-end dès 300 $ » est marquée « Coming Soon » sur le site : volontairement omise des features et métriques. Applications mobiles (Google Play / App Store) mentionnées sur le site mais rôle de StackLab non confirmé : non mises en avant. Iframe embeddable confirmé (aucune restriction de frame, docs/iframe-check.md).",
+  "flowDetailed": {
+    "phases": [
+      {
+        "labelFr": "Côté client",
+        "labelEn": "Customer side",
+        "steps": [
+          {
+            "titleFr": "Remplir son panier",
+            "titleEn": "Fill the cart",
+            "bodyFr": "Le client parcourt le catalogue d'épicerie afro-caribéenne — des produits difficiles à trouver à Ottawa — et crée son compte en passant commande.",
+            "bodyEn": "The customer browses the Afro-Caribbean grocery catalogue — products hard to find in Ottawa — and creates an account while ordering.",
+            "tech": "Panier + compte client"
+          },
+          {
+            "titleFr": "Commander un plat cuisiné",
+            "titleEn": "Order a ready-made meal",
+            "bodyFr": "La section Fresh Meals met en avant les plats traditionnels préparés chaque jour par les chefs de la maison, prêts à emporter.",
+            "bodyEn": "The Fresh Meals section features traditional dishes prepared daily by the in-house chefs, ready to take away.",
+            "tech": "Section Fresh Meals"
+          },
+          {
+            "titleFr": "Payer par carte",
+            "titleEn": "Pay by card",
+            "bodyFr": "Paiement Visa ou Mastercard en ligne, commande validée à partir de 50 $ — le seuil assume le coût réel de la préparation.",
+            "bodyEn": "Online Visa or Mastercard payment, order validated from $50 — the threshold covers the real cost of preparation.",
+            "tech": "Paiement Visa / Mastercard"
+          }
+        ]
+      },
+      {
+        "labelFr": "Retrait ou livraison",
+        "labelEn": "Pickup or delivery",
+        "steps": [
+          {
+            "titleFr": "Réserver un créneau de retrait",
+            "titleEn": "Book a pickup slot",
+            "bodyFr": "Le client choisit son créneau en ligne et récupère sa commande au magasin, au 2090 Robertson Road.",
+            "bodyEn": "The customer books a slot online and collects the order at the store, at 2090 Robertson Road.",
+            "tech": "Retrait planifié"
+          },
+          {
+            "titleFr": "Se faire livrer par les partenaires",
+            "titleEn": "Get it delivered by partners",
+            "bodyFr": "Courses et plats cuisinés partent aussi en livraison, acheminés par Uber Eats et DoorDash.",
+            "bodyEn": "Groceries and meals also go out for delivery, fulfilled via Uber Eats and DoorDash.",
+            "tech": "Uber Eats · DoorDash"
+          }
+        ]
+      },
+      {
+        "labelFr": "Côté gérant",
+        "labelEn": "Owner side",
+        "steps": [
+          {
+            "titleFr": "Piloter produits et commandes",
+            "titleEn": "Run products and orders",
+            "bodyFr": "Catalogue, commandes et contenus du site se gèrent depuis un seul tableau de bord, sans aucune intervention technique.",
+            "bodyEn": "Catalogue, orders and site content are managed from a single dashboard, with no technical intervention.",
+            "tech": "Dashboard admin"
+          },
+          {
+            "titleFr": "Rassurer les nouveaux clients",
+            "titleEn": "Reassure new customers",
+            "bodyFr": "Une section avis intégrée au site affiche la réputation de la maison — 4,9/5 — pour convaincre le premier visiteur.",
+            "bodyEn": "An on-site reviews section displays the store's reputation — 4.9/5 — to convince the first-time visitor.",
+            "tech": "Avis clients"
+          }
+        ]
+      }
+    ]
+  }
 }

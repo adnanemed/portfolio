@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T00:11:10.025Z",
+  "generatedAt": "2026-10-03T00:38:23.439Z",
   "source": "docs/content-drafts (owner-validated via dashboard export)",
   "socials": {
     "whatsapp": null,
@@ -132,6 +132,91 @@
         "Clinic schedule updated",
         "Patient record & invoice"
       ],
+      "flowDetailed": {
+        "phases": [
+          {
+            "labelFr": "Côté patient",
+            "labelEn": "Patient side",
+            "steps": [
+              {
+                "titleFr": "Réserver en trois étapes",
+                "titleEn": "Book in three steps",
+                "bodyFr": "Le patient choisit son soin, sa date et son heure, puis reçoit sa confirmation. Le parcours reste ouvert 24h/24, même le cabinet fermé.",
+                "bodyEn": "The patient picks a treatment, a date and a time, then gets their confirmation. The flow stays open around the clock, even when the clinic is closed.",
+                "tech": "Wizard 3 étapes"
+              },
+              {
+                "titleFr": "Un créneau vraiment disponible",
+                "titleEn": "A slot that is truly free",
+                "bodyFr": "Horaires du cabinet, pause déjeuner, dimanches et créneaux déjà pris : tout est vérifié côté serveur avant d'enregistrer le rendez-vous.",
+                "bodyEn": "Opening hours, lunch break, Sundays and taken slots: everything is checked server-side before the appointment is saved.",
+                "tech": "Validation serveur"
+              },
+              {
+                "titleFr": "Un site dans les deux langues",
+                "titleEn": "A site in both languages",
+                "bodyFr": "Tout le site existe en français et en arabe, avec lecture de droite à gauche native pour le public arabophone.",
+                "bodyEn": "The whole site exists in French and Arabic, with native right-to-left reading for the Arabic-speaking audience.",
+                "tech": "FR / AR + RTL"
+              }
+            ]
+          },
+          {
+            "labelFr": "Côté cabinet",
+            "labelEn": "Clinic side",
+            "steps": [
+              {
+                "titleFr": "L'agenda sous contrôle",
+                "titleEn": "The schedule under control",
+                "bodyFr": "Le personnel voit les rendez-vous du jour, confirme, déplace ou annule chaque créneau en un clic, avec une notification sonore à chaque nouvelle réservation.",
+                "bodyEn": "Staff see the day's appointments and confirm, move or cancel each slot in one click, with a sound alert for every new booking.",
+                "tech": "Agenda + verrou de créneau"
+              },
+              {
+                "titleFr": "Dossiers patients complets",
+                "titleEn": "Complete patient records",
+                "bodyFr": "Historique médical, traitements, notes privées et coordonnées sur une seule fiche, avec import des dossiers existants depuis Excel.",
+                "bodyEn": "Medical history, treatments, private notes and contact details on a single file, with existing records imported from Excel.",
+                "tech": "Import Excel"
+              },
+              {
+                "titleFr": "Odontogramme dent par dent",
+                "titleEn": "Tooth-by-tooth dental chart",
+                "bodyFr": "La dentition complète du patient est visualisée sur 32 dents : carie, couronne, implant… le suivi clinique devient immédiat.",
+                "bodyEn": "The patient's full dentition is charted across 32 teeth: cavity, crown, implant… clinical follow-up becomes immediate.",
+                "tech": "Odontogramme FDI 32 dents"
+              },
+              {
+                "titleFr": "Ordonnances et factures en PDF",
+                "titleEn": "Prescriptions and invoices as PDF",
+                "bodyFr": "Le praticien rédige une ordonnance sur modèle et l'imprime, puis établit la facture dont le total est calculé automatiquement côté serveur.",
+                "bodyEn": "The practitioner writes a prescription from a template and prints it, then issues the invoice with the total computed automatically server-side.",
+                "tech": "PDF imprimables"
+              }
+            ]
+          },
+          {
+            "labelFr": "Sous le capot",
+            "labelEn": "Under the hood",
+            "steps": [
+              {
+                "titleFr": "Un accès protégé",
+                "titleEn": "Protected access",
+                "bodyFr": "Connexion sécurisée pour l'équipe, sessions par jeton et tentatives de connexion limitées : le tableau de bord reste réservé au cabinet.",
+                "bodyEn": "Secure login for the team, token-based sessions and limited login attempts: the dashboard stays for the clinic only.",
+                "tech": "JWT + rate-limiting"
+              },
+              {
+                "titleFr": "Une base pensée pour le métier",
+                "titleEn": "A database shaped for the trade",
+                "bodyFr": "Patients, rendez-vous, traitements, ordonnances, factures, messages : chaque donnée du cabinet a son modèle dédié.",
+                "bodyEn": "Patients, appointments, treatments, prescriptions, invoices, messages: every piece of clinic data has its own model.",
+                "tech": "Prisma + Postgres"
+              }
+            ]
+          }
+        ]
+      },
       "previewCaptionFr": "site patient bilingue + tableau de bord du cabinet",
       "previewCaptionEn": "bilingual patient site + clinic dashboard",
       "orderIndex": 1
@@ -282,6 +367,84 @@
         "PDF contract generated automatically",
         "Reservation tracking with a unique code"
       ],
+      "flowDetailed": {
+        "phases": [
+          {
+            "labelFr": "Côté client",
+            "labelEn": "Customer side",
+            "steps": [
+              {
+                "titleFr": "Réserver véhicule et options",
+                "titleEn": "Book vehicle and add-ons",
+                "bodyFr": "Le client choisit son véhicule, ses dates et ses options — siège bébé, GPS, second conducteur. Le prix total se calcule automatiquement, caution incluse.",
+                "bodyEn": "The customer picks a vehicle, dates and add-ons — child seat, GPS, second driver. The total price is computed automatically, deposit included.",
+                "tech": "Calcul du prix serveur"
+              },
+              {
+                "titleFr": "Envoyer ses documents",
+                "titleEn": "Send the documents",
+                "bodyFr": "Le client photographie sa CNI et son permis : les numéros sont lus automatiquement et les pièces archivées de façon sécurisée.",
+                "bodyEn": "The customer photographs their ID card and licence: the numbers are read automatically and the documents stored securely.",
+                "tech": "OCR tesseract.js"
+              },
+              {
+                "titleFr": "Suivre sa réservation",
+                "titleEn": "Track the reservation",
+                "bodyFr": "Chaque réservation reçoit un code unique. Le client l'entre sur le site et voit le statut, les dates, le véhicule, et télécharge contrat et facture.",
+                "bodyEn": "Every booking gets a unique code. The customer enters it on the site and sees status, dates, vehicle, and downloads contract and invoice.",
+                "tech": "Suivi par code AD-XXXXX"
+              }
+            ]
+          },
+          {
+            "labelFr": "Côté agence",
+            "labelEn": "Agency side",
+            "steps": [
+              {
+                "titleFr": "Filtrer chaque client",
+                "titleEn": "Screen every customer",
+                "bodyFr": "La liste noire est vérifiée à chaque réservation : un client déjà signalé est bloqué automatiquement, et seul un responsable peut passer outre.",
+                "bodyEn": "The blacklist is checked on every booking: a previously flagged customer is blocked automatically, and only a manager can override it.",
+                "tech": "Screening automatique"
+              },
+              {
+                "titleFr": "Générer contrat et facture",
+                "titleEn": "Generate contract and invoice",
+                "bodyFr": "À la confirmation, le contrat de location et la facture officiels sortent en PDF aux couleurs de l'agence, puis sont archivés en ligne.",
+                "bodyEn": "On confirmation, the official rental contract and invoice come out as branded PDFs, then are archived online.",
+                "tech": "@react-pdf/renderer"
+              },
+              {
+                "titleFr": "Piloter flotte et entretien",
+                "titleEn": "Run fleet and maintenance",
+                "bodyFr": "Disponibilité, kilométrage, vidange, contrôle technique, assurance : chaque véhicule est suivi, les alertes partent automatiquement et la flotte s'importe depuis Excel.",
+                "bodyEn": "Availability, mileage, oil changes, inspections, insurance: every vehicle is tracked, alerts fire automatically and the fleet imports from Excel.",
+                "tech": "Import flotte Excel"
+              }
+            ]
+          },
+          {
+            "labelFr": "Sous le capot",
+            "labelEn": "Under the hood",
+            "steps": [
+              {
+                "titleFr": "Prévenir par WhatsApp",
+                "titleEn": "Notify over WhatsApp",
+                "bodyFr": "Le portail se connecte à WhatsApp par QR code et prépare les confirmations de réservation à envoyer au téléphone du client.",
+                "bodyEn": "The portal connects to WhatsApp via QR code and prepares booking confirmations to send to the customer's phone.",
+                "tech": "Baileys WhatsApp"
+              },
+              {
+                "titleFr": "Des documents au cloud",
+                "titleEn": "Documents in the cloud",
+                "bodyFr": "CNI, permis, contrats et factures sont archivés en ligne, reliés à chaque réservation et accessibles au portail.",
+                "bodyEn": "ID cards, licences, contracts and invoices are archived online, tied to each booking and reachable from the portal.",
+                "tech": "Supabase Storage"
+              }
+            ]
+          }
+        ]
+      },
       "previewCaptionFr": "site de réservation + portail d'agence",
       "previewCaptionEn": "booking site + agency portal",
       "orderIndex": 2
@@ -426,6 +589,84 @@
         "Realtime dashboard — sound alert",
         "Tables & menu updated"
       ],
+      "flowDetailed": {
+        "phases": [
+          {
+            "labelFr": "Côté client",
+            "labelEn": "Customer side",
+            "steps": [
+              {
+                "titleFr": "Commander depuis la carte",
+                "titleEn": "Order from the menu",
+                "bodyFr": "Le client filtre la carte par catégorie, ajoute au panier et choisit sur place, à emporter ou en livraison. La commande part directement dans le tableau de bord.",
+                "bodyEn": "The customer filters the menu by category, adds to the cart and chooses dine-in, takeaway or delivery. The order lands straight in the owner's dashboard.",
+                "tech": "Supabase"
+              },
+              {
+                "titleFr": "Réserver sa table sur le plan",
+                "titleEn": "Book a table on the floor plan",
+                "bodyFr": "Tables libres et occupées visibles d'un coup d'œil : le client clique la sienne et réserve pour la date de son choix.",
+                "bodyEn": "Free and taken tables at a glance: the customer clicks theirs and books for the date they want.",
+                "tech": "Plan de salle 2D"
+              },
+              {
+                "titleFr": "Nous trouver, laisser un avis",
+                "titleEn": "Find us, leave a review",
+                "bodyFr": "Page localisation avec itinéraire intégré, et formulaire d'avis dont les retours arrivent au gérant.",
+                "bodyEn": "A location page with built-in directions, and a review form whose feedback reaches the owner.",
+                "tech": "Google Maps"
+              }
+            ]
+          },
+          {
+            "labelFr": "Côté gérant",
+            "labelEn": "Owner side",
+            "steps": [
+              {
+                "titleFr": "Recevoir chaque commande en direct",
+                "titleEn": "Receive every order live",
+                "bodyFr": "Nouvelle commande ou nouvelle réservation : l'alerte sonore retentit aussitôt, rien à rafraîchir.",
+                "bodyEn": "New order or new reservation: the sound alert rings at once, nothing to refresh.",
+                "tech": "Supabase Realtime + Web Audio"
+              },
+              {
+                "titleFr": "Piloter la carte en quelques secondes",
+                "titleEn": "Run the menu in seconds",
+                "bodyFr": "Ajouter un plat, changer un prix, marquer « épuisé » : tout se fait depuis le tableau de bord et s'affiche aussitôt côté client. Import en masse possible.",
+                "bodyEn": "Add a dish, change a price, mark it sold out: all from the dashboard, live on the customer side. Bulk import included.",
+                "tech": "Import xlsx / csv / json"
+              },
+              {
+                "titleFr": "Garder la main sur les tables",
+                "titleEn": "Keep control of the tables",
+                "bodyFr": "Client de passage, groupe imprévu, table à fermer : le gérant ouvre ou bloque n'importe quelle table, et une vérification finale empêche deux réservations sur la même.",
+                "bodyEn": "Walk-in guest, surprise group, table to close: the owner opens or blocks any table, and a final check stops two bookings on the same one.",
+                "tech": "Anti double-réservation"
+              }
+            ]
+          },
+          {
+            "labelFr": "Sous le capot",
+            "labelEn": "Under the hood",
+            "steps": [
+              {
+                "titleFr": "Des comptes pour chaque rôle",
+                "titleEn": "An account for every role",
+                "bodyFr": "Un Super Admin et des comptes Staff : chacun voit ce dont il a besoin, chacun garde son mot de passe.",
+                "bodyEn": "One Super Admin and Staff accounts: everyone sees what they need and keeps their own password.",
+                "tech": "Rôles Super Admin / Staff"
+              },
+              {
+                "titleFr": "Un seul socle, tout en direct",
+                "titleEn": "One backbone, everything live",
+                "bodyFr": "Une même base alimente le site et le tableau de bord : commandes, réservations, carte et avis synchronisés en continu.",
+                "bodyEn": "A single database feeds the site and the dashboard: orders, reservations, menu and reviews kept in sync.",
+                "tech": "Base + canaux temps réel"
+              }
+            ]
+          }
+        ]
+      },
       "previewCaptionFr": "démo live — côté client & côté gérant",
       "previewCaptionEn": "live demo — customer & owner side",
       "orderIndex": 3
@@ -547,6 +788,77 @@
         "In-store pickup or delivery",
         "The owner manages products & orders"
       ],
+      "flowDetailed": {
+        "phases": [
+          {
+            "labelFr": "Côté client",
+            "labelEn": "Customer side",
+            "steps": [
+              {
+                "titleFr": "Remplir son panier",
+                "titleEn": "Fill the cart",
+                "bodyFr": "Le client parcourt le catalogue d'épicerie afro-caribéenne — des produits difficiles à trouver à Ottawa — et crée son compte en passant commande.",
+                "bodyEn": "The customer browses the Afro-Caribbean grocery catalogue — products hard to find in Ottawa — and creates an account while ordering.",
+                "tech": "Panier + compte client"
+              },
+              {
+                "titleFr": "Commander un plat cuisiné",
+                "titleEn": "Order a ready-made meal",
+                "bodyFr": "La section Fresh Meals met en avant les plats traditionnels préparés chaque jour par les chefs de la maison, prêts à emporter.",
+                "bodyEn": "The Fresh Meals section features traditional dishes prepared daily by the in-house chefs, ready to take away.",
+                "tech": "Section Fresh Meals"
+              },
+              {
+                "titleFr": "Payer par carte",
+                "titleEn": "Pay by card",
+                "bodyFr": "Paiement Visa ou Mastercard en ligne, commande validée à partir de 50 $ — le seuil assume le coût réel de la préparation.",
+                "bodyEn": "Online Visa or Mastercard payment, order validated from $50 — the threshold covers the real cost of preparation.",
+                "tech": "Paiement Visa / Mastercard"
+              }
+            ]
+          },
+          {
+            "labelFr": "Retrait ou livraison",
+            "labelEn": "Pickup or delivery",
+            "steps": [
+              {
+                "titleFr": "Réserver un créneau de retrait",
+                "titleEn": "Book a pickup slot",
+                "bodyFr": "Le client choisit son créneau en ligne et récupère sa commande au magasin, au 2090 Robertson Road.",
+                "bodyEn": "The customer books a slot online and collects the order at the store, at 2090 Robertson Road.",
+                "tech": "Retrait planifié"
+              },
+              {
+                "titleFr": "Se faire livrer par les partenaires",
+                "titleEn": "Get it delivered by partners",
+                "bodyFr": "Courses et plats cuisinés partent aussi en livraison, acheminés par Uber Eats et DoorDash.",
+                "bodyEn": "Groceries and meals also go out for delivery, fulfilled via Uber Eats and DoorDash.",
+                "tech": "Uber Eats · DoorDash"
+              }
+            ]
+          },
+          {
+            "labelFr": "Côté gérant",
+            "labelEn": "Owner side",
+            "steps": [
+              {
+                "titleFr": "Piloter produits et commandes",
+                "titleEn": "Run products and orders",
+                "bodyFr": "Catalogue, commandes et contenus du site se gèrent depuis un seul tableau de bord, sans aucune intervention technique.",
+                "bodyEn": "Catalogue, orders and site content are managed from a single dashboard, with no technical intervention.",
+                "tech": "Dashboard admin"
+              },
+              {
+                "titleFr": "Rassurer les nouveaux clients",
+                "titleEn": "Reassure new customers",
+                "bodyFr": "Une section avis intégrée au site affiche la réputation de la maison — 4,9/5 — pour convaincre le premier visiteur.",
+                "bodyEn": "An on-site reviews section displays the store's reputation — 4.9/5 — to convince the first-time visitor.",
+                "tech": "Avis clients"
+              }
+            ]
+          }
+        ]
+      },
       "previewCaptionFr": "boutique en ligne + tableau de bord gérant",
       "previewCaptionEn": "online store + owner dashboard",
       "orderIndex": 4
@@ -661,6 +973,77 @@
         "Four-step quote request",
         "Direct contact — form, WhatsApp or phone"
       ],
+      "flowDetailed": {
+        "phases": [
+          {
+            "labelFr": "Trouver la bonne pièce",
+            "labelEn": "Find the right part",
+            "steps": [
+              {
+                "titleFr": "Chercher par référence VOE",
+                "titleEn": "Search by VOE reference",
+                "bodyFr": "Le client tape sa référence — format VOE plus 7 ou 8 chiffres — ou le nom de la pièce, et tombe directement sur le bon article.",
+                "bodyEn": "The customer types their reference — VOE plus 7 or 8 digits — or the part name, and lands directly on the right item.",
+                "tech": "Recherche VOE"
+              },
+              {
+                "titleFr": "Vérifier le stock en ligne",
+                "titleEn": "Check stock online",
+                "bodyFr": "La disponibilité se consulte avant toute demande : fini les appels pour savoir si la pièce est là.",
+                "bodyEn": "Availability is checked before any request: no more calls to know whether the part is in.",
+                "tech": "Stock consultable"
+              },
+              {
+                "titleFr": "Six familles bien rangées",
+                "titleEn": "Six well-sorted families",
+                "bodyFr": "Filtration, composants moteur, hydraulique, transmission, pièces d'usure, électrique : le catalogue se parcourt par métier.",
+                "bodyEn": "Filtration, engine components, hydraulics, transmission, wear parts, electrical: the catalogue browses by trade.",
+                "tech": "Catalogue 6 familles"
+              }
+            ]
+          },
+          {
+            "labelFr": "Obtenir son devis",
+            "labelEn": "Get the quote",
+            "steps": [
+              {
+                "titleFr": "Exprimer son intérêt",
+                "titleEn": "Express interest",
+                "bodyFr": "Rechercher, vérifier, manifester son intérêt : la demande de devis part en quatre étapes, sans achat en ligne — le métier reste celui du conseil.",
+                "bodyEn": "Search, verify, express interest: the quote request goes out in four steps, with no online checkout — the business still runs on advice.",
+                "tech": "Parcours 4 étapes"
+              },
+              {
+                "titleFr": "Être rappelé par l'équipe",
+                "titleEn": "Get called back",
+                "bodyFr": "Formulaire, WhatsApp direct, téléphone ou email : chaque client choisit son canal et se fait contacter par l'équipe de Casablanca.",
+                "bodyEn": "Form, direct WhatsApp, phone or email: every customer picks their channel and gets contacted by the Casablanca team.",
+                "tech": "4 canaux de contact"
+              }
+            ]
+          },
+          {
+            "labelFr": "Le conseil en plus",
+            "labelEn": "Advice on top",
+            "steps": [
+              {
+                "titleFr": "Choisir entre origine et adaptable",
+                "titleEn": "Choose original or compatible",
+                "bodyFr": "Un blog technique aide le professionnel à arbitrer entre pièce d'origine et pièce adaptable, et à mieux entretenir ses engins.",
+                "bodyEn": "A technical blog helps the professional weigh original against compatible parts, and maintain the fleet better.",
+                "tech": "Blog technique"
+              },
+              {
+                "titleFr": "Un site pensé pour le pressé",
+                "titleEn": "Built for the busy professional",
+                "bodyFr": "Tout le catalogue est en français, lisible sur le chantier comme au bureau : la bonne référence en quelques gestes.",
+                "bodyEn": "The whole catalogue is in French, readable on the site as much as at the desk: the right reference in a few taps.",
+                "tech": "Français B2B"
+              }
+            ]
+          }
+        ]
+      },
       "previewCaptionFr": "catalogue pièces + demande de devis",
       "previewCaptionEn": "parts catalogue + quote request",
       "orderIndex": 5
@@ -785,6 +1168,77 @@
         "Optimisation — role, tone, structure",
         "Structured prompt, ready for ChatGPT, Claude or Gemini"
       ],
+      "flowDetailed": {
+        "phases": [
+          {
+            "labelFr": "Côté utilisateur",
+            "labelEn": "User side",
+            "steps": [
+              {
+                "titleFr": "Écrire l'idée brute",
+                "titleEn": "Write the raw idea",
+                "bodyFr": "L'utilisateur entre son idée telle qu'elle vient, directement depuis l'extension, sans se soucier de la formulation.",
+                "bodyEn": "The user types the idea as it comes, straight from the extension, without worrying about wording.",
+                "tech": "Extension 5 navigateurs"
+              },
+              {
+                "titleFr": "Choisir son persona",
+                "titleEn": "Pick a persona",
+                "bodyFr": "Plus de 10 rôles d'experts — « Senior Developer », « CMO » — pour cadrer la réponse de l'IA dès le départ.",
+                "bodyEn": "Over 10 expert roles — \"Senior Developer\", \"CMO\" — to frame the AI's answer from the start.",
+                "tech": "Persona Library"
+              },
+              {
+                "titleFr": "Régler ton et détail",
+                "titleEn": "Dial tone and detail",
+                "bodyFr": "Style, niveau de précision, Ghost Mode pour la discrétion : chaque paramètre reste accessible avant de forger.",
+                "bodyEn": "Style, precision level, Ghost Mode for privacy: every control stays at hand before forging.",
+                "tech": "Ghost Mode"
+              }
+            ]
+          },
+          {
+            "labelFr": "La forge",
+            "labelEn": "The forge",
+            "steps": [
+              {
+                "titleFr": "Forge It en un clic",
+                "titleEn": "Forge It in one click",
+                "bodyFr": "L'idée vague devient un prompt structuré : rôle, tâche, ton, structure et longueur — tout ce que l'IA attend pour bien répondre.",
+                "bodyEn": "The vague idea becomes a structured prompt: role, task, tone, structure and length — everything the AI needs to answer well.",
+                "tech": "Smart Enhancer"
+              },
+              {
+                "titleFr": "Copier vers son IA",
+                "titleEn": "Copy to your AI",
+                "bodyFr": "Le prompt est prêt pour ChatGPT, Claude, Gemini ou Copilot, et se recopie en un geste. Écrite dans sa langue, l'idée sort en anglais.",
+                "bodyEn": "The prompt is ready for ChatGPT, Claude, Gemini or Copilot, copied in one gesture. Written in your language, the idea comes out in English.",
+                "tech": "Quick Copy"
+              }
+            ]
+          },
+          {
+            "labelFr": "Autour du produit",
+            "labelEn": "Around the product",
+            "steps": [
+              {
+                "titleFr": "Retrouver son historique",
+                "titleEn": "Find your history",
+                "bodyFr": "Les prompts sont conservés dans le cloud et disponibles sur tous les appareils : rien ne se perd entre deux sessions.",
+                "bodyEn": "Prompts are kept in the cloud and available on every device: nothing is lost between sessions.",
+                "tech": "Cloud History"
+              },
+              {
+                "titleFr": "Commencer gratuitement",
+                "titleEn": "Start for free",
+                "bodyFr": "450 crédits offerts chaque mois, puis les abonnements Pro et Elite pour les gros usages, avec garantie 14 jours.",
+                "bodyEn": "450 credits offered every month, then Pro and Elite subscriptions for heavy use, with a 14-day guarantee.",
+                "tech": "Freemium 450 crédits/mois"
+              }
+            ]
+          }
+        ]
+      },
       "previewCaptionFr": "extension navigateur — produit propre",
       "previewCaptionEn": "browser extension — own product",
       "orderIndex": 6

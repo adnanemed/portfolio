@@ -3,6 +3,16 @@ import content from "@/content/content.json";
 
 export type ProjectMetric = { labelFr: string; labelEn: string; value: string; suffix: string };
 export type ProjectFeature = { title: string; body: string };
+/** Case-study "how it works" flow map (section 06). */
+export type FlowStep = {
+  titleFr: string;
+  titleEn: string;
+  bodyFr: string;
+  bodyEn: string;
+  tech?: string;
+};
+export type FlowPhase = { labelFr: string; labelEn: string; steps: FlowStep[] };
+export type FlowDetailed = { phases: FlowPhase[] };
 export type Project = {
   slug: string;
   nameFr: string;
@@ -33,6 +43,7 @@ export type Project = {
   flowIntroEn?: string | null;
   flowStepsFr?: string[];
   flowStepsEn?: string[];
+  flowDetailed?: FlowDetailed | null;
   previewCaptionFr?: string | null;
   previewCaptionEn?: string | null;
   orderIndex: number;

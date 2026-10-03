@@ -171,5 +171,83 @@
     "src/components/showcase/SupercarScrollytelling.tsx, src/components/3d/CarModel.tsx (three.js, GLTF, scrollytelling)",
     "src/components/admin/RealTimeBookingNotification.tsx (notifications de nouvelles réservations)",
     "Site live https://auradrive-pi.vercel.app/ (ton premium, conciergerie 24/7, livraison VIP)"
-  ]
+  ],
+  "flowDetailed": {
+    "phases": [
+      {
+        "labelFr": "Côté client",
+        "labelEn": "Customer side",
+        "steps": [
+          {
+            "titleFr": "Réserver véhicule et options",
+            "titleEn": "Book vehicle and add-ons",
+            "bodyFr": "Le client choisit son véhicule, ses dates et ses options — siège bébé, GPS, second conducteur. Le prix total se calcule automatiquement, caution incluse.",
+            "bodyEn": "The customer picks a vehicle, dates and add-ons — child seat, GPS, second driver. The total price is computed automatically, deposit included.",
+            "tech": "Calcul du prix serveur"
+          },
+          {
+            "titleFr": "Envoyer ses documents",
+            "titleEn": "Send the documents",
+            "bodyFr": "Le client photographie sa CNI et son permis : les numéros sont lus automatiquement et les pièces archivées de façon sécurisée.",
+            "bodyEn": "The customer photographs their ID card and licence: the numbers are read automatically and the documents stored securely.",
+            "tech": "OCR tesseract.js"
+          },
+          {
+            "titleFr": "Suivre sa réservation",
+            "titleEn": "Track the reservation",
+            "bodyFr": "Chaque réservation reçoit un code unique. Le client l'entre sur le site et voit le statut, les dates, le véhicule, et télécharge contrat et facture.",
+            "bodyEn": "Every booking gets a unique code. The customer enters it on the site and sees status, dates, vehicle, and downloads contract and invoice.",
+            "tech": "Suivi par code AD-XXXXX"
+          }
+        ]
+      },
+      {
+        "labelFr": "Côté agence",
+        "labelEn": "Agency side",
+        "steps": [
+          {
+            "titleFr": "Filtrer chaque client",
+            "titleEn": "Screen every customer",
+            "bodyFr": "La liste noire est vérifiée à chaque réservation : un client déjà signalé est bloqué automatiquement, et seul un responsable peut passer outre.",
+            "bodyEn": "The blacklist is checked on every booking: a previously flagged customer is blocked automatically, and only a manager can override it.",
+            "tech": "Screening automatique"
+          },
+          {
+            "titleFr": "Générer contrat et facture",
+            "titleEn": "Generate contract and invoice",
+            "bodyFr": "À la confirmation, le contrat de location et la facture officiels sortent en PDF aux couleurs de l'agence, puis sont archivés en ligne.",
+            "bodyEn": "On confirmation, the official rental contract and invoice come out as branded PDFs, then are archived online.",
+            "tech": "@react-pdf/renderer"
+          },
+          {
+            "titleFr": "Piloter flotte et entretien",
+            "titleEn": "Run fleet and maintenance",
+            "bodyFr": "Disponibilité, kilométrage, vidange, contrôle technique, assurance : chaque véhicule est suivi, les alertes partent automatiquement et la flotte s'importe depuis Excel.",
+            "bodyEn": "Availability, mileage, oil changes, inspections, insurance: every vehicle is tracked, alerts fire automatically and the fleet imports from Excel.",
+            "tech": "Import flotte Excel"
+          }
+        ]
+      },
+      {
+        "labelFr": "Sous le capot",
+        "labelEn": "Under the hood",
+        "steps": [
+          {
+            "titleFr": "Prévenir par WhatsApp",
+            "titleEn": "Notify over WhatsApp",
+            "bodyFr": "Le portail se connecte à WhatsApp par QR code et prépare les confirmations de réservation à envoyer au téléphone du client.",
+            "bodyEn": "The portal connects to WhatsApp via QR code and prepares booking confirmations to send to the customer's phone.",
+            "tech": "Baileys WhatsApp"
+          },
+          {
+            "titleFr": "Des documents au cloud",
+            "titleEn": "Documents in the cloud",
+            "bodyFr": "CNI, permis, contrats et factures sont archivés en ligne, reliés à chaque réservation et accessibles au portail.",
+            "bodyEn": "ID cards, licences, contracts and invoices are archived online, tied to each booking and reachable from the portal.",
+            "tech": "Supabase Storage"
+          }
+        ]
+      }
+    ]
+  }
 }

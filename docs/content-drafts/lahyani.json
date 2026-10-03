@@ -145,5 +145,90 @@
     "docs/project-memory/rapport-general-technique.md — executive summary, admin module map, security hardening (JWT, RBAC, rate-limiting), GEO/SEO strategy",
     "apps/admin/next.config.js — X-Frame-Options DENY; apps/web security headers SAMEORIGIN (why iframe embed is disabled)",
     "packages/auth/rate-limit.ts + packages/auth/index.ts — shared rate-limiting and JWT/bcrypt auth package"
-  ]
+  ],
+  "flowDetailed": {
+    "phases": [
+      {
+        "labelFr": "Côté patient",
+        "labelEn": "Patient side",
+        "steps": [
+          {
+            "titleFr": "Réserver en trois étapes",
+            "titleEn": "Book in three steps",
+            "bodyFr": "Le patient choisit son soin, sa date et son heure, puis reçoit sa confirmation. Le parcours reste ouvert 24h/24, même le cabinet fermé.",
+            "bodyEn": "The patient picks a treatment, a date and a time, then gets their confirmation. The flow stays open around the clock, even when the clinic is closed.",
+            "tech": "Wizard 3 étapes"
+          },
+          {
+            "titleFr": "Un créneau vraiment disponible",
+            "titleEn": "A slot that is truly free",
+            "bodyFr": "Horaires du cabinet, pause déjeuner, dimanches et créneaux déjà pris : tout est vérifié côté serveur avant d'enregistrer le rendez-vous.",
+            "bodyEn": "Opening hours, lunch break, Sundays and taken slots: everything is checked server-side before the appointment is saved.",
+            "tech": "Validation serveur"
+          },
+          {
+            "titleFr": "Un site dans les deux langues",
+            "titleEn": "A site in both languages",
+            "bodyFr": "Tout le site existe en français et en arabe, avec lecture de droite à gauche native pour le public arabophone.",
+            "bodyEn": "The whole site exists in French and Arabic, with native right-to-left reading for the Arabic-speaking audience.",
+            "tech": "FR / AR + RTL"
+          }
+        ]
+      },
+      {
+        "labelFr": "Côté cabinet",
+        "labelEn": "Clinic side",
+        "steps": [
+          {
+            "titleFr": "L'agenda sous contrôle",
+            "titleEn": "The schedule under control",
+            "bodyFr": "Le personnel voit les rendez-vous du jour, confirme, déplace ou annule chaque créneau en un clic, avec une notification sonore à chaque nouvelle réservation.",
+            "bodyEn": "Staff see the day's appointments and confirm, move or cancel each slot in one click, with a sound alert for every new booking.",
+            "tech": "Agenda + verrou de créneau"
+          },
+          {
+            "titleFr": "Dossiers patients complets",
+            "titleEn": "Complete patient records",
+            "bodyFr": "Historique médical, traitements, notes privées et coordonnées sur une seule fiche, avec import des dossiers existants depuis Excel.",
+            "bodyEn": "Medical history, treatments, private notes and contact details on a single file, with existing records imported from Excel.",
+            "tech": "Import Excel"
+          },
+          {
+            "titleFr": "Odontogramme dent par dent",
+            "titleEn": "Tooth-by-tooth dental chart",
+            "bodyFr": "La dentition complète du patient est visualisée sur 32 dents : carie, couronne, implant… le suivi clinique devient immédiat.",
+            "bodyEn": "The patient's full dentition is charted across 32 teeth: cavity, crown, implant… clinical follow-up becomes immediate.",
+            "tech": "Odontogramme FDI 32 dents"
+          },
+          {
+            "titleFr": "Ordonnances et factures en PDF",
+            "titleEn": "Prescriptions and invoices as PDF",
+            "bodyFr": "Le praticien rédige une ordonnance sur modèle et l'imprime, puis établit la facture dont le total est calculé automatiquement côté serveur.",
+            "bodyEn": "The practitioner writes a prescription from a template and prints it, then issues the invoice with the total computed automatically server-side.",
+            "tech": "PDF imprimables"
+          }
+        ]
+      },
+      {
+        "labelFr": "Sous le capot",
+        "labelEn": "Under the hood",
+        "steps": [
+          {
+            "titleFr": "Un accès protégé",
+            "titleEn": "Protected access",
+            "bodyFr": "Connexion sécurisée pour l'équipe, sessions par jeton et tentatives de connexion limitées : le tableau de bord reste réservé au cabinet.",
+            "bodyEn": "Secure login for the team, token-based sessions and limited login attempts: the dashboard stays for the clinic only.",
+            "tech": "JWT + rate-limiting"
+          },
+          {
+            "titleFr": "Une base pensée pour le métier",
+            "titleEn": "A database shaped for the trade",
+            "bodyFr": "Patients, rendez-vous, traitements, ordonnances, factures, messages : chaque donnée du cabinet a son modèle dédié.",
+            "bodyEn": "Patients, appointments, treatments, prescriptions, invoices, messages: every piece of clinic data has its own model.",
+            "tech": "Prisma + Postgres"
+          }
+        ]
+      }
+    ]
+  }
 }

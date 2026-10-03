@@ -115,5 +115,76 @@
   "previewCaptionFr": "catalogue pièces + demande de devis",
   "previewCaptionEn": "parts catalogue + quote request",
   "orderIndex": 5,
-  "notes": "Site lisible via WebFetch (https://sigmaparts.ma/) — pas de blocage, contenu riche récupéré (catégories, processus en 4 étapes, recherche VOE, coordonnées Casablanca). Modèle devis/mise en relation, pas de panier e-commerce : reflété fidèlement dans le copy. Le site se présente comme « Importateur officiel / Distributeur pièces Volvo » avec support technique ; formulation reprise telle quelle. Peu de chiffres mesurables publics, d'où 2 métriques factuelles seulement. Iframe non embeddable (X-Frame-Options SAMEORIGIN, docs/iframe-check.md) → galerie screenshots + bouton « Ouvrir le site ». Permission client accordée pour les screenshots (cf. iframe-check.md)."
+  "notes": "Site lisible via WebFetch (https://sigmaparts.ma/) — pas de blocage, contenu riche récupéré (catégories, processus en 4 étapes, recherche VOE, coordonnées Casablanca). Modèle devis/mise en relation, pas de panier e-commerce : reflété fidèlement dans le copy. Le site se présente comme « Importateur officiel / Distributeur pièces Volvo » avec support technique ; formulation reprise telle quelle. Peu de chiffres mesurables publics, d'où 2 métriques factuelles seulement. Iframe non embeddable (X-Frame-Options SAMEORIGIN, docs/iframe-check.md) → galerie screenshots + bouton « Ouvrir le site ». Permission client accordée pour les screenshots (cf. iframe-check.md).",
+  "flowDetailed": {
+    "phases": [
+      {
+        "labelFr": "Trouver la bonne pièce",
+        "labelEn": "Find the right part",
+        "steps": [
+          {
+            "titleFr": "Chercher par référence VOE",
+            "titleEn": "Search by VOE reference",
+            "bodyFr": "Le client tape sa référence — format VOE plus 7 ou 8 chiffres — ou le nom de la pièce, et tombe directement sur le bon article.",
+            "bodyEn": "The customer types their reference — VOE plus 7 or 8 digits — or the part name, and lands directly on the right item.",
+            "tech": "Recherche VOE"
+          },
+          {
+            "titleFr": "Vérifier le stock en ligne",
+            "titleEn": "Check stock online",
+            "bodyFr": "La disponibilité se consulte avant toute demande : fini les appels pour savoir si la pièce est là.",
+            "bodyEn": "Availability is checked before any request: no more calls to know whether the part is in.",
+            "tech": "Stock consultable"
+          },
+          {
+            "titleFr": "Six familles bien rangées",
+            "titleEn": "Six well-sorted families",
+            "bodyFr": "Filtration, composants moteur, hydraulique, transmission, pièces d'usure, électrique : le catalogue se parcourt par métier.",
+            "bodyEn": "Filtration, engine components, hydraulics, transmission, wear parts, electrical: the catalogue browses by trade.",
+            "tech": "Catalogue 6 familles"
+          }
+        ]
+      },
+      {
+        "labelFr": "Obtenir son devis",
+        "labelEn": "Get the quote",
+        "steps": [
+          {
+            "titleFr": "Exprimer son intérêt",
+            "titleEn": "Express interest",
+            "bodyFr": "Rechercher, vérifier, manifester son intérêt : la demande de devis part en quatre étapes, sans achat en ligne — le métier reste celui du conseil.",
+            "bodyEn": "Search, verify, express interest: the quote request goes out in four steps, with no online checkout — the business still runs on advice.",
+            "tech": "Parcours 4 étapes"
+          },
+          {
+            "titleFr": "Être rappelé par l'équipe",
+            "titleEn": "Get called back",
+            "bodyFr": "Formulaire, WhatsApp direct, téléphone ou email : chaque client choisit son canal et se fait contacter par l'équipe de Casablanca.",
+            "bodyEn": "Form, direct WhatsApp, phone or email: every customer picks their channel and gets contacted by the Casablanca team.",
+            "tech": "4 canaux de contact"
+          }
+        ]
+      },
+      {
+        "labelFr": "Le conseil en plus",
+        "labelEn": "Advice on top",
+        "steps": [
+          {
+            "titleFr": "Choisir entre origine et adaptable",
+            "titleEn": "Choose original or compatible",
+            "bodyFr": "Un blog technique aide le professionnel à arbitrer entre pièce d'origine et pièce adaptable, et à mieux entretenir ses engins.",
+            "bodyEn": "A technical blog helps the professional weigh original against compatible parts, and maintain the fleet better.",
+            "tech": "Blog technique"
+          },
+          {
+            "titleFr": "Un site pensé pour le pressé",
+            "titleEn": "Built for the busy professional",
+            "bodyFr": "Tout le catalogue est en français, lisible sur le chantier comme au bureau : la bonne référence en quelques gestes.",
+            "bodyEn": "The whole catalogue is in French, readable on the site as much as at the desk: the right reference in a few taps.",
+            "tech": "Français B2B"
+          }
+        ]
+      }
+    ]
+  }
 }

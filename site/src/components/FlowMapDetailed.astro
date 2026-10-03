@@ -1,0 +1,92 @@
+---
+// Detailed flow map for case studies (section 06) — the case-study
+// version of the home "L'architecture, en clair" flow map. Same visual
+// language (bg nodes, line borders, mono labels, animated connectors,
+// transform/opacity-only stagger, reduced-motion safe), but grouped in
+// mono-labeled phases with titled steps, body copy and muted mono tech
+// badges. No images anywhere. Single project per page → no navigator.
+import { t } from "@/lib/i18n";
+import type { Locale } from "@/lib/site";
+import type { FlowDetailed } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+  slug: string;
+  name: string;
+  flow: FlowDetailed;
+}
+const { locale, slug, name, flow } = Astro.props;
+const d = t[locale];
+
+// Continuous numbering across phases (01, 02, …)
+let idx = 0;
+const phases = flow.phases.map((ph) => ({
+  label: locale === "fr" ? ph.labelFr : ph.labelEn,
+  steps: ph.steps.map((s) => ({
+    n: ++idx,
+    title: locale === "fr" ? s.titleFr : s.titleEn,
+    body: locale === "fr" ? s.bodyFr : s.bodyEn,
+    tech: s.tech,
+  })),
+}));
+const total = idx;
+---
+
+<div class="dfm" data-dfm aria-label={`${name} — ${d.caseStudy.archTitleText}`}>
+  {phases.map((ph) => (
+    <section class="dfm-phase">
+      <header class="dfm-phase-head">
+        <h3 class="dfm-phase-label mono">{ph.label}</h3>
+        <span class="dfm-phase-count mono" aria-hidden="true">
+          {ph.steps.length} / {total}
+        </span>
+        <span class="dfm-phase-rule" aria-hidden="true"></span>
+      </header>
+      <ol class="dfm-steps" role="list">
+        {ph.steps.map((s, j) => (
+          <li class="dfm-step" style={`--i:${s.n}`} data-dfm-step={slug}>
+            <div class="dfm-node">
+              <div class="dfm-top">
+                <span class="dfm-idx mono" aria-hidden="true">{String(s.n).padStart(2, "0")}</span>
+                <h4 class="dfm-title">{s.title}</h4>
+              </div>
+              <p class="dfm-body">{s.body}</p>
+              {s.tech && <span class="dfm-tech mono">{s.tech}</span>}
+            </div>
+            {j < ph.steps.length - 1 && (
+              <span class="dfm-link" aria-hidden="true">
+                <span class="dfm-line"></span>
+                <span class="dfm-dot"></span>
+                <span class="dfm-tip">→</span>
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </section>
+  ))}
+</div>
+
+<script>
+  // One-shot stagger when the map scrolls into view. Entrance is
+  // transform/opacity only, CSS-gated by prefers-reduced-motion.
+  document.querySelectorAll<HTMLElement>("[data-dfm]").forEach((root) => {
+    const play = () => root.classList.add("dfm-play");
+    if (!("IntersectionObserver" in window)) {
+      play();
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const en of entries) {
+          if (en.isIntersecting) {
+            play();
+            io.disconnect();
+          }
+        }
+      },
+      { threshold: 0.12 }
+    );
+    io.observe(root);
+  });
+</script>

@@ -11,7 +11,7 @@ import { hashJson } from "@/lib/hash";
 import Nav from "@/components/Nav.astro";
 import BrowserMockup from "@/components/BrowserMockup.astro";
 import ScreenshotGallery from "@/components/ScreenshotGallery.astro";
-import ArchitectureViewer from "@/components/ArchitectureViewer.astro";
+import FlowMapDetailed from "@/components/FlowMapDetailed.astro";
 import CtaBand from "@/components/CtaBand.astro";
 import ProjectNav from "@/components/ProjectNav.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
@@ -144,23 +144,13 @@ const crumb = {
     )}
   </section>
 
-  {p.architectureImage && (
+  {p.flowDetailed && p.flowDetailed.phases.length > 0 && (
     <section class="cs-block" style="border-top:1px solid var(--line)">
-      <span class="blk-idx">{d.caseStudy.archIdx}</span>
-      <h2 set:html={d.caseStudy.archTitle} />
-      <ArchitectureViewer
-        locale={locale}
-        uid={p.slug}
-        diagrams={[
-          {
-            key: p.slug,
-            name: c.name,
-            src: p.architectureImage,
-            alt: `${c.name} — ${locale === "fr" ? "schéma d'architecture" : "architecture diagram"}`,
-            caption: c.archCaption ?? "",
-          },
-        ]}
-      />
+      <div class="inner" style="max-width:none">
+        <span class="blk-idx">{d.caseStudy.archIdx}</span>
+        <h2 set:html={d.caseStudy.archTitle} />
+        <FlowMapDetailed locale={locale} slug={p.slug} name={c.name} flow={p.flowDetailed} />
+      </div>
     </section>
   )}
 
