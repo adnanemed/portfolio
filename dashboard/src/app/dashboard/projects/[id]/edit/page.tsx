@@ -27,8 +27,8 @@ export default function EditProjectPage() {
   if (notFound) {
     return (
       <div>
-        <p className="text-muted">Projet introuvable.</p>
-        <Link href="/dashboard/projects" className="text-accent hover:underline">
+        <p className="mb-2 text-muted">Projet introuvable.</p>
+        <Link href="/dashboard/projects" className="link-mono">
           ← Retour aux projets
         </Link>
       </div>

@@ -1,8 +1,10 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Design tokens per PLAN-v2 §3.1. CSS custom properties live in globals.css
- * and are switched via [data-theme="light|dark"] on <html>.
+ * Design tokens — ported from the public site (site/src/styles/global.css).
+ * Monochrome system: the "accent" is text/bg inversion, never a hue.
+ * CSS custom properties live in globals.css and are switched via
+ * [data-theme="light|dark"] on <html>.
  */
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
@@ -14,19 +16,30 @@ const config: Config = {
         "bg-2": "var(--bg-2)",
         text: "var(--text)",
         muted: "var(--muted)",
-        accent: "var(--accent)",
-        "accent-text": "var(--accent-text)",
         border: "var(--border)",
-        "canvas-dark": "var(--canvas-dark)",
       },
       fontFamily: {
         sans: [
-          '"Bricolage Grotesque"',
+          "var(--font-archivo)",
+          '"Archivo"',
           "system-ui",
           "-apple-system",
           "sans-serif",
         ],
-        mono: ['ui-monospace', '"JetBrains Mono"', 'monospace'],
+        serif: [
+          "var(--font-instrument)",
+          '"Instrument Serif"',
+          "serif",
+        ],
+        mono: [
+          "ui-monospace",
+          '"SF Mono"',
+          '"Cascadia Mono"',
+          '"Segoe UI Mono"',
+          "Menlo",
+          "Consolas",
+          "monospace",
+        ],
       },
     },
   },

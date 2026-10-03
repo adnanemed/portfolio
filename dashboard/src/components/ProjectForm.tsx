@@ -15,21 +15,24 @@ type Props =
   | { mode: "new" }
   | { mode: "edit"; project: ProjectRow };
 
-const inputCls =
-  "w-full rounded-lg border border-border bg-bg-2 px-3 py-2 text-sm outline-none focus:border-accent";
-const labelCls = "mb-1 block text-sm font-semibold";
-
 function Section({
+  idx,
   title,
   children,
 }: {
+  idx: string;
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <details open className="rounded-2xl border border-border bg-bg-2">
-      <summary className="cursor-pointer px-5 py-3 font-bold">
-        {title}
+    <details open className="card overflow-hidden">
+      <summary className="flex cursor-pointer items-baseline gap-3 px-5 py-4">
+        <span className="mono text-[0.68rem] tracking-[0.14em] text-muted">
+          {idx}
+        </span>
+        <span className="mono text-[0.78rem] uppercase tracking-[0.16em]">
+          {title}
+        </span>
       </summary>
       <div className="space-y-4 border-t border-border p-5">{children}</div>
     </details>
@@ -47,15 +50,15 @@ function FeatureList({
 }) {
   return (
     <div>
-      <p className={labelCls}>
+      <p className="field-label">
         {label}{" "}
-        <span className="font-normal text-muted">
+        <span className="normal-case tracking-normal">
           ({items.length} — minimum 4 pour publier)
         </span>
       </p>
       <div className="space-y-3">
         {items.map((f, i) => (
-          <div key={i} className="rounded-xl border border-border p-3">
+          <div key={i} className="rounded-lg border border-border p-3">
             <input
               value={f.title}
               onChange={(e) => {
@@ -64,7 +67,7 @@ function FeatureList({
                 onChange(next);
               }}
               placeholder="Titre"
-              className={`${inputCls} mb-2 font-semibold`}
+              className={`${"input-field"} mb-2 font-semibold`}
             />
             <textarea
               value={f.body}
@@ -75,12 +78,12 @@ function FeatureList({
               }}
               placeholder="Une phrase en langage business"
               rows={2}
-              className={inputCls}
+              className="input-field"
             />
             <button
               type="button"
               onClick={() => onChange(items.filter((_, j) => j !== i))}
-              className="mt-2 text-xs text-red-500 hover:underline"
+              className="mono mt-2 text-[0.7rem] uppercase tracking-[0.12em] text-muted underline decoration-border underline-offset-4 transition-colors duration-200 hover:text-text"
             >
               Retirer
             </button>
@@ -89,7 +92,7 @@ function FeatureList({
         <button
           type="button"
           onClick={() => onChange([...items, { title: "", body: "" }])}
-          className="rounded-lg border border-border px-3 py-1.5 text-sm hover:border-accent"
+          className="btn-ghost"
         >
           + Ajouter
         </button>
@@ -107,20 +110,15 @@ function MetricList({
 }) {
   return (
     <div>
-      <p className={labelCls}>
+      <p className="field-label">
         Métriques{" "}
-        <span className="font-normal text-muted">
+        <span className="normal-case tracking-normal">
           (≥ 1 requise ; chaque métrique doit être confirmée pour publier)
         </span>
       </p>
       <div className="space-y-3">
         {items.map((m, i) => (
-          <div
-            key={i}
-            className={`rounded-xl border p-3 ${
-              m.confirmed ? "border-green-500/40" : "border-amber-500/40"
-            }`}
-          >
+          <div key={i} className="rounded-lg border border-border p-3">
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               <input
                 value={m.labelFr}
@@ -130,7 +128,7 @@ function MetricList({
                   onChange(next);
                 }}
                 placeholder="Libellé FR"
-                className={inputCls}
+                className="input-field"
               />
               <input
                 value={m.labelEn}
@@ -140,7 +138,7 @@ function MetricList({
                   onChange(next);
                 }}
                 placeholder="Label EN"
-                className={inputCls}
+                className="input-field"
               />
               <input
                 value={m.value}
@@ -150,7 +148,7 @@ function MetricList({
                   onChange(next);
                 }}
                 placeholder="Valeur (ex. 24h/24)"
-                className={inputCls}
+                className="input-field"
               />
               <input
                 value={m.suffix ?? ""}
@@ -160,11 +158,11 @@ function MetricList({
                   onChange(next);
                 }}
                 placeholder="Suffixe (ex. /5)"
-                className={inputCls}
+                className="input-field"
               />
             </div>
-            <div className="mt-2 flex items-center gap-4">
-              <label className="flex items-center gap-2 text-sm">
+            <div className="mt-3 flex flex-wrap items-center gap-4">
+              <label className="flex min-h-[36px] cursor-pointer items-center gap-2 font-mono text-[0.72rem]">
                 <input
                   type="checkbox"
                   checked={m.confirmed}
@@ -174,14 +172,18 @@ function MetricList({
                     onChange(next);
                   }}
                 />
-                <span className={m.confirmed ? "text-green-600 dark:text-green-400" : "text-amber-600 dark:text-amber-400"}>
+                <span
+                  className={`badge ${
+                    m.confirmed ? "badge-solid" : "badge-outline"
+                  }`}
+                >
                   {m.confirmed ? "Confirmée ✓" : "Non confirmée (bloc la publication)"}
                 </span>
               </label>
               <button
                 type="button"
                 onClick={() => onChange(items.filter((_, j) => j !== i))}
-                className="ml-auto text-xs text-red-500 hover:underline"
+                className="mono ml-auto text-[0.7rem] uppercase tracking-[0.12em] text-muted underline decoration-border underline-offset-4 transition-colors duration-200 hover:text-text"
               >
                 Retirer
               </button>
@@ -196,7 +198,7 @@ function MetricList({
               { labelFr: "", labelEn: "", value: "", suffix: "", confirmed: false },
             ])
           }
-          className="rounded-lg border border-border px-3 py-1.5 text-sm hover:border-accent"
+          className="btn-ghost"
         >
           + Ajouter une métrique
         </button>
@@ -232,10 +234,15 @@ function ImageField({
 
   return (
     <div>
-      <p className={labelCls}>{label}</p>
+      <p className="field-label">{label}</p>
       {url && (
-        <p className="mb-1 truncate text-xs text-muted">
-          <a href={url} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+        <p className="mono mb-1 truncate text-[0.72rem] text-muted">
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-border underline-offset-4 transition-colors duration-200 hover:text-text"
+          >
             {url}
           </a>
         </p>
@@ -248,20 +255,24 @@ function ImageField({
             const f = e.target.files?.[0];
             if (f) upload(f);
           }}
-          className="text-sm"
+          className="mono text-xs text-muted"
         />
-        {uploading && <span className="text-sm text-muted">Envoi…</span>}
+        {uploading && <span className="mono text-xs text-muted">Envoi…</span>}
         {url && (
           <button
             type="button"
             onClick={() => onChange(null)}
-            className="text-xs text-red-500 hover:underline"
+            className="mono text-[0.7rem] uppercase tracking-[0.12em] text-muted underline decoration-border underline-offset-4 transition-colors duration-200 hover:text-text"
           >
             Retirer
           </button>
         )}
       </div>
-      {err && <p className="mt-1 text-xs text-red-500">{err}</p>}
+      {err && (
+        <p className="mono mt-1 text-[0.72rem] text-muted" role="alert">
+          {err}
+        </p>
+      )}
     </div>
   );
 }
@@ -416,15 +427,24 @@ export default function ProjectForm(props: Props) {
 
   return (
     <div className="mx-auto max-w-4xl space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-extrabold tracking-tight">
-          {props.mode === "new" ? "Nouveau projet" : `Éditer — ${p.nameFr}`}
-        </h1>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="kicker mb-3">
+            {props.mode === "new" ? "Portfolio — création" : "Portfolio — édition"}
+          </p>
+          <h1 className="page-title text-4xl">
+            {props.mode === "new" ? (
+              <>
+                Nouveau <span className="serif-it">projet</span>
+              </>
+            ) : (
+              <>Éditer — {p.nameFr}</>
+            )}
+          </h1>
+        </div>
         <span
-          className={`rounded-full px-3 py-1 text-xs font-semibold ${
-            p.status === "published"
-              ? "bg-green-500/15 text-green-600 dark:text-green-400"
-              : "bg-bg-2 text-muted"
+          className={`badge ${
+            p.status === "published" ? "badge-solid" : "badge-outline"
           }`}
         >
           {p.status === "published" ? "publié" : "brouillon"}
@@ -432,35 +452,34 @@ export default function ProjectForm(props: Props) {
       </div>
 
       {error && (
-        <p className="rounded-lg border border-border bg-bg-2 p-3 text-sm text-red-500">
+        <p className="notice" role="alert">
           {error}
         </p>
       )}
 
-      {/* Publish checklist */}
-      <div
-        className={`rounded-2xl border p-5 ${
-          canPublish ? "border-green-500/40" : "border-amber-500/40"
-        }`}
-      >
-        <p className="font-bold">
+      {/* Publish checklist — mono list with checkbox-style markers */}
+      <div className="card p-5">
+        <p className="mono text-[0.78rem] uppercase tracking-[0.14em]">
           {canPublish
             ? "✓ Prêt à publier — toutes les conditions sont réunies."
             : "À valider avant publication :"}
         </p>
         {!canPublish && (
-          <ul className="mt-2 list-inside list-disc text-sm text-amber-600 dark:text-amber-400">
+          <ul className="mono mt-3 space-y-1.5 text-[0.78rem] leading-relaxed text-muted">
             {missing.map((m) => (
-              <li key={m}>{m}</li>
+              <li key={m} className="flex items-baseline gap-2">
+                <span aria-hidden>□</span>
+                <span>{m}</span>
+              </li>
             ))}
           </ul>
         )}
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-5 flex flex-wrap gap-2.5">
           <button
             type="button"
             onClick={() => save(false)}
             disabled={saving || publishing}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-accent disabled:opacity-50"
+            className="btn-wipe"
           >
             {saving ? "Enregistrement…" : "Enregistrer"}
           </button>
@@ -473,30 +492,30 @@ export default function ProjectForm(props: Props) {
                 ? "Publier ce projet"
                 : "Complétez la checklist pour activer la publication"
             }
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-text hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+            className="btn-solid font-mono text-[0.72rem] uppercase tracking-[0.14em]"
           >
             {publishing ? "Publication…" : "Publier"}
           </button>
         </div>
       </div>
 
-      <Section title="Identification">
+      <Section idx="01" title="Identification">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <label>
-            <span className={labelCls}>Slug (unique)</span>
+            <span className="field-label">Slug (unique)</span>
             <input
               value={p.slug}
               onChange={(e) => set("slug", e.target.value.toLowerCase())}
               placeholder="lahyani"
-              className={inputCls}
+              className="input-field"
             />
           </label>
           <label>
-            <span className={labelCls}>Type</span>
+            <span className="field-label">Type</span>
             <select
               value={p.type}
               onChange={(e) => set("type", e.target.value as ProjectRow["type"])}
-              className={inputCls}
+              className="input-field"
             >
               <option value="client">client</option>
               <option value="demo">demo</option>
@@ -504,48 +523,48 @@ export default function ProjectForm(props: Props) {
             </select>
           </label>
           <label>
-            <span className={labelCls}>Nom (FR)</span>
+            <span className="field-label">Nom (FR)</span>
             <input
               value={p.nameFr}
               onChange={(e) => set("nameFr", e.target.value)}
-              className={inputCls}
+              className="input-field"
             />
           </label>
           <label>
-            <span className={labelCls}>Name (EN)</span>
+            <span className="field-label">Name (EN)</span>
             <input
               value={p.nameEn}
               onChange={(e) => set("nameEn", e.target.value)}
-              className={inputCls}
+              className="input-field"
             />
           </label>
           <label>
-            <span className={labelCls}>Secteur (FR)</span>
+            <span className="field-label">Secteur (FR)</span>
             <input
               value={p.sectorFr}
               onChange={(e) => set("sectorFr", e.target.value)}
-              className={inputCls}
+              className="input-field"
             />
           </label>
           <label>
-            <span className={labelCls}>Sector (EN)</span>
+            <span className="field-label">Sector (EN)</span>
             <input
               value={p.sectorEn}
               onChange={(e) => set("sectorEn", e.target.value)}
-              className={inputCls}
+              className="input-field"
             />
           </label>
           <label>
-            <span className={labelCls}>Ordre d'affichage (orderIndex)</span>
+            <span className="field-label">Ordre d'affichage (orderIndex)</span>
             <input
               type="number"
               min={0}
               value={p.orderIndex}
               onChange={(e) => set("orderIndex", Number(e.target.value))}
-              className={inputCls}
+              className="input-field"
             />
           </label>
-          <label className="flex items-end gap-2 pb-2 text-sm">
+          <label className="flex min-h-[44px] items-end gap-2 pb-2 text-sm">
             <input
               type="checkbox"
               checked={p.featured}
@@ -559,65 +578,65 @@ export default function ProjectForm(props: Props) {
         </div>
       </Section>
 
-      <Section title="Contenu">
+      <Section idx="02" title="Contenu">
         <label>
-          <span className={labelCls}>Résumé (FR)</span>
+          <span className="field-label">Résumé (FR)</span>
           <textarea
             rows={3}
             value={p.summaryFr}
             onChange={(e) => set("summaryFr", e.target.value)}
-            className={inputCls}
+            className="input-field"
           />
         </label>
         <label>
-          <span className={labelCls}>Summary (EN)</span>
+          <span className="field-label">Summary (EN)</span>
           <textarea
             rows={3}
             value={p.summaryEn}
             onChange={(e) => set("summaryEn", e.target.value)}
-            className={inputCls}
+            className="input-field"
           />
         </label>
         <label>
-          <span className={labelCls}>Le problème (FR)</span>
+          <span className="field-label">Le problème (FR)</span>
           <textarea
             rows={4}
             value={p.problemFr}
             onChange={(e) => set("problemFr", e.target.value)}
-            className={inputCls}
+            className="input-field"
           />
         </label>
         <label>
-          <span className={labelCls}>The problem (EN)</span>
+          <span className="field-label">The problem (EN)</span>
           <textarea
             rows={4}
             value={p.problemEn}
             onChange={(e) => set("problemEn", e.target.value)}
-            className={inputCls}
+            className="input-field"
           />
         </label>
         <label>
-          <span className={labelCls}>La solution (FR)</span>
+          <span className="field-label">La solution (FR)</span>
           <textarea
             rows={4}
             value={p.solutionFr}
             onChange={(e) => set("solutionFr", e.target.value)}
-            className={inputCls}
+            className="input-field"
           />
         </label>
         <label>
-          <span className={labelCls}>The solution (EN)</span>
+          <span className="field-label">The solution (EN)</span>
           <textarea
             rows={4}
             value={p.solutionEn}
             onChange={(e) => set("solutionEn", e.target.value)}
-            className={inputCls}
+            className="input-field"
           />
         </label>
         <label>
-          <span className={labelCls}>
+          <span className="field-label">
             Tags{" "}
-            <span className="font-normal text-muted">
+            <span className="normal-case tracking-normal">
               (séparés par des virgules — minimum 3)
             </span>
           </span>
@@ -625,12 +644,12 @@ export default function ProjectForm(props: Props) {
             value={tagsInput}
             onChange={(e) => setTagsInput(e.target.value)}
             placeholder="Next.js, Tableau de bord, Réservation"
-            className={inputCls}
+            className="input-field"
           />
         </label>
       </Section>
 
-      <Section title="Fonctionnalités & métriques">
+      <Section idx="03" title="Fonctionnalités & métriques">
         <FeatureList
           label="Fonctionnalités (FR)"
           items={p.featuresFr}
@@ -644,17 +663,17 @@ export default function ProjectForm(props: Props) {
         <MetricList items={p.metrics} onChange={(items) => set("metrics", items)} />
       </Section>
 
-      <Section title="Médias & publication">
+      <Section idx="04" title="Médias & publication">
         <label>
-          <span className={labelCls}>URL du site (requis pour publier)</span>
+          <span className="field-label">URL du site (requis pour publier)</span>
           <input
             value={p.liveUrl ?? ""}
             onChange={(e) => set("liveUrl", e.target.value || null)}
             placeholder="https://…"
-            className={inputCls}
+            className="input-field"
           />
         </label>
-        <label className="flex items-center gap-2 text-sm">
+        <label className="flex min-h-[44px] items-center gap-2 text-sm">
           <input
             type="checkbox"
             checked={p.iframeEmbeddable}
@@ -673,25 +692,25 @@ export default function ProjectForm(props: Props) {
           onChange={(url) => set("architectureImage", url)}
         />
         <label>
-          <span className={labelCls}>Légende architecture (FR)</span>
+          <span className="field-label">Légende architecture (FR)</span>
           <input
             value={p.architectureCaptionFr}
             onChange={(e) => set("architectureCaptionFr", e.target.value)}
-            className={inputCls}
+            className="input-field"
           />
         </label>
         <label>
-          <span className={labelCls}>Architecture caption (EN)</span>
+          <span className="field-label">Architecture caption (EN)</span>
           <input
             value={p.architectureCaptionEn}
             onChange={(e) => set("architectureCaptionEn", e.target.value)}
-            className={inputCls}
+            className="input-field"
           />
         </label>
         <div>
-          <p className={labelCls}>
+          <p className="field-label">
             Screenshots de secours{" "}
-            <span className="font-normal text-muted">
+            <span className="normal-case tracking-normal">
               (URLs — utilisées si iframeEmbeddable = false)
             </span>
           </p>
@@ -705,7 +724,7 @@ export default function ProjectForm(props: Props) {
                     next[i] = e.target.value;
                     set("fallbackScreenshots", next);
                   }}
-                  className={inputCls}
+                  className="input-field"
                 />
                 <button
                   type="button"
@@ -715,7 +734,7 @@ export default function ProjectForm(props: Props) {
                       p.fallbackScreenshots.filter((_, j) => j !== i),
                     )
                   }
-                  className="shrink-0 rounded-lg border border-border px-3 text-xs text-red-500 hover:border-red-500"
+                  className="btn-ghost shrink-0 px-3"
                 >
                   ✕
                 </button>
@@ -726,7 +745,7 @@ export default function ProjectForm(props: Props) {
               onClick={() =>
                 set("fallbackScreenshots", [...p.fallbackScreenshots, ""])
               }
-              className="rounded-lg border border-border px-3 py-1.5 text-sm hover:border-accent"
+              className="btn-ghost"
             >
               + Ajouter une URL screenshot
             </button>

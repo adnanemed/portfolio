@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
+import StackLabLogo from "./StackLabLogo";
 import { apiGet } from "@/lib/api";
 
 const NAV = [
@@ -45,19 +46,17 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="flex w-full shrink-0 flex-col justify-between border-b border-border bg-bg-2 md:h-screen md:w-60 md:border-b-0 md:border-r">
+    <aside className="flex w-full shrink-0 flex-col justify-between border-b border-border bg-bg md:h-screen md:w-64 md:border-b-0 md:border-r">
       <div>
-        <div className="flex items-center justify-between px-5 py-5">
-          <Link href="/dashboard" className="font-extrabold tracking-tight">
-            <span className="rounded-md bg-accent px-2 py-1 text-accent-text">
-              StackLab
-            </span>
+        <div className="flex items-center justify-between border-border px-5 py-5 md:border-b">
+          <Link href="/dashboard" aria-label="StackLab — tableau de bord">
+            <StackLabLogo height={30} />
           </Link>
           <div className="md:hidden">
             <ThemeToggle />
           </div>
         </div>
-        <nav className="flex flex-row gap-1 overflow-x-auto px-3 pb-3 md:flex-col md:overflow-visible md:pb-0">
+        <nav className="flex flex-row gap-1 overflow-x-auto px-3 py-3 md:flex-col md:gap-1.5 md:overflow-visible md:px-3 md:py-4">
           {NAV.map((item) => {
             const active = item.exact
               ? pathname === item.href
@@ -66,10 +65,11 @@ export default function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors ${
+                aria-current={active ? "page" : undefined}
+                className={`inline-flex min-h-[44px] items-center justify-between gap-3 rounded-full border px-4 py-2 font-mono text-[0.72rem] uppercase tracking-[0.14em] transition-[color,background,border-color] duration-200 ease-out active:scale-[0.97] ${
                   active
-                    ? "bg-accent font-semibold text-accent-text"
-                    : "text-muted hover:bg-bg hover:text-text"
+                    ? "border-text bg-text text-bg"
+                    : "border-transparent text-muted hover:border-border hover:bg-bg-2 hover:text-text"
                 }`}
               >
                 <span>{item.label}</span>
@@ -77,8 +77,8 @@ export default function Sidebar() {
                   unread !== null &&
                   unread > 0 && (
                     <span
-                      className={`ml-2 rounded-full px-2 py-0.5 text-xs font-bold ${
-                        active ? "bg-accent-text text-accent" : "bg-accent text-accent-text"
+                      className={`badge ${
+                        active ? "badge-solid" : "badge-outline"
                       }`}
                     >
                       {unread}
@@ -89,15 +89,11 @@ export default function Sidebar() {
           })}
         </nav>
       </div>
-      <div className="flex items-center justify-between px-5 py-4">
+      <div className="flex items-center justify-between gap-3 border-t border-border px-5 py-4">
         <div className="hidden md:block">
           <ThemeToggle />
         </div>
-        <button
-          type="button"
-          onClick={logout}
-          className="rounded-lg border border-border px-3 py-1.5 text-sm text-muted transition-colors hover:text-text"
-        >
+        <button type="button" onClick={logout} className="btn-ghost">
           Déconnexion
         </button>
       </div>

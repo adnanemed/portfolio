@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
+import StackLabLogo from "@/components/StackLabLogo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,57 +43,56 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-bg-2 p-6">
+    <div className="flex min-h-screen items-center justify-center bg-bg p-6">
       <div className="absolute right-6 top-6">
         <ThemeToggle />
       </div>
       <form
         onSubmit={onSubmit}
-        className="w-full max-w-sm rounded-2xl border border-border bg-bg p-8"
+        className="card w-full max-w-sm p-8 sm:p-10"
       >
-        <h1 className="mb-1 text-2xl font-extrabold tracking-tight">
-          <span className="rounded-md bg-accent px-2 py-1 text-accent-text">
-            StackLab
-          </span>{" "}
-          Dashboard
-        </h1>
-        <p className="mb-6 text-sm text-muted">Accès réservé à l'équipe.</p>
+        <div className="mb-6 flex flex-col items-start gap-5">
+          <StackLabLogo height={32} />
+          <div>
+            <p className="kicker mb-3">Accès réservé à l&apos;équipe</p>
+            <h1 className="page-title text-3xl">
+              StackLab{" "}
+              <span className="serif-it">Dashboard</span>
+            </h1>
+          </div>
+        </div>
 
-        <label className="mb-4 block text-sm">
-          <span className="mb-1 block font-semibold">Identifiant</span>
+        <label className="mb-4 block">
+          <span className="field-label">Identifiant</span>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             autoComplete="username"
             required
-            className="w-full rounded-lg border border-border bg-bg-2 px-3 py-2 outline-none focus:border-accent"
+            className="input-field"
           />
         </label>
 
-        <label className="mb-6 block text-sm">
-          <span className="mb-1 block font-semibold">Mot de passe</span>
+        <label className="mb-6 block">
+          <span className="field-label">Mot de passe</span>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
             required
-            className="w-full rounded-lg border border-border bg-bg-2 px-3 py-2 outline-none focus:border-accent"
+            className="input-field"
           />
         </label>
 
         {error && (
-          <p className="mb-4 rounded-lg border border-border bg-bg-2 px-3 py-2 text-sm text-red-500">
+          <p className="notice mb-4" role="alert">
             {error}
           </p>
         )}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-lg bg-accent px-4 py-2.5 font-semibold text-accent-text transition-opacity hover:opacity-90 disabled:opacity-50"
-        >
+        <button type="submit" disabled={loading} className="btn-solid w-full">
           {loading ? "Connexion…" : "Se connecter"}
         </button>
       </form>

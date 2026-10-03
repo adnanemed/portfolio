@@ -47,8 +47,8 @@ export default function MessageDetailPage() {
   if (notFound) {
     return (
       <div className="mx-auto max-w-3xl">
-        <p className="text-muted">Message introuvable.</p>
-        <Link href="/dashboard/messages" className="text-accent hover:underline">
+        <p className="mb-2 text-muted">Message introuvable.</p>
+        <Link href="/dashboard/messages" className="link-mono">
           ← Retour à la boîte de réception
         </Link>
       </div>
@@ -65,40 +65,48 @@ export default function MessageDetailPage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <Link
-        href="/dashboard/messages"
-        className="mb-4 inline-block text-sm text-muted hover:text-accent"
-      >
+      <Link href="/dashboard/messages" className="link-mono mb-6">
         ← Boîte de réception
       </Link>
 
-      <div className="rounded-2xl border border-border bg-bg-2 p-6">
-        <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-extrabold">{message.name}</h1>
-            <p className="text-sm text-muted">
-              <a href={`mailto:${message.email}`} className="hover:text-accent">
+      <div className="card mt-2 p-6 sm:p-8">
+        <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
+          <div className="min-w-0">
+            <p className="kicker mb-2">Message reçu</p>
+            <h1 className="text-2xl font-bold tracking-[-0.02em]">
+              {message.name}
+            </h1>
+            <p className="mono mt-1 text-sm text-muted">
+              <a
+                href={`mailto:${message.email}`}
+                className="underline decoration-border underline-offset-4 transition-colors duration-200 hover:text-text"
+              >
                 {message.email}
               </a>
               {message.phone ? ` · ${message.phone}` : ""}
             </p>
           </div>
-          <div className="text-right text-xs text-muted">
-            <p>{new Date(message.createdAt).toLocaleString("fr-FR")}</p>
-            <p>
-              Locale : <span className="font-semibold">{message.locale}</span>
+          <div className="text-right">
+            <p className="mono text-[0.72rem] text-muted">
+              {new Date(message.createdAt).toLocaleString("fr-FR")}
+            </p>
+            <p className="mono mt-1 text-[0.72rem] text-muted">
+              Locale :{" "}
+              <span className="badge badge-outline align-middle">
+                {message.locale}
+              </span>
             </p>
           </div>
         </div>
 
-        <p className="whitespace-pre-wrap border-t border-border pt-4 leading-relaxed">
+        <p className="whitespace-pre-wrap border-t border-border pt-5 leading-relaxed">
           {message.message}
         </p>
 
-        <div className="mt-6 flex flex-wrap gap-2 border-t border-border pt-4">
+        <div className="mt-7 flex flex-wrap gap-2.5 border-t border-border pt-5">
           <a
             href={`mailto:${message.email}?subject=Re: votre message sur StackLab`}
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-text hover:opacity-90"
+            className="btn-solid"
           >
             Répondre par email
           </a>
@@ -107,7 +115,7 @@ export default function MessageDetailPage() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-accent"
+              className="btn-wipe"
             >
               WhatsApp
             </a>
@@ -124,15 +132,11 @@ export default function MessageDetailPage() {
                 }),
               )
             }
-            className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-accent"
+            className="btn-wipe"
           >
             {message.status === "unread" ? "Marquer lu" : "Marquer non lu"}
           </button>
-          <button
-            type="button"
-            onClick={remove}
-            className="ml-auto rounded-lg border border-border px-4 py-2 text-sm font-semibold text-red-500 hover:border-red-500"
-          >
+          <button type="button" onClick={remove} className="btn-wipe ml-auto">
             Supprimer
           </button>
         </div>

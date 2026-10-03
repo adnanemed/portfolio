@@ -2,38 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design tokens — PLAN-v2 §3.1 */
+/* ============================================================
+   StackLab Dashboard — design tokens.
+   Ported 1:1 from the public site (site/src/styles/global.css):
+   monochrome system, hairline borders, pill buttons, mono labels.
+   The accent is white-on-dark / black-on-light (inverted text),
+   never a hue. Theme switched via [data-theme] on <html>.
+   ============================================================ */
 :root,
 [data-theme="light"] {
   --bg: #ffffff;
-  --bg-2: #f2f6fc;
+  --bg-2: #f6f6f6;
   --text: #0b0b0b;
   --muted: #566170;
-  --accent: #0a7cff;
-  --accent-text: #ffffff;
-  --border: #e3e7ed;
-  --canvas-dark: #0a0f16;
+  --border: #e3e3e3;
 }
 
 [data-theme="dark"] {
-  --bg: #0d1117;
-  --bg-2: #151b24;
-  --text: #f1f4f9;
-  --muted: #9aa6b6;
-  --accent: #3d9bff;
-  --accent-text: #0d1117;
-  --border: #232b37;
-  --canvas-dark: #0a0f16;
+  --bg: #0a0a0a;
+  --bg-2: #141414;
+  --text: #f6f6f6;
+  --muted: #9a9a9a;
+  --border: #262626;
+}
+
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --press: 140ms;
+  --hover: 220ms;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Menlo,
+    Consolas, monospace;
 }
 
 html {
   background-color: var(--bg);
+  -webkit-tap-highlight-color: transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
   color: var(--text);
   background-color: var(--bg);
-  transition: background-color 0.2s;
+  transition: background-color var(--hover) var(--ease-out);
 }
 
 * {
@@ -41,12 +55,343 @@ body {
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--accent-text);
+  background: var(--text);
+  color: var(--bg);
 }
 
 input,
 textarea,
 select {
   color: var(--text);
+}
+
+/* Keyboard focus: always visible, high contrast, no color hue. */
+:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   Theme-aware logo: colored SVG in light, B&W mark in dark.
+   The hidden one is display:none (out of the a11y tree) AND
+   carries aria-hidden. In dark, the B&W png is white-on-black:
+   `screen` blending melts its black field into the dark bg.
+   ============================================================ */
+.stacklab-logo {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+}
+.stacklab-logo > span {
+  display: inline-flex;
+  align-items: center;
+}
+.stacklab-logo .logo-dark {
+  display: none;
+}
+.stacklab-logo .logo-light img,
+.stacklab-logo .logo-dark img {
+  width: auto;
+  height: inherit;
+}
+[data-theme="dark"] .stacklab-logo .logo-light {
+  display: none;
+}
+[data-theme="dark"] .stacklab-logo .logo-dark {
+  display: inline-flex;
+}
+[data-theme="dark"] .stacklab-logo .logo-dark img {
+  mix-blend-mode: screen;
+}
+
+/* ============================================================
+   Typography helpers (site DNA)
+   ============================================================ */
+@layer components {
+  /* Mono kicker / label — "ESPACE ÉQUIPE — ACCÈS SÉCURISÉ" style */
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+  }
+
+  /* Uppercase display heading, Archivo 700, tight tracking */
+  .page-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  /* Instrument Serif italic accent word inside a heading */
+  .serif-it {
+    font-family: var(--font-instrument), "Instrument Serif", serif;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+
+  .mono {
+    font-family: var(--mono);
+  }
+  .mono-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  /* Field label — mono uppercase, site form grammar */
+  .field-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* Inputs: 1px hairline, surface bg, focus = border text-color (no ring) */
+  .input-field {
+    width: 100%;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+    min-height: 44px;
+    transition: border-color var(--hover) var(--ease-out);
+  }
+  .input-field:focus {
+    outline: none;
+    border-color: var(--muted);
+  }
+  .input-field:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+  }
+
+  /* Solid pill — bg/text inverted, 44px target, press scale */
+  .btn-solid {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    background: var(--text);
+    color: var(--bg);
+    border: 1px solid var(--text);
+    border-radius: 999px;
+    padding: 0.5rem 1.4rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: transform var(--press) var(--ease-out),
+      opacity var(--hover) var(--ease-out),
+      box-shadow var(--hover) var(--ease-out);
+  }
+  .btn-solid:active {
+    transform: scale(0.96);
+  }
+  .btn-solid:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-solid:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(127, 127, 127, 0.18);
+    }
+    .btn-solid:hover:active {
+      transform: scale(0.96);
+    }
+  }
+
+  /* Outlined pill with wipe fill on hover (secondary actions) */
+  .btn-wipe {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    border: 1px solid var(--text);
+    border-radius: 999px;
+    padding: 0.5rem 1.4rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: color var(--hover) var(--ease-out),
+      transform var(--press) var(--ease-out);
+  }
+  .btn-wipe::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background: var(--text);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease-out);
+  }
+  .btn-wipe:active {
+    transform: scale(0.97);
+  }
+  .btn-wipe:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-wipe:hover:not(:disabled) {
+      color: var(--bg);
+    }
+    .btn-wipe:hover:not(:disabled)::before {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Small dense action pill (row-level actions, mono uppercase) */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.25rem 0.9rem;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: border-color var(--hover) var(--ease-out),
+      background var(--hover) var(--ease-out), color var(--hover) var(--ease-out),
+      transform var(--press) var(--ease-out);
+  }
+  .btn-ghost:active {
+    transform: scale(0.96);
+  }
+  .btn-ghost:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-ghost:hover:not(:disabled) {
+      border-color: var(--muted);
+      background: var(--bg-2);
+    }
+  }
+
+  /* Status badges — mono uppercase; solid = published/active,
+     outlined = draft/inactive. Never a hue. */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    border-radius: 999px;
+    padding: 0.25rem 0.8rem;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .badge-solid {
+    background: var(--text);
+    color: var(--bg);
+    border: 1px solid var(--text);
+  }
+  .badge-outline {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  /* Hairline card (site .form-wrap / .fileblock grammar) */
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-2);
+  }
+
+  /* Hover lift for interactive cards/rows — transform only */
+  .lift {
+    transition: transform var(--hover) var(--ease-out),
+      border-color var(--hover) var(--ease-out),
+      background var(--hover) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .lift:hover {
+      transform: translateY(-1px);
+      border-color: var(--muted);
+    }
+  }
+
+  /* Mono error/notice block — no color hue */
+  .notice {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    line-height: 1.7;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-2);
+    padding: 0.8rem 1rem;
+  }
+
+  /* Underlined mono text-link (site alt-link grammar) */
+  .link-mono {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    transition: color var(--hover) var(--ease-out);
+  }
+  .link-mono:hover {
+    color: var(--text);
+  }
+}
+
+/* Rows fill on hover like the site's .case rows (background only) */
+.row-hover {
+  transition: background var(--hover) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .row-hover:hover {
+    background: var(--bg-2);
+  }
+}
+
+/* Motion: reduced-motion users get instant state changes;
+   nothing is hidden by default so no reveal-gating needed. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }

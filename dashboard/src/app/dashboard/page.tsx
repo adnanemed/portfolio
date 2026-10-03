@@ -45,61 +45,84 @@ export default function OverviewPage() {
 
   return (
     <div className="mx-auto max-w-4xl">
-      <h1 className="mb-6 text-3xl font-extrabold tracking-tight">
-        Vue d'ensemble
-      </h1>
+      <div className="mb-8">
+        <p className="kicker mb-3">Pilotage — espace équipe</p>
+        <h1 className="page-title text-4xl">
+          Vue <span className="serif-it">d&apos;ensemble</span>
+        </h1>
+      </div>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      {/* Stats strip — hairline-separated cells, big Archivo numbers,
+          mono labels (site .stats grammar) */}
+      <div className="mb-8 grid grid-cols-1 border-y border-border sm:grid-cols-3">
         <Link
           href="/dashboard/messages"
-          className="rounded-2xl border border-border bg-bg-2 p-5 transition-colors hover:border-accent"
+          className="lift row-hover block border-b border-border p-5 sm:border-b-0 sm:border-r"
         >
-          <p className="text-sm text-muted">Messages non lus</p>
-          <p className="mt-1 text-4xl font-extrabold text-accent">
+          <p className="mono-label flex items-center gap-2">
+            Messages non lus
+            {unreadCount !== null && unreadCount > 0 && (
+              <span
+                className="inline-block h-1.5 w-1.5 rounded-full bg-text"
+                aria-hidden
+              />
+            )}
+          </p>
+          <p className="mt-2 text-4xl font-bold tracking-[-0.03em] tabular-nums">
             {unreadCount ?? "…"}
           </p>
         </Link>
-        <div className="rounded-2xl border border-border bg-bg-2 p-5">
-          <p className="text-sm text-muted">Projets publiés</p>
-          <p className="mt-1 text-4xl font-extrabold">{published}</p>
+        <div className="border-b border-border p-5 sm:border-b-0 sm:border-r">
+          <p className="mono-label">Projets publiés</p>
+          <p className="mt-2 text-4xl font-bold tracking-[-0.03em] tabular-nums">
+            {published}
+          </p>
         </div>
-        <div className="rounded-2xl border border-border bg-bg-2 p-5">
-          <p className="text-sm text-muted">Brouillons</p>
-          <p className="mt-1 text-4xl font-extrabold">{drafts}</p>
+        <div className="p-5">
+          <p className="mono-label">Brouillons</p>
+          <p className="mt-2 text-4xl font-bold tracking-[-0.03em] tabular-nums">
+            {drafts}
+          </p>
         </div>
       </div>
 
-      <div className="mb-8 flex flex-wrap gap-3">
-        <Link
-          href="/dashboard/projects/new"
-          className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-text hover:opacity-90"
-        >
+      <div className="mb-10 flex flex-wrap gap-3">
+        <Link href="/dashboard/projects/new" className="btn-solid">
           + Nouveau projet
         </Link>
-        <a
-          href="/api/admin/export"
-          className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-accent"
-        >
+        <a href="/api/admin/export" className="btn-wipe">
           Exporter content.json
         </a>
       </div>
 
-      <h2 className="mb-3 text-lg font-bold">Derniers messages</h2>
-      <div className="rounded-2xl border border-border bg-bg-2">
+      <div className="mb-3 flex items-baseline justify-between gap-4">
+        <h2 className="page-title text-lg">Derniers messages</h2>
+        <span className="mono-label">05 max</span>
+      </div>
+      <div className="border-y border-border">
         {latest.length === 0 ? (
-          <p className="p-5 text-sm text-muted">Aucun message pour l'instant.</p>
+          <p className="p-5 text-sm text-muted">
+            Aucun message pour l&apos;instant.
+          </p>
         ) : (
           <ul className="divide-y divide-border">
             {latest.map((m) => (
               <li key={m.id}>
                 <Link
                   href={`/dashboard/messages/${m.id}`}
-                  className="flex items-center justify-between gap-4 p-4 hover:bg-bg"
+                  className="row-hover flex items-center justify-between gap-4 p-4"
                 >
                   <span className="min-w-0">
-                    <span className="block truncate font-semibold">
+                    <span
+                      className={`block truncate ${
+                        m.status === "unread" ? "font-bold" : ""
+                      }`}
+                    >
                       {m.status === "unread" && (
-                        <span className="mr-2 inline-block h-2 w-2 rounded-full bg-accent align-middle" />
+                        <span
+                          className="mr-2 inline-block h-2 w-2 rounded-full bg-text align-middle"
+                          aria-hidden
+                        />
                       )}
                       {m.name}
                     </span>
@@ -107,7 +130,7 @@ export default function OverviewPage() {
                       {m.message}
                     </span>
                   </span>
-                  <span className="shrink-0 text-xs text-muted">
+                  <span className="mono shrink-0 text-[0.7rem] text-muted">
                     {new Date(m.createdAt).toLocaleString("fr-FR")}
                   </span>
                 </Link>

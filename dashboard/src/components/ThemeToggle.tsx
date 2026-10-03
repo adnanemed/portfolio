@@ -29,9 +29,11 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={theme === "light" ? "Passer en sombre" : "Passer en clair"}
-      className="rounded-lg border border-border bg-bg-2 px-3 py-1.5 text-sm text-muted transition-colors hover:text-text"
+      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-transparent text-muted transition-[color,border-color,background] duration-200 ease-out hover:border-muted hover:bg-bg-2 hover:text-text active:scale-95"
     >
-      {theme === "light" ? "☾" : "☀"}
+      <span className="font-mono text-sm leading-none" aria-hidden>
+        {theme === "light" ? "☾" : "☀"}
+      </span>
     </button>
   );
 }

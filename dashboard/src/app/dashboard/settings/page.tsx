@@ -3,9 +3,6 @@
 import { useEffect, useState } from "react";
 import { SettingsRow, apiGet, apiSend } from "@/lib/api";
 
-const inputCls =
-  "w-full rounded-lg border border-border bg-bg-2 px-3 py-2 text-sm outline-none focus:border-accent";
-
 export default function SettingsPage() {
   const [settings, setSettings] = useState<SettingsRow | null>(null);
   const [saving, setSaving] = useState(false);
@@ -87,7 +84,7 @@ export default function SettingsPage() {
   ) {
     return (
       <label key={key}>
-        <span className="mb-1 block text-sm font-semibold">{label}</span>
+        <span className="field-label">{label}</span>
         <input
           type={type}
           value={(settings![key] as string | null) ?? ""}
@@ -95,9 +92,9 @@ export default function SettingsPage() {
             setSettings({ ...settings!, [key]: e.target.value || null })
           }
           placeholder={placeholder}
-          className={inputCls}
+          className="input-field"
         />
-        <span className="mt-1 block text-xs text-muted">
+        <span className="mono mt-1 block text-[0.7rem] text-muted">
           Optionnel — laissé vide, le lien n'est pas rendu sur le site.
         </span>
       </label>
@@ -106,31 +103,34 @@ export default function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h1 className="mb-6 text-3xl font-extrabold tracking-tight">Réglages</h1>
+      <div className="mb-6">
+        <p className="kicker mb-3">Configuration — accès sécurisé</p>
+        <h1 className="page-title text-4xl">
+          Ré<span className="serif-it">glages</span>
+        </h1>
+      </div>
 
       {notice && (
-        <p
-          className={`mb-4 rounded-lg border p-3 text-sm ${
-            notice.ok
-              ? "border-green-500/40 text-green-600 dark:text-green-400"
-              : "border-red-500/40 text-red-500"
-          }`}
-        >
+        <p className="notice mb-4" role="status">
           {notice.text}
         </p>
       )}
 
       <form onSubmit={save} className="space-y-5">
-        <div className="space-y-4 rounded-2xl border border-border bg-bg-2 p-5">
-          <h2 className="font-bold">Réseaux sociaux (pied de page du site)</h2>
+        <div className="card space-y-4 p-5">
+          <h2 className="mono text-[0.78rem] uppercase tracking-[0.16em]">
+            Réseaux sociaux (pied de page du site)
+          </h2>
           {field("whatsappNumber", "WhatsApp", "2126XXXXXXXX")}
           {field("instagramUrl", "Instagram", "https://instagram.com/…")}
           {field("linkedinUrl", "LinkedIn", "https://linkedin.com/company/…")}
           {field("publicEmail", "Email public", "contact@…")}
         </div>
 
-        <div className="space-y-4 rounded-2xl border border-border bg-bg-2 p-5">
-          <h2 className="font-bold">Notifications</h2>
+        <div className="card space-y-4 p-5">
+          <h2 className="mono text-[0.78rem] uppercase tracking-[0.16em]">
+            Notifications
+          </h2>
           {field(
             "notifyEmail",
             "Email de notification (Resend)",
@@ -142,7 +142,7 @@ export default function SettingsPage() {
               type="button"
               onClick={testEmail}
               disabled={testing}
-              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-accent disabled:opacity-50"
+              className="btn-wipe"
             >
               {testing ? "Envoi…" : "Tester l'envoi Resend"}
             </button>
@@ -152,7 +152,7 @@ export default function SettingsPage() {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-lg bg-accent px-5 py-2.5 font-semibold text-accent-text hover:opacity-90 disabled:opacity-50"
+          className="btn-solid"
         >
           {saving ? "Enregistrement…" : "Enregistrer"}
         </button>
