@@ -79,16 +79,18 @@ const d = t[locale];
       panel.classList.add("flow-play");
     };
 
-    const show = (index: number) => {
-      const next = ((index % panels.length) + panels.length) % panels.length;
-      panels.forEach((p, i) => (p.hidden = i !== next));
-      play(panels[next]);
+    const show = (slug: string) => {
+      const next = panels.find((p) => p.dataset.flowPanel === slug) ?? panels[0];
+      panels.forEach((p) => (p.hidden = p !== next));
+      play(next);
     };
 
     root.addEventListener("pnav:change", (e) => {
-      const index = (e as CustomEvent<{ index: number }>).detail?.index ?? 0;
-      show(index);
+      show((e as CustomEvent<{ slug: string }>).detail?.slug ?? "");
     });
+
+    const current = document.documentElement.getAttribute("data-active-project");
+    if (current) show(current);
 
     // First reveal, when the stage scrolls into view
     const active = panels.find((p) => !p.hidden) ?? panels[0];

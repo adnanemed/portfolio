@@ -6,7 +6,8 @@
 // scrolls to the first tile of the selected project, highlights it, and
 // announces it politely for assistive tech.
 import { t } from "@/lib/i18n";
-import { getProject, projects, projectPath, type Locale } from "@/lib/site";
+import { projects, projectPath, type Locale } from "@/lib/site";
+import ProjectNavigator from "@/components/ProjectNavigator.astro";
 
 interface Props {
   locale: Locale;
@@ -101,36 +102,11 @@ const ordered = [...projects]
     <span class="idx">{d.coulisses.idx}</span>
   </div>
 
-  <nav class="shots-nav sr" aria-label={d.coulisses.navAria}>
-    <button
-      type="button"
-      class="shots-nav-btn"
-      data-shots-prev
-      aria-label={d.coulisses.prev}
-      title={d.coulisses.prev}
-    >←</button>
-    <div class="shots-nav-chips">
-      {ordered.map((g, i) => (
-        <button
-          type="button"
-          class="chip"
-          data-shots-chip={g.slug}
-          aria-pressed={i === 0 ? "true" : "false"}
-        >
-          <span class="chip-n">{String(i + 1).padStart(2, "0")}</span>
-          {g.short}
-        </button>
-      ))}
-    </div>
-    <button
-      type="button"
-      class="shots-nav-btn"
-      data-shots-next
-      aria-label={d.coulisses.next}
-      title={d.coulisses.next}
-    >→</button>
-    <p class="sr-only" aria-live="polite" data-shots-status></p>
-  </nav>
+  <ProjectNavigator
+    locale={locale}
+    uid="shots"
+    items={ordered.map((g) => ({ slug: g.slug, name: g.short }))}
+  />
 
   <div class="shots">
     {ordered.map((g) => (
@@ -160,51 +136,26 @@ const ordered = [...projects]
 </section>
 
 <script>
-  (function () {
-    "use strict";
-    const section = document.getElementById("coulisses");
-    if (!section) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Only the selected project's screenshots are visible; the shared
+  // navigator (the same one driving the live preview and the flow map)
+  // decides which one that is, so the three sections never disagree.
+  document.querySelectorAll<HTMLElement>("#coulisses").forEach((root) => {
+    const groups = [...root.querySelectorAll<HTMLElement>("[data-shots-group]")];
+    if (!groups.length) return;
 
-    const chips = Array.from(section.querySelectorAll<HTMLButtonElement>("[data-shots-chip]"));
-    const groups = new Map<string, HTMLElement>();
-    section.querySelectorAll<HTMLElement>("[data-shots-group]").forEach((g) => {
-      groups.set(g.dataset.shotsGroup!, g);
+    const show = (slug: string) => {
+      const next = groups.find((g) => g.dataset.shotsGroup === slug) ?? groups[0];
+      groups.forEach((g) => {
+        g.hidden = g !== next;
+        g.querySelectorAll<HTMLElement>(".shot").forEach((t) => t.toggleAttribute("data-active", g === next));
+      });
+    };
+
+    root.addEventListener("pnav:change", (e) => {
+      show((e as CustomEvent<{ slug: string }>).detail?.slug ?? "");
     });
-    const prev = section.querySelector<HTMLButtonElement>("[data-shots-prev]");
-    const next = section.querySelector<HTMLButtonElement>("[data-shots-next]");
-    const status = section.querySelector<HTMLElement>("[data-shots-status]");
-    if (!chips.length || !groups.size) return;
 
-    let current = 0;
-
-    function select(i: number, announce: boolean) {
-      const n = chips.length;
-      current = ((i % n) + n) % n;
-      chips.forEach((c, idx) => c.setAttribute("aria-pressed", idx === current ? "true" : "false"));
-
-      const slug = chips[current].dataset.shotsChip!;
-      const group = groups.get(slug);
-      if (group) {
-        group.querySelectorAll<HTMLElement>(".shot").forEach((tile) => tile.removeAttribute("data-active"));
-        group.querySelectorAll<HTMLElement>(".shot").forEach((tile) => tile.setAttribute("data-active", ""));
-        const top = group.getBoundingClientRect().top + window.scrollY - 96;
-        window.scrollTo({ top, behavior: reduced ? "instant" : "smooth" });
-        const link = group.querySelector<HTMLAnchorElement>(".shot-link");
-        if (link) link.focus({ preventScroll: true });
-      }
-      if (announce && status) {
-        status.textContent = chips[current].textContent?.trim() ?? "";
-      }
-    }
-
-    chips.forEach((c, i) => c.addEventListener("click", () => select(i, true)));
-    prev?.addEventListener("click", () => select(current - 1, true));
-    next?.addEventListener("click", () => select(current + 1, true));
-
-    section.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") { e.preventDefault(); select(current + 1, true); }
-      if (e.key === "ArrowLeft") { e.preventDefault(); select(current - 1, true); }
-    });
-  })();
+    const current = document.documentElement.getAttribute("data-active-project");
+    if (current) show(current);
+  });
 </script>

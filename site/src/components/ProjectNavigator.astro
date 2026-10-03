@@ -28,12 +28,12 @@ const d = t[locale];
     <span aria-hidden="true">←</span>
   </button>
   <div class="pnav-chips">
-    {items.map((it, i) => (
+    {items.map((it) => (
       <button
         class="chip"
         type="button"
-        data-pnav-chip={i}
-        aria-pressed={i === 0 ? "true" : "false"}
+        data-pnav-chip={it.slug}
+        aria-pressed="false"
       >
         {it.name}
       </button>
@@ -45,46 +45,12 @@ const d = t[locale];
 </div>
 
 <script>
+  // Navigation state is global: every navigator on the page (screenshots,
+  // live preview, flow map) shares one selection, so picking a project in
+  // one section moves the others too.
+  import { bindNavigator } from "@/lib/project-store";
+
   document.querySelectorAll<HTMLElement>("[data-pnav]").forEach((nav) => {
-    const chips = [...nav.querySelectorAll<HTMLButtonElement>("[data-pnav-chip]")];
-    if (!chips.length) return;
-    let index = 0;
-
-    const emit = () => {
-      chips.forEach((c, i) => c.setAttribute("aria-pressed", i === index ? "true" : "false"));
-      nav.dispatchEvent(
-        new CustomEvent("pnav:change", { detail: { index }, bubbles: true })
-      );
-    };
-
-    const go = (delta: number) => {
-      const n = chips.length;
-      index = (index + delta + n) % n;
-      emit();
-      chips[index].focus();
-    };
-
-    chips.forEach((chip, i) =>
-      chip.addEventListener("click", () => {
-        index = i;
-        emit();
-      })
-    );
-    nav
-      .querySelector<HTMLButtonElement>('[data-pnav-dir="prev"]')
-      ?.addEventListener("click", () => go(-1));
-    nav
-      .querySelector<HTMLButtonElement>('[data-pnav-dir="next"]')
-      ?.addEventListener("click", () => go(1));
-
-    nav.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        go(-1);
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        go(1);
-      }
-    });
+    bindNavigator(nav);
   });
 </script>

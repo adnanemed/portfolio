@@ -83,14 +83,23 @@ const captionOf = (p: Project) =>
 </div>
 
 <script>
-  // Panel switching — the shared navigator emits `pnav:change`.
+  // Panel switching — driven by the shared selection, so this section
+  // always shows the same project as the screenshots and flow maps.
   document.querySelectorAll<HTMLElement>("[data-livedemo]").forEach((root) => {
     const panels = [...root.querySelectorAll<HTMLElement>("[data-demo-panel]")];
     if (!panels.length) return;
+
+    const show = (slug: string) => {
+      const match = panels.find((p) => p.dataset.demoPanel === slug);
+      const next = match ?? panels[0];
+      panels.forEach((p) => (p.hidden = p !== next));
+    };
+
     root.addEventListener("pnav:change", (e) => {
-      const index = (e as CustomEvent<{ index: number }>).detail?.index ?? 0;
-      const next = ((index % panels.length) + panels.length) % panels.length;
-      panels.forEach((p, i) => (p.hidden = i !== next));
+      show((e as CustomEvent<{ slug: string }>).detail?.slug ?? "");
     });
+
+    const current = document.documentElement.getAttribute("data-active-project");
+    if (current) show(current);
   });
 </script>
