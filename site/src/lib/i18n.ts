@@ -10,6 +10,7 @@ export const t = {
     nav: { projects: "Projets", coulisses: "Coulisses", process: "Processus", contact: "Contact", cta: "Parlons de votre projet" },
     langSwitch: "EN",
     langSwitchAria: "Switch to English",
+    themeToggleAria: "Changer de thème clair / sombre",
     homePath: "/",
     homeUrl: "/",
     hero: {
@@ -207,6 +208,7 @@ si la démo ne vous convainc pas, on s'arrête là.
     nav: { projects: "Projects", coulisses: "Behind the scenes", process: "Process", contact: "Contact", cta: "Let's talk about your project" },
     langSwitch: "FR",
     langSwitchAria: "Passer au français",
+    themeToggleAria: "Toggle light / dark theme",
     homePath: "/en/",
     homeUrl: "/en/",
     hero: {

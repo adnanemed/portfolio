@@ -19,6 +19,15 @@ const d = t[locale];
     <span>StackLab</span>
   </a>
   <a class="lang" href={altPath} aria-label={d.langSwitchAria} hreflang={locale === "fr" ? "en" : "fr"}>{d.langSwitch}</a>
+  <button
+    type="button"
+    class="theme-toggle"
+    data-theme-toggle
+    aria-label={d.themeToggleAria}
+    title={d.themeToggleAria}
+  >
+    <span class="theme-toggle-icon" aria-hidden="true"></span>
+  </button>
   <div class="links">
     <a href={d.homeUrl + "#projets"}>{d.nav.projects}</a>
     <a href={d.homeUrl + "#coulisses"}>{d.nav.coulisses}</a>
@@ -27,3 +36,31 @@ const d = t[locale];
   </div>
   <a class="btn-solid" href={d.homeUrl + "#contact"}>{d.nav.cta}</a>
 </nav>
+
+<script>
+  // Theme toggle: flips data-theme, persists the choice, syncs theme-color.
+  (function () {
+    "use strict";
+    const root = document.documentElement;
+    const btn = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+    if (!btn) return;
+
+    const meta = document.querySelector<HTMLMetaElement>("[data-theme-color]");
+    const LIGHT_BG = "#ffffff";
+    const DARK_BG = "#0a0a0a";
+
+    function apply(theme: string, persist: boolean) {
+      root.setAttribute("data-theme", theme);
+      if (persist) {
+        try { localStorage.setItem("stacklab-theme", theme); } catch (e) { /* private mode */ }
+      }
+      if (meta) meta.setAttribute("content", theme === "light" ? LIGHT_BG : DARK_BG);
+    }
+
+    apply(root.getAttribute("data-theme") === "light" ? "light" : "dark", false);
+
+    btn.addEventListener("click", () => {
+      apply(root.getAttribute("data-theme") === "light" ? "dark" : "light", true);
+    });
+  })();
+</script>

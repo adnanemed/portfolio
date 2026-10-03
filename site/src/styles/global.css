@@ -11,12 +11,34 @@
   --text: #f6f6f6;
   --muted: #9a9a9a;
   --line: #262626;
+  /* Non-tokenized spots (cursor dot, selection, nav scrim) are derived from
+     these so a theme switch flips them too. */
+  --dot: #f6f6f6;
+  --sel-bg: #f6f6f6;
+  --sel-fg: #0a0a0a;
+  --scrim: linear-gradient(#0a0a0a, rgba(10, 10, 10, .55));
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --press: 140ms;
   --hover: 220ms;
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
   --pad: clamp(1.25rem, 4vw, 3rem);
+  color-scheme: dark;
+}
+
+/* Light theme — same monochrome system inverted. Pure token flip: every
+   component reads these, so the whole page follows the logo swap. */
+[data-theme="light"] {
+  --bg: #ffffff;
+  --bg2: #f4f4f4;
+  --text: #0b0b0b;
+  --muted: #5f5f5f;
+  --line: #dcdcdc;
+  --dot: #0b0b0b;
+  --sel-bg: #0b0b0b;
+  --sel-fg: #ffffff;
+  --scrim: linear-gradient(#ffffff, rgba(255, 255, 255, .6));
+  color-scheme: light;
 }
 * { box-sizing: border-box; margin: 0; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
@@ -31,7 +53,7 @@ body {
   line-height: 1.5;
   overflow-x: hidden;
 }
-::selection { background: #f6f6f6; color: #0a0a0a; }
+::selection { background: var(--sel-bg); color: var(--sel-fg); }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; }
 
@@ -93,7 +115,7 @@ a, button, [role="button"] {
 .cursor {
   position: fixed; top: 0; left: 0; z-index: 99;
   width: 12px; height: 12px; border-radius: 50%;
-  background: #f6f6f6; pointer-events: none;
+  background: var(--dot); pointer-events: none;
   opacity: 0;
   transition: width var(--hover) var(--ease-out), height var(--hover) var(--ease-out),
               opacity var(--hover) var(--ease-out), background var(--hover) var(--ease-out);
@@ -110,20 +132,22 @@ a, button, [role="button"] {
   display: flex; align-items: center; gap: 2rem;
   padding: .8rem var(--pad);
   padding-top: calc(.8rem + env(safe-area-inset-top, 0px));
-  background: linear-gradient(#0a0a0a, rgba(10,10,10,.55));
+  background: var(--scrim);
   backdrop-filter: blur(8px);
 }
 .nav .brand { display: flex; align-items: center; gap: .7rem; font-weight: 700; letter-spacing: .02em; }
 .nav .brand img { height: 34px; width: auto; }
 
-/* Theme-aware logo: black & white mark on dark (its black field melts into the
-   background via screen blend), colored mark whenever the page renders light. */
-.logo-mark--bw { display: none; mix-blend-mode: screen; }
-[data-theme="light"] .logo-mark--color { display: none; }
-[data-theme="light"] .logo-mark--bw { display: block; mix-blend-mode: normal; }
+/* Theme-aware logo: the site is dark-first, so the black & white mark is the
+   default and its black field melts into the page via screen blend. Whenever
+   the page renders light, the colored mark takes over instead. */
+.logo-mark--color { display: none; }
+.logo-mark--bw { display: block; mix-blend-mode: screen; }
+[data-theme="light"] .logo-mark--color { display: block; }
+[data-theme="light"] .logo-mark--bw { display: none; mix-blend-mode: normal; }
 @media (prefers-color-scheme: light) {
-  html:not([data-theme="dark"]) .logo-mark--color { display: none; }
-  html:not([data-theme="dark"]) .logo-mark--bw { display: block; mix-blend-mode: normal; }
+  html:not([data-theme="dark"]) .logo-mark--color { display: block; }
+  html:not([data-theme="dark"]) .logo-mark--bw { display: none; mix-blend-mode: normal; }
 }
 .nav .lang {
   font-family: var(--mono); font-size: .78rem; letter-spacing: .1em;
@@ -1027,3 +1051,28 @@ footer a:hover { color: var(--text); }
     }
   }
 }
+
+/* ============================================================
+   Theme toggle — a hairline circle in the nav. The icon is a
+   two-tone disc: its filled half marks the theme you would
+   switch TO, so the control reads without any label.
+   ============================================================ */
+.theme-toggle {
+  width: 44px; height: 44px; flex: none;
+  border-radius: 50%;
+  border: 1px solid var(--line); background: transparent;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: color var(--hover) var(--ease-out), border-color var(--hover) var(--ease-out),
+              background var(--hover) var(--ease-out), transform var(--press) var(--ease-out);
+}
+.theme-toggle:hover { color: var(--text); border-color: var(--muted); background: var(--bg2); }
+.theme-toggle:active { transform: scale(0.96); }
+.theme-toggle-icon {
+  width: 15px; height: 15px; border-radius: 50%;
+  border: 1px solid var(--muted);
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+  color: var(--muted);
+  transition: color var(--hover) var(--ease-out), transform var(--hover) var(--ease-out);
+}
+.theme-toggle:hover .theme-toggle-icon { color: var(--text); }
