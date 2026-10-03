@@ -108,7 +108,7 @@
     }
   ],
   "liveUrl": "https://cabinet-lahyani.vercel.app/fr",
-  "iframeEmbeddable": false,
+  "iframeEmbeddable": true,
   "architectureImage": "/projects/lahyani/architecture.webp",
   "architectureSource": "docs/content-drafts/assets/lahyani-architecture.png",
   "architectureCaptionFr": "Le patient réserve en ligne à toute heure ; l'équipe du cabinet gère agenda, dossiers et factures depuis son tableau de bord sécurisé.",
@@ -230,5 +230,6 @@
         ]
       }
     ]
-  }
+  },
+  "notes": "2026-10-03: header patched + redeployed (frame-ancestors allows *.vercel.app); iframe verified embeddable."
 }

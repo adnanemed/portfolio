@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T00:38:23.439Z",
+  "generatedAt": "2026-10-03T07:57:35.866Z",
   "source": "docs/content-drafts (owner-validated via dashboard export)",
   "socials": {
     "whatsapp": null,
@@ -50,7 +50,7 @@
       ],
       "liveUrl": "https://cabinet-lahyani.vercel.app/fr",
       "liveUrlWithheld": false,
-      "iframeEmbeddable": false,
+      "iframeEmbeddable": true,
       "architectureImage": "/diagrams/lahyani.webp",
       "architectureCaptionFr": "Le patient réserve en ligne à toute heure ; l'équipe du cabinet gère agenda, dossiers et factures depuis son tableau de bord sécurisé.",
       "architectureCaptionEn": "The patient books online at any hour; the clinic team manages the schedule, records and invoices from its secure dashboard.",
