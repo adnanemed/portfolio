@@ -15,49 +15,29 @@ interface Props {
 const { locale } = Astro.props;
 const d = t[locale];
 
-// Which screenshot plays each layout role, per project (order = orderIndex),
-// with the i18n caption key for each tile.
-const SHOTS: Record<string, { full: string; a: string; b: string }> = {
-  "lahyani": {
-    full: "/projects/lahyani/lahyani-booking.webp",
-    a: "/projects/lahyani/lahyani-hero.webp",
-    b: "/projects/lahyani/lahyani-booking.webp",
-  },
-  "auradrive": {
-    full: "/projects/auradrive/auradrive-hero.webp",
-    a: "/projects/auradrive/auradrive-catalog.webp",
-    b: "/projects/auradrive/auradrive-admin.webp",
-  },
-  "saveur-charme": {
-    full: "/projects/saveur-charme/saveur-charme-admin.webp",
-    a: "/projects/saveur-charme/saveur-charme-menu.webp",
-    b: "/projects/saveur-charme/saveur-charme-admin-menu.webp",
-  },
-  "kfresh": {
-    full: "/projects/kfresh/kfresh-shop.webp",
-    a: "/projects/kfresh/kfresh-hero.webp",
-    b: "/projects/kfresh/kfresh-shop.webp",
-  },
-  "sigmaparts": {
-    full: "/projects/sigmaparts/sigmaparts-hero.webp",
-    a: "/projects/sigmaparts/sigmaparts-hero.webp",
-    b: "/projects/sigmaparts/sigmaparts-hero.webp",
-  },
-  "promptifyapp": {
-    full: "/projects/promptifyapp/promptifyapp-hero.webp",
-    a: "/projects/promptifyapp/promptifyapp-hero.webp",
-    b: "/projects/promptifyapp/promptifyapp-hero.webp",
-  },
-};
+// Every screenshot a project actually has, taken from its own
+// `fallbackScreenshots` list — nothing hardcoded, nothing repeated, and a
+// project with four captures shows all four.
+function shotsOf(p: (typeof projects)[number]): string[] {
+  const shots = (p.fallbackScreenshots ?? []).filter((u) => /\.webp$/i.test(u));
+  return shots.length ? shots : [];
+}
 
-const CAPTION: Record<string, string> = {
-  "lahyani": { full: "lahyani-booking", a: "lahyani-hero", b: "lahyani-booking" },
-  "auradrive": { full: "auradrive-hero", a: "auradrive-catalog", b: "auradrive-admin" },
-  "saveur-charme": { full: "saveur-charme-admin", a: "saveur-charme-menu", b: "saveur-charme-admin-menu" },
-  kfresh: { full: "kfresh-shop", a: "kfresh-hero", b: "kfresh-shop" },
-  sigmaparts: { full: "sigmaparts-hero", a: "sigmaparts-hero", b: "sigmaparts-hero" },
-  promptifyapp: { full: "promptifyapp-hero", a: "promptifyapp-hero", b: "promptifyapp-hero" },
-} as any;
+/** Column spans for N tiles with no empty cell:
+ *  odd N  -> one full-width opener, then 7/5 pairs
+ *  even N -> 7/5 pairs throughout                          */
+function spans(n: number): string[] {
+  if (n <= 1) return ["s12"];
+  const out = n % 2 === 1 ? ["s12"] : [];
+  while (out.length < n) out.push(out.length % 2 === (n % 2 === 1 ? 1 : 0) ? "s7" : "s5");
+  return out.slice(0, n);
+}
+
+const ASPECT: Record<string, [number, number]> = {
+  s12: [1440, 630],
+  s7: [1440, 900],
+  s5: [1440, 1080],
+};
 
 const SHORT: Record<string, { fr: string; en: string }> = {
   lahyani: { fr: "Lahyani", en: "Lahyani" },
@@ -68,32 +48,32 @@ const SHORT: Record<string, { fr: string; en: string }> = {
   promptifyapp: { fr: "PromptifyApp", en: "PromptifyApp" },
 };
 
-// Projects in display order (orderIndex asc), each with the tiles it owns.
+const captionOf = (src: string, fallback: string) => {
+  const key = src.split("/").pop()?.replace(/\.webp$/i, "") ?? "";
+  return d.shotCaptions[key as keyof typeof d.shotCaptions] ?? fallback;
+};
+
+// Projects in display order (orderIndex asc), each owning all of its shots.
 const ordered = [...projects]
-  .filter((p) => SHOTS[p.slug])
-  .sort((a, b) => (a.orderIndex ?? 99) - (b.orderIndex ?? 99))
-  .map((p, i) => {
-    const s = SHOTS[p.slug];
-    const cap = CAPTION[p.slug];
-    const fallback = `${p.nameFr} — ${p.sectorFr}`;
-    const capOf = (key: "full" | "a" | "b") =>
-      d.shotCaptions[cap[key] as keyof typeof d.shotCaptions] ?? fallback;
+  .map((p) => ({ p, shots: shotsOf(p) }))
+  .filter((x) => x.shots.length)
+  .sort((a, b) => (a.p.orderIndex ?? 99) - (b.p.orderIndex ?? 99))
+  .map(({ p, shots }, i) => {
+    const cols = spans(shots.length);
+    const fallback = `${locale === "fr" ? p.nameFr : p.nameEn} — ${locale === "fr" ? p.sectorFr : p.sectorEn}`;
     return {
       index: i,
       slug: p.slug,
-      short: SHORT[p.slug][locale],
-      name: locale === "fr" ? p.nameFr : p.nameEn,
+      short: SHORT[p.slug]?.[locale] ?? (locale === "fr" ? p.nameFr : p.nameEn),
       href: projectPath(p, locale),
-      // First project gets the full-width feature tile; the rest alternate 7/5.
-      full: i === 0,
-      tiles: i === 0
-        ? [{ img: s.full, w: 1440, h: 630, cls: "s12", cap: capOf("full") }]
-        : [
-            { img: s.a, w: 1440, h: 900, cls: "s7", cap: capOf("a") },
-            { img: s.b, w: 1440, h: 1080, cls: "s5", cap: capOf("b") },
-          ],
+      tiles: shots.map((src, t) => {
+        const cls = cols[t];
+        const [w, h] = ASPECT[cls] ?? ASPECT.s7;
+        return { img: src, w, h, cls, cap: captionOf(src, fallback) };
+      }),
     };
   });
+
 ---
 
 <section id="coulisses">
@@ -148,6 +128,11 @@ const ordered = [...projects]
       groups.forEach((g) => {
         g.hidden = g !== next;
         g.querySelectorAll<HTMLElement>(".shot").forEach((t) => t.toggleAttribute("data-active", g === next));
+      });
+      // A lazy image that was inside a hidden group never started fetching, and
+      // revealing the group does not always restart it — promote it to eager.
+      next?.querySelectorAll<HTMLImageElement>("img").forEach((im) => {
+        if (!im.complete) im.loading = "eager";
       });
     };
 
