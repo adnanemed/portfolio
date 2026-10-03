@@ -8,7 +8,12 @@
   "featured": true,
   "summaryFr": "Démo complète pour un restaurant gastronomique : commande en ligne, réservation de table sur plan 2D, et tableau de bord temps réel pour le gérant. Essayez la démo en direct — côté client ET côté gérant.",
   "summaryEn": "A complete demo for a fine-dining restaurant: online ordering, table booking on an interactive 2D floor plan, and a realtime dashboard for the owner. Try the live demo — both the customer side and the manager side.",
-  "tags": ["Démo", "Commande en ligne", "Plan 2D interactif", "Tableau de bord temps réel"],
+  "tags": [
+    "Démo",
+    "Commande en ligne",
+    "Plan 2D interactif",
+    "Tableau de bord temps réel"
+  ],
   "problemFr": "Un restaurant sans outil numérique perd du temps et des couverts. Les commandes arrivent par téléphone, on les note à la main. Les réservations se chevauchent : deux familles sur la même table, le même soir. Le menu change et les sites « vitrine » ne suivent jamais. Ce projet montre ce que le gérant peut avoir à la place.",
   "problemEn": "A restaurant without digital tools loses time and covers. Orders come in by phone and are written down by hand. Reservations overlap: two families, one table, same evening. The menu changes and static brochure sites never keep up. This project shows what the owner can have instead.",
   "solutionFr": "Un site complet, pensé du client jusqu'à la cuisine. Le client parcourt la carte, commande sur place, à emporter ou en livraison, et choisit sa table sur un plan de salle interactif. En coulisses, le gérant reçoit chaque commande avec une alerte sonore, gère les réservations, met à jour la carte et bloque une table en un clic. C'est une démo : testez-la en direct, rien à installer.",
@@ -126,6 +131,22 @@
   "architectureCaptionFr": "Le client commande et réserve sur le site. Tout arrive en direct dans le tableau de bord du gérant : commandes, réservations, carte et retours clients.",
   "architectureCaptionEn": "The customer orders and books on the site. Everything lands live in the owner's dashboard: orders, reservations, the menu and customer feedback.",
   "fallbackScreenshots": [],
+  "flowIntroFr": "Du clic dans la carte à la table mise à jour, tout arrive en direct au gérant.",
+  "flowIntroEn": "From the tap on the menu to the updated table, everything reaches the owner live.",
+  "flowStepsFr": [
+    "Le client commande sur le site",
+    "Commande enregistrée en base",
+    "Tableau de bord temps réel — alerte sonore",
+    "Tables et carte mises à jour"
+  ],
+  "flowStepsEn": [
+    "The customer orders on the site",
+    "Order saved to the database",
+    "Realtime dashboard — sound alert",
+    "Tables & menu updated"
+  ],
+  "previewCaptionFr": "démo live — côté client & côté gérant",
+  "previewCaptionEn": "live demo — customer & owner side",
   "orderIndex": 3,
   "evidence": [
     "app/page.tsx — accueil Saveur & Charme, 4 modules (Menu, Localisation, Réservation, Avis)",

@@ -83,6 +83,13 @@ async function main() {
       fallbackScreenshots: localScreenshots(d.slug),
       featuresFr: d.featuresFr ?? [],
       featuresEn: d.featuresEn ?? [],
+      // Home "flow map" + live-demo navigator (FIX 2 / FIX 3)
+      flowIntroFr: d.flowIntroFr ?? null,
+      flowIntroEn: d.flowIntroEn ?? null,
+      flowStepsFr: d.flowStepsFr ?? [],
+      flowStepsEn: d.flowStepsEn ?? [],
+      previewCaptionFr: d.previewCaptionFr ?? null,
+      previewCaptionEn: d.previewCaptionEn ?? null,
       orderIndex: d.orderIndex ?? 99,
     });
   }

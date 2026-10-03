@@ -8,7 +8,13 @@
   "featured": false,
   "summaryFr": "Distributeur marocain de pièces de rechange pour engins de chantier Volvo : catalogue en ligne avec recherche par référence et demande de devis en quatre étapes.",
   "summaryEn": "A Moroccan distributor of spare parts for Volvo construction equipment: an online catalogue with reference search and a four-step quote request flow.",
-  "tags": ["Catalogue en ligne", "Recherche par référence", "B2B", "Industrie", "Maroc"],
+  "tags": [
+    "Catalogue en ligne",
+    "Recherche par référence",
+    "B2B",
+    "Industrie",
+    "Maroc"
+  ],
   "problemFr": "SigmaParts importe et distribue des pièces pour engins Volvo au Maroc. Ses clients sont des professionnels du BTP qui ne peuvent pas se permettre une erreur : la bonne référence, au bon moment, sinon la machine reste à l'arrêt. Tout passait par des appels et des échanges pour identifier la pièce. Il fallait un catalogue en ligne où un client retrouve sa pièce par référence, vérifie la disponibilité, puis se fait rappeler — sans vente en ligne, le métier restant basé sur le conseil et le devis.",
   "problemEn": "SigmaParts imports and distributes parts for Volvo machinery in Morocco. Its customers are construction professionals who cannot afford a mistake: the right reference, at the right time, or the machine sits idle. Part identification used to happen entirely over the phone. They needed an online catalogue where a customer finds a part by reference, checks availability, then gets called back — with no online checkout, since the business runs on advice and quotes.",
   "solutionFr": "Un site catalogue en français, pensé pour le professionnel pressé : recherche par référence VOE ou désignation de pièce, six familles de produits claires, vérification de disponibilité, puis un parcours simple en quatre étapes qui se termine par un contact (formulaire, WhatsApp direct ou téléphone). Un blog technique complète le tout pour aider le client à choisir entre pièce d'origine et pièce adaptable.",
@@ -92,6 +98,22 @@
   "architectureCaptionFr": null,
   "architectureCaptionEn": null,
   "fallbackScreenshots": [],
+  "flowIntroFr": "Pas de panier : la bonne référence, le stock vérifié, puis un rappel — le métier reste celui du conseil.",
+  "flowIntroEn": "No cart: the right reference, verified stock, then a call back — the business still runs on advice.",
+  "flowStepsFr": [
+    "Recherche par référence VOE",
+    "Vérification du stock",
+    "Demande de devis en 4 étapes",
+    "Contact direct — formulaire, WhatsApp ou téléphone"
+  ],
+  "flowStepsEn": [
+    "Search by VOE reference",
+    "Stock verification",
+    "Four-step quote request",
+    "Direct contact — form, WhatsApp or phone"
+  ],
+  "previewCaptionFr": "catalogue pièces + demande de devis",
+  "previewCaptionEn": "parts catalogue + quote request",
   "orderIndex": 5,
   "notes": "Site lisible via WebFetch (https://sigmaparts.ma/) — pas de blocage, contenu riche récupéré (catégories, processus en 4 étapes, recherche VOE, coordonnées Casablanca). Modèle devis/mise en relation, pas de panier e-commerce : reflété fidèlement dans le copy. Le site se présente comme « Importateur officiel / Distributeur pièces Volvo » avec support technique ; formulation reprise telle quelle. Peu de chiffres mesurables publics, d'où 2 métriques factuelles seulement. Iframe non embeddable (X-Frame-Options SAMEORIGIN, docs/iframe-check.md) → galerie screenshots + bouton « Ouvrir le site ». Permission client accordée pour les screenshots (cf. iframe-check.md)."
 }

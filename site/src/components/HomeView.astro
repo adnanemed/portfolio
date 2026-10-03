@@ -3,15 +3,15 @@
 // approved preview: hero, stats, marquee, case index, coulisses, live
 // demo, architecture, anatomy, manifesto, process, contact, footer.
 import { t } from "@/lib/i18n";
-import { projects, getProject, SOCIALS, WHATSAPP_FALLBACK, waLink, type Locale } from "@/lib/site";
+import { projects, SOCIALS, WHATSAPP_FALLBACK, waLink, type Locale } from "@/lib/site";
 import Nav from "@/components/Nav.astro";
 import Hero from "@/components/Hero.astro";
 import Stats from "@/components/Stats.astro";
 import SectorMarquee from "@/components/SectorMarquee.astro";
 import CaseIndex from "@/components/CaseIndex.astro";
 import ShotsGrid from "@/components/ShotsGrid.astro";
-import BrowserMockup from "@/components/BrowserMockup.astro";
-import ArchitectureViewer from "@/components/ArchitectureViewer.astro";
+import LiveDemo from "@/components/LiveDemo.astro";
+import FlowMap from "@/components/FlowMap.astro";
 import AnatomyRows from "@/components/AnatomyRows.astro";
 import Manifesto from "@/components/Manifesto.astro";
 import ContactSection from "@/components/ContactSection.astro";
@@ -23,33 +23,17 @@ interface Props {
 const { locale } = Astro.props;
 const d = t[locale];
 
-// Live demo: the Saveur & Charme demo (iframe-embeddable per docs/iframe-check.md)
-const demoProject = getProject("saveur-charme")!;
+// All six projects, in editorial order — drives the flow map (FIX 2)
+// and the live-preview navigator (FIX 3). Data lives in content.json.
+const ordered = [...projects].sort((a, b) => a.orderIndex - b.orderIndex);
 
-// Architecture viewer: the three projects with real diagrams
-const ALT: Record<string, { fr: string; en: string }> = {
-  "saveur-charme": {
-    fr: "Architecture de Saveur & Charme : site client, base de données temps réel, tableau de bord gérant",
-    en: "Saveur & Charme architecture: customer site, realtime database, owner dashboard",
-  },
-  lahyani: {
-    fr: "Architecture du Centre Dentaire Lahyani : site patient bilingue, réservation en ligne, tableau de bord sécurisé du cabinet",
-    en: "Centre Dentaire Lahyani architecture: bilingual patient site, online booking, secure clinic dashboard",
-  },
-  auradrive: {
-    fr: "Architecture d'AuraDrive : site client avec réservation et suivi, portail d'agence, contrats PDF automatiques",
-    en: "AuraDrive architecture: customer site with booking and tracking, agency portal, automatic PDF contracts",
-  },
-};
-const diagrams = projects
-  .filter((p) => p.architectureImage)
-  .map((p) => ({
-    key: p.slug,
-    name: locale === "fr" ? p.nameFr : p.nameEn,
-    src: p.architectureImage!,
-    alt: locale === "fr" ? ALT[p.slug]?.fr ?? p.nameFr : ALT[p.slug]?.en ?? p.nameEn,
-    caption: (locale === "fr" ? p.architectureCaptionFr : p.architectureCaptionEn) ?? "",
-  }));
+const flowItems = ordered.map((p) => ({
+  slug: p.slug,
+  name: locale === "fr" ? p.nameFr : p.nameEn,
+  sector: locale === "fr" ? p.sectorFr : p.sectorEn,
+  intro: (locale === "fr" ? p.flowIntroFr : p.flowIntroEn) ?? "",
+  steps: (locale === "fr" ? p.flowStepsFr : p.flowStepsEn) ?? [],
+}));
 
 const waNumber = SOCIALS.whatsapp || WHATSAPP_FALLBACK || null;
 const waHref = waNumber ? waLink(waNumber, d.contact.waText) : null;
@@ -71,7 +55,7 @@ const waHref = waNumber ? waLink(waNumber, d.contact.waText) : null;
       <h2 set:html={d.demo.title} />
       <span class="idx">{d.demo.idx}</span>
     </div>
-    <BrowserMockup url={demoProject.liveUrl!} locale={locale} title={d.demo.iframeTitle} />
+    <LiveDemo locale={locale} projects={ordered} />
   </section>
 
   <section id="architecture">
@@ -79,7 +63,7 @@ const waHref = waNumber ? waLink(waNumber, d.contact.waText) : null;
       <h2 set:html={d.arch.title} />
       <span class="idx">{d.arch.idx}</span>
     </div>
-    <ArchitectureViewer locale={locale} diagrams={diagrams} />
+    <FlowMap locale={locale} items={flowItems} />
   </section>
 
   <section id="anatomie">

@@ -8,7 +8,12 @@
   "featured": true,
   "summaryFr": "Site vitrine bilingue avec prise de rendez-vous en ligne, doublé d'un tableau de bord complet pour gérer l'agenda, les dossiers patients et la facturation du cabinet.",
   "summaryEn": "A bilingual showcase website with online booking, paired with a full dashboard to manage the clinic's schedule, patient records and billing.",
-  "tags": ["Next.js", "Prise de RDV en ligne", "Tableau de bord", "FR / AR"],
+  "tags": [
+    "Next.js",
+    "Prise de RDV en ligne",
+    "Tableau de bord",
+    "FR / AR"
+  ],
   "problemFr": "Le cabinet ne disposait d'aucune présence en ligne digne de son positionnement haut de gamme. Les patients devaient appeler pendant les heures d'ouverture pour réserver, et le personnel gérait l'agenda, les dossiers et les ordonnances à la main. Impossible non plus de s'adresser correctement aux deux publics du cabinet : francophone et arabophone.",
   "problemEn": "The clinic had no online presence worthy of its premium positioning. Patients had to call during opening hours to book, and staff managed the schedule, records and prescriptions by hand. There was also no proper way to serve the clinic's two audiences: French and Arabic speakers.",
   "solutionFr": "Nous avons livré une plateforme à deux visages. Côté patient : un site bilingue FR/AR qui présente les soins, les avis Google et la galerie du cabinet, avec un parcours de réservation en ligne disponible 24h/24. Côté équipe : un tableau de bord sécurisé qui centralise l'agenda, les dossiers patients, l'odontogramme, les ordonnances, les factures et les messages du site.",
@@ -109,6 +114,22 @@
   "architectureCaptionFr": "Le patient réserve en ligne à toute heure ; l'équipe du cabinet gère agenda, dossiers et factures depuis son tableau de bord sécurisé.",
   "architectureCaptionEn": "The patient books online at any hour; the clinic team manages the schedule, records and invoices from its secure dashboard.",
   "fallbackScreenshots": [],
+  "flowIntroFr": "Un patient réserve à minuit, le cabinet retrouve tout en main le matin — voilà le chemin d'un rendez-vous.",
+  "flowIntroEn": "A patient books at midnight, the clinic finds everything ready in the morning — that is the path of one appointment.",
+  "flowStepsFr": [
+    "Le patient réserve en ligne",
+    "Créneau validé selon les disponibilités",
+    "Agenda du cabinet mis à jour",
+    "Dossier patient & facture"
+  ],
+  "flowStepsEn": [
+    "The patient books online",
+    "Slot validated against availability",
+    "Clinic schedule updated",
+    "Patient record & invoice"
+  ],
+  "previewCaptionFr": "site patient bilingue + tableau de bord du cabinet",
+  "previewCaptionEn": "bilingual patient site + clinic dashboard",
   "orderIndex": 1,
   "evidence": [
     "apps/web/app/api/booking/route.ts — booking POST: rate-limit, CIN validation, server-side slot checks (opening hours, lunch break, Sundays, past slots), patient dedup, auto-confirm",

@@ -1,8 +1,12 @@
 ---
-// "Dans les coulisses" — asymmetric 12-col grid of real screenshots.
-// Captions link to the matching case study (entry point for /projets/*).
+// "Dans les coulisses" (FIX 1) — asymmetric editorial 12-col grid that
+// FILLS the container width with zero voids: one full-width feature
+// tile, then interlocking 7/5 and 5/7 rows (12 = 7+5 = 5+7 = 7+5).
+// Each tile is a single link to its case study (stretched link), with
+// object-fit cover, reserved aspect-ratio and a single-line mono
+// caption below the image. Arrow travels diagonally on hover.
 import { t } from "@/lib/i18n";
-import type { Locale } from "@/lib/site";
+import { getProject, projectPath, type Locale } from "@/lib/site";
 
 interface Props {
   locale: Locale;
@@ -10,6 +14,7 @@ interface Props {
 const { locale } = Astro.props;
 const d = t[locale];
 
+// Curated composition: (slug, screenshot basename, span, aspect ratio)
 const SHOTS = [
   {
     img: "/projects/saveur-charme/saveur-charme-admin.webp",
@@ -91,25 +96,29 @@ const SHOTS = [
   </div>
 
   <div class="shots">
-    {SHOTS.map((s) => (
-      <figure class={`shot ${s.cls} sr`}>
-        <div class="frame">
-          <img
-            src={s.img}
-            alt={locale === "fr" ? s.altFr : s.altEn}
-            width={s.width}
-            height={s.height}
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <figcaption>
-          <a href={locale === "fr" ? `/projets/${s.slug}/` : `/en/projects/${s.slug}/`} aria-label={d.shotCaptions[s.key]}>
-            {d.shotCaptions[s.key]}
-          </a>
-          <span class="arr" aria-hidden="true">↗</span>
-        </figcaption>
-      </figure>
-    ))}
+    {SHOTS.map((s) => {
+      const project = getProject(s.slug);
+      const href = project ? projectPath(project, locale) : "#";
+      const caption = d.shotCaptions[s.key];
+      return (
+        <figure class={`shot ${s.cls} sr`}>
+          <a class="shot-link" href={href} aria-label={caption} />
+          <div class="frame">
+            <img
+              src={s.img}
+              alt={locale === "fr" ? s.altFr : s.altEn}
+              width={s.width}
+              height={s.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <figcaption>
+            <span class="cap">{caption}</span>
+            <span class="arr" aria-hidden="true">↗</span>
+          </figcaption>
+        </figure>
+      );
+    })}
   </div>
 </section>

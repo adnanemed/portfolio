@@ -28,6 +28,13 @@ export type Project = {
   fallbackScreenshots: string[];
   featuresFr: ProjectFeature[];
   featuresEn: ProjectFeature[];
+  /** Home "flow map" (FIX 2) + live-demo navigator (FIX 3). */
+  flowIntroFr?: string | null;
+  flowIntroEn?: string | null;
+  flowStepsFr?: string[];
+  flowStepsEn?: string[];
+  previewCaptionFr?: string | null;
+  previewCaptionEn?: string | null;
   orderIndex: number;
 };
 

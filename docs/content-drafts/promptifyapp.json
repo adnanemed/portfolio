@@ -8,7 +8,13 @@
   "featured": false,
   "summaryFr": "Extension navigateur qui transforme une idée vague en prompt structuré, prêt pour ChatGPT, Claude, Gemini ou Copilot — en un clic.",
   "summaryEn": "A browser extension that turns a vague idea into a structured prompt, ready for ChatGPT, Claude, Gemini, or Copilot — in one click.",
-  "tags": ["SaaS", "Extension navigateur", "IA", "Produit", "Freemium"],
+  "tags": [
+    "SaaS",
+    "Extension navigateur",
+    "IA",
+    "Produit",
+    "Freemium"
+  ],
   "problemFr": "Tout le monde utilise l'IA, mais peu obtiennent la réponse voulue du premier coup : les prompts restent vagues, on passe du temps à les reformuler à la main. PromptifyApp est né de ce constat — un produit conçu et exploité par StackLab lui-même, de l'idée au modèle économique.",
   "problemEn": "Everyone uses AI, but few get the answer they want on the first try: prompts stay vague and people waste time rewriting them by hand. PromptifyApp was born from that observation — a product designed and run by StackLab itself, from idea to business model.",
   "solutionFr": "Une extension disponible sur cinq navigateurs : on entre une idée brute, on clique sur « Forge It », et on obtient un prompt structuré (rôle, tâche, ton, structure, longueur) à envoyer dans l'IA de son choix. Des personas experts, un contrôle du ton et du niveau de détail, et un historique cloud complètent l'outil. Modèle freemium : plan gratuit à crédits, puis abonnements Pro et Elite.",
@@ -110,6 +116,20 @@
   "architectureCaptionFr": null,
   "architectureCaptionEn": null,
   "fallbackScreenshots": [],
+  "flowIntroFr": "Une idée vague entre, un prompt structuré sort — prêt pour l'IA de votre choix.",
+  "flowIntroEn": "A vague idea goes in, a structured prompt comes out — ready for the AI of your choice.",
+  "flowStepsFr": [
+    "L'utilisateur écrit une idée brute",
+    "Optimisation — rôle, ton, structure",
+    "Prompt structuré, prêt pour ChatGPT, Claude ou Gemini"
+  ],
+  "flowStepsEn": [
+    "The user writes a raw idea",
+    "Optimisation — role, tone, structure",
+    "Structured prompt, ready for ChatGPT, Claude or Gemini"
+  ],
+  "previewCaptionFr": "extension navigateur — produit propre",
+  "previewCaptionEn": "browser extension — own product",
   "orderIndex": 6,
   "notes": "⚠️ R1 — footer du site affiche « © 2026 aysobeka (dba PromptifyApp). All rights reserved. » (geste personnel) : lien live à activer uniquement après correction du footer (décision owner, reportée avec le coéquipier). D'ici là, la page case-study utilise la galerie screenshots (iframeEmbeddable=false de toute façon, SAMEORIGIN). Site lisible via WebFetch : proposition de valeur, 3 étapes, noms exacts des fonctionnalités (Smart Enhancer, Persona Library, Ghost Mode, Quick Copy History, Cloud History) et grille tarifaire complète récupérés (Free 450 crédits/mois ; Pro 6,49 $/mois ou 5,52 $/mois en annuel ; Elite 12,49 $/mois ou 10,62 $/mois en annuel). L'allégation « jusqu'à 1 h de réécriture économisée par jour » est un chiffre marketing du site : confiance moyenne. Compatible Chrome, Edge, Brave, Firefox, Opera (source : site)."
 }

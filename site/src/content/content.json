@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-02T23:24:10.469Z",
+  "generatedAt": "2026-10-03T00:11:10.025Z",
   "source": "docs/content-drafts (owner-validated via dashboard export)",
   "socials": {
     "whatsapp": null,
@@ -118,6 +118,22 @@
           "body": "The clinic's Google reviews display directly on the site, with a link to leave a new one — the online reputation keeps working for the clinic."
         }
       ],
+      "flowIntroFr": "Un patient réserve à minuit, le cabinet retrouve tout en main le matin — voilà le chemin d'un rendez-vous.",
+      "flowIntroEn": "A patient books at midnight, the clinic finds everything ready in the morning — that is the path of one appointment.",
+      "flowStepsFr": [
+        "Le patient réserve en ligne",
+        "Créneau validé selon les disponibilités",
+        "Agenda du cabinet mis à jour",
+        "Dossier patient & facture"
+      ],
+      "flowStepsEn": [
+        "The patient books online",
+        "Slot validated against availability",
+        "Clinic schedule updated",
+        "Patient record & invoice"
+      ],
+      "previewCaptionFr": "site patient bilingue + tableau de bord du cabinet",
+      "previewCaptionEn": "bilingual patient site + clinic dashboard",
       "orderIndex": 1
     },
     {
@@ -252,6 +268,22 @@
           "body": "The homepage features flagship cars in an immersive 3D showroom scene, with technical specs one click away."
         }
       ],
+      "flowIntroFr": "De la réservation au contrat signé, chaque étape est vérifiée et traçable.",
+      "flowIntroEn": "From booking to signed contract, every step is screened and traceable.",
+      "flowStepsFr": [
+        "Le client réserve son véhicule",
+        "Vérification liste noire + OCR des documents",
+        "Contrat PDF généré automatiquement",
+        "Suivi de la réservation avec code unique"
+      ],
+      "flowStepsEn": [
+        "The customer books a vehicle",
+        "Blacklist screening + document OCR",
+        "PDF contract generated automatically",
+        "Reservation tracking with a unique code"
+      ],
+      "previewCaptionFr": "site de réservation + portail d'agence",
+      "previewCaptionEn": "booking site + agency portal",
       "orderIndex": 2
     },
     {
@@ -380,6 +412,22 @@
           "body": "A location page with Google Maps directions, and a feedback form that lands directly in the owner's dashboard."
         }
       ],
+      "flowIntroFr": "Du clic dans la carte à la table mise à jour, tout arrive en direct au gérant.",
+      "flowIntroEn": "From the tap on the menu to the updated table, everything reaches the owner live.",
+      "flowStepsFr": [
+        "Le client commande sur le site",
+        "Commande enregistrée en base",
+        "Tableau de bord temps réel — alerte sonore",
+        "Tables et carte mises à jour"
+      ],
+      "flowStepsEn": [
+        "The customer orders on the site",
+        "Order saved to the database",
+        "Realtime dashboard — sound alert",
+        "Tables & menu updated"
+      ],
+      "previewCaptionFr": "démo live — côté client & côté gérant",
+      "previewCaptionEn": "live demo — customer & owner side",
       "orderIndex": 3
     },
     {
@@ -485,6 +533,22 @@
           "body": "Products, orders and content managed without any technical intervention."
         }
       ],
+      "flowIntroFr": "Les courses commandées en ligne, prêtes au retrait — le gérant garde la main sur le catalogue.",
+      "flowIntroEn": "Groceries ordered online, ready for pickup — the owner keeps full control of the catalogue.",
+      "flowStepsFr": [
+        "Le client commande en ligne",
+        "Panier validé (50 $ minimum)",
+        "Retrait sur place ou livraison",
+        "Le gérant gère produits et commandes"
+      ],
+      "flowStepsEn": [
+        "The customer orders online",
+        "Cart validated ($50 minimum)",
+        "In-store pickup or delivery",
+        "The owner manages products & orders"
+      ],
+      "previewCaptionFr": "boutique en ligne + tableau de bord gérant",
+      "previewCaptionEn": "online store + owner dashboard",
       "orderIndex": 4
     },
     {
@@ -583,6 +647,22 @@
           "body": "A blog covering equipment maintenance and choosing between original and compatible parts."
         }
       ],
+      "flowIntroFr": "Pas de panier : la bonne référence, le stock vérifié, puis un rappel — le métier reste celui du conseil.",
+      "flowIntroEn": "No cart: the right reference, verified stock, then a call back — the business still runs on advice.",
+      "flowStepsFr": [
+        "Recherche par référence VOE",
+        "Vérification du stock",
+        "Demande de devis en 4 étapes",
+        "Contact direct — formulaire, WhatsApp ou téléphone"
+      ],
+      "flowStepsEn": [
+        "Search by VOE reference",
+        "Stock verification",
+        "Four-step quote request",
+        "Direct contact — form, WhatsApp or phone"
+      ],
+      "previewCaptionFr": "catalogue pièces + demande de devis",
+      "previewCaptionEn": "parts catalogue + quote request",
       "orderIndex": 5
     },
     {
@@ -693,6 +773,20 @@
           "body": "A free plan with 450 credits per month, Pro and Elite for heavy use, 14-day money-back guarantee."
         }
       ],
+      "flowIntroFr": "Une idée vague entre, un prompt structuré sort — prêt pour l'IA de votre choix.",
+      "flowIntroEn": "A vague idea goes in, a structured prompt comes out — ready for the AI of your choice.",
+      "flowStepsFr": [
+        "L'utilisateur écrit une idée brute",
+        "Optimisation — rôle, ton, structure",
+        "Prompt structuré, prêt pour ChatGPT, Claude ou Gemini"
+      ],
+      "flowStepsEn": [
+        "The user writes a raw idea",
+        "Optimisation — role, tone, structure",
+        "Structured prompt, ready for ChatGPT, Claude or Gemini"
+      ],
+      "previewCaptionFr": "extension navigateur — produit propre",
+      "previewCaptionEn": "browser extension — own product",
       "orderIndex": 6
     }
   ]

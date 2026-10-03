@@ -8,7 +8,13 @@
   "featured": false,
   "summaryFr": "Site vitrine et portail de gestion complet pour une agence de location de voitures de luxe au Maroc. Le client réserve en ligne et suit sa réservation en temps réel ; l'agence pilote sa flotte, ses contrats et ses clients depuis un tableau de bord.",
   "summaryEn": "Showcase site and full management portal for a luxury car rental agency in Morocco. Customers book online and track their reservation in real time; the agency manages its fleet, contracts and clients from a single dashboard.",
-  "tags": ["Next.js", "Prisma", "Tableau de bord", "WhatsApp", "Paiement/Contrats PDF"],
+  "tags": [
+    "Next.js",
+    "Prisma",
+    "Tableau de bord",
+    "WhatsApp",
+    "Paiement/Contrats PDF"
+  ],
   "problemFr": "L'agence gérait ses réservations à la main : appels, messages, fiches papier. Vérifier l'identité d'un client, rédiger un contrat, suivre l'entretien des véhicules — tout se faisait à côté du site. Résultat : du temps perdu chaque jour et un risque d'erreur sur les clients et les documents.",
   "problemEn": "The agency handled bookings by hand: phone calls, messages, paper files. Checking a client's identity, writing a contract, keeping up with vehicle maintenance — it all happened outside the website. The result: hours lost every day and real risk of errors on clients and documents.",
   "solutionFr": "Un site vitrine haut de gamme avec réservation en ligne, suivi de réservation et vue 3D à 360° des véhicules. Derrière, un portail d'administration complet : réservations, flotte, liste noire, entretien, documents. Le contrat et la facture PDF sont générés automatiquement à la confirmation, et le client reçoit son code de suivi immédiatement.",
@@ -135,6 +141,22 @@
   "architectureCaptionFr": "Le client réserve en ligne et suit sa réservation avec son code. L'agence voit tout dans son portail : réservations, flotte, contrats PDF, entretien et clients. Les documents sont archivés dans le cloud.",
   "architectureCaptionEn": "The customer books online and tracks the reservation with their code. The agency sees everything in its portal: bookings, fleet, PDF contracts, maintenance and clients. Documents are archived in the cloud.",
   "fallbackScreenshots": [],
+  "flowIntroFr": "De la réservation au contrat signé, chaque étape est vérifiée et traçable.",
+  "flowIntroEn": "From booking to signed contract, every step is screened and traceable.",
+  "flowStepsFr": [
+    "Le client réserve son véhicule",
+    "Vérification liste noire + OCR des documents",
+    "Contrat PDF généré automatiquement",
+    "Suivi de la réservation avec code unique"
+  ],
+  "flowStepsEn": [
+    "The customer books a vehicle",
+    "Blacklist screening + document OCR",
+    "PDF contract generated automatically",
+    "Reservation tracking with a unique code"
+  ],
+  "previewCaptionFr": "site de réservation + portail d'agence",
+  "previewCaptionEn": "booking site + agency portal",
   "orderIndex": 2,
   "evidence": [
     "src/app/(client)/catalog/page.tsx, src/app/(client)/reservation/page.tsx (catalogue + réservation en ligne)",

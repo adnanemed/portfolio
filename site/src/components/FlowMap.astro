@@ -1,0 +1,110 @@
+---
+// "L'architecture, en clair" — self-drawn flow map (FIX 2). No diagram
+// images: each project gets a navigator panel showing its real journey
+// as 3-5 designed node cards connected by animated connectors (pure
+// HTML/CSS, transform/opacity only, reduced-motion safe). One project
+// visible at a time, driven by the shared ProjectNavigator.
+import { t } from "@/lib/i18n";
+import type { Locale } from "@/lib/site";
+import ProjectNavigator from "@/components/ProjectNavigator.astro";
+
+export interface FlowItem {
+  slug: string;
+  name: string;
+  sector: string;
+  intro: string;
+  steps: string[];
+}
+
+interface Props {
+  locale: Locale;
+  items: FlowItem[];
+}
+const { locale, items } = Astro.props;
+const d = t[locale];
+---
+
+<div class="flow-root" data-flow>
+  <ProjectNavigator locale={locale} uid="flow" items={items.map((it) => ({ slug: it.slug, name: it.name }))} />
+
+  <div class="flow-stage" aria-live="polite">
+    {items.map((it, i) => (
+      <article
+        class="flow-panel"
+        data-flow-panel={it.slug}
+        hidden={i !== 0}
+        aria-label={`${it.name} — ${d.flow.howLabel}`}
+      >
+        <header class="flow-head">
+          <span class="flow-kicker mono">{it.sector}</span>
+          <h3 class="flow-name">{it.name}</h3>
+          <p class="flow-intro">
+            <span class="how mono">{d.flow.howLabel}</span>
+            {it.intro}
+          </p>
+        </header>
+        <ol class="flow" role="list">
+          {it.steps.map((step, j) => (
+            <li class="flow-step" style={`--i:${j}`}>
+              <div class="flow-node">
+                <span class="fn-idx mono" aria-hidden="true">{String(j + 1).padStart(2, "0")}</span>
+                <span class="fn-txt">{step}</span>
+              </div>
+              {j < it.steps.length - 1 && (
+                <span class="flow-link" aria-hidden="true">
+                  <span class="flow-line"></span>
+                  <span class="flow-dot"></span>
+                  <span class="flow-tip">→</span>
+                </span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </article>
+    ))}
+  </div>
+</div>
+
+<script>
+  // Panel switching + stagger re-trigger. Visibility itself never
+  // depends on JS for the first panel; animations are CSS-gated by
+  // prefers-reduced-motion.
+  document.querySelectorAll<HTMLElement>("[data-flow]").forEach((root) => {
+    const panels = [...root.querySelectorAll<HTMLElement>("[data-flow-panel]")];
+    if (!panels.length) return;
+
+    const play = (panel: HTMLElement) => {
+      panel.classList.remove("flow-play");
+      void panel.offsetWidth; // restart stagger
+      panel.classList.add("flow-play");
+    };
+
+    const show = (index: number) => {
+      const next = ((index % panels.length) + panels.length) % panels.length;
+      panels.forEach((p, i) => (p.hidden = i !== next));
+      play(panels[next]);
+    };
+
+    root.addEventListener("pnav:change", (e) => {
+      const index = (e as CustomEvent<{ index: number }>).detail?.index ?? 0;
+      show(index);
+    });
+
+    // First reveal, when the stage scrolls into view
+    const active = panels.find((p) => !p.hidden) ?? panels[0];
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const en of entries) {
+            if (en.isIntersecting) {
+              play(active);
+              io.disconnect();
+            }
+          }
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(root);
+    }
+  });
+</script>

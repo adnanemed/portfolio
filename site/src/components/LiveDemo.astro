@@ -1,0 +1,96 @@
+---
+// "L'aperçu en direct" — live preview with a project navigator (FIX 3).
+// One panel per project, driven by the shared ProjectNavigator:
+// - embeddable (iframeEmbeddable + liveUrl): the existing click-to-load
+//   BrowserMockup on the project's real liveUrl (no third-party request
+//   before an explicit click);
+// - non-embeddable: a real screenshot in the same browser chrome +
+//   primary "Open the site" button (or the withheld CTA when liveUrl
+//   is null) + an "embedded preview unavailable" note.
+import { t } from "@/lib/i18n";
+import { hostOf, type Locale, type Project } from "@/lib/site";
+import ProjectNavigator from "@/components/ProjectNavigator.astro";
+import BrowserMockup from "@/components/BrowserMockup.astro";
+
+interface Props {
+  locale: Locale;
+  projects: Project[];
+}
+const { locale, projects } = Astro.props;
+const d = t[locale];
+const nameOf = (p: Project) => (locale === "fr" ? p.nameFr : p.nameEn);
+const captionOf = (p: Project) =>
+  (locale === "fr" ? p.previewCaptionFr : p.previewCaptionEn) ?? "";
+---
+
+<div class="livedemo" data-livedemo>
+  <ProjectNavigator locale={locale} uid="demo" items={projects.map((p) => ({ slug: p.slug, name: nameOf(p) }))} />
+
+  {projects.map((p, i) => {
+    const embeddable = p.iframeEmbeddable && Boolean(p.liveUrl);
+    const shot = p.fallbackScreenshots[0];
+    return (
+      <div class="demo-panel" data-demo-panel={p.slug} hidden={i !== 0}>
+        {embeddable ? (
+          <BrowserMockup
+            url={p.liveUrl!}
+            locale={locale}
+            title={`${d.demo.iframeTitle} — ${nameOf(p)}`}
+            uid={`home-${p.slug}`}
+          />
+        ) : (
+          <div class="browser sr">
+            <div class="chrome">
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="url">{p.liveUrl ? hostOf(p.liveUrl) : nameOf(p)}</span>
+              <span class="live-badge">{d.demo.imageBadge}</span>
+            </div>
+            {shot && (
+              <figure class="demo-shot">
+                <img
+                  src={shot}
+                  alt={`${d.caseStudy.screenshotAlt} — ${nameOf(p)}`}
+                  width="1440"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            )}
+          </div>
+        )}
+
+        {!embeddable && (
+          <div class="demo-static">
+            {p.liveUrl ? (
+              <a class="btn-wipe" href={p.liveUrl} target="_blank" rel="noopener noreferrer">
+                {d.demo.open} <span class="arr" aria-hidden="true">↗</span>
+              </a>
+            ) : (
+              <a class="btn-wipe" href={d.homeUrl + "#contact"}>
+                {d.caseStudy.withheldCta} <span class="arr" aria-hidden="true">↗</span>
+              </a>
+            )}
+            <p class="demo-note">{d.demo.embedUnavailable}</p>
+            {!p.liveUrl && <p class="demo-note">{d.caseStudy.withheldNote}</p>}
+          </div>
+        )}
+
+        <p class="demo-cap mono">{captionOf(p)}</p>
+      </div>
+    );
+  })}
+</div>
+
+<script>
+  // Panel switching — the shared navigator emits `pnav:change`.
+  document.querySelectorAll<HTMLElement>("[data-livedemo]").forEach((root) => {
+    const panels = [...root.querySelectorAll<HTMLElement>("[data-demo-panel]")];
+    if (!panels.length) return;
+    root.addEventListener("pnav:change", (e) => {
+      const index = (e as CustomEvent<{ index: number }>).detail?.index ?? 0;
+      const next = ((index % panels.length) + panels.length) % panels.length;
+      panels.forEach((p, i) => (p.hidden = i !== next));
+    });
+  });
+</script>

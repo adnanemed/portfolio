@@ -8,7 +8,13 @@
   "featured": false,
   "summaryFr": "Épicerie afro-caribéenne d'Ottawa : commande en ligne de courses et de plats cuisinés, retrait sur place planifiable et livraison via Uber Eats et DoorDash.",
   "summaryEn": "An Afro-Caribbean grocery store in Ottawa: online ordering for groceries and ready-to-eat meals, scheduled in-store pickup, and delivery through Uber Eats and DoorDash.",
-  "tags": ["E-commerce", "Next.js", "Tableau de bord admin", "Plats cuisinés", "Ottawa"],
+  "tags": [
+    "E-commerce",
+    "Next.js",
+    "Tableau de bord admin",
+    "Plats cuisinés",
+    "Ottawa"
+  ],
   "problemFr": "KFresh propose des produits africains et internationaux difficiles à trouver à Ottawa, plus des plats traditionnels préparés chaque jour sur place. Les clients devaient passer en magasin ou commander par téléphone pour savoir ce qui était disponible. L'équipe avait besoin d'une vitrine en ligne simple : commander ses courses, réserver un plat, venir le chercher. Et d'un tableau de bord pour gérer tout cela sans compétence technique.",
   "problemEn": "KFresh carries African and international products that are hard to find in Ottawa, plus traditional dishes prepared fresh daily in-store. Customers had to visit the store or call to know what was available. The team needed a simple online storefront: order groceries, book a meal, come pick it up. And a dashboard to manage it all without technical skills.",
   "solutionFr": "Un site e-commerce complet : boutique en ligne avec panier et paiement par carte, section « Fresh Meals » pour les plats cuisinés prêts à emporter, réservation de créneau de retrait, et redirection vers Uber Eats et DoorDash pour la livraison. Le gérant pilote produits, commandes et contenus depuis son tableau de bord.",
@@ -101,6 +107,22 @@
   "architectureCaptionFr": null,
   "architectureCaptionEn": null,
   "fallbackScreenshots": [],
+  "flowIntroFr": "Les courses commandées en ligne, prêtes au retrait — le gérant garde la main sur le catalogue.",
+  "flowIntroEn": "Groceries ordered online, ready for pickup — the owner keeps full control of the catalogue.",
+  "flowStepsFr": [
+    "Le client commande en ligne",
+    "Panier validé (50 $ minimum)",
+    "Retrait sur place ou livraison",
+    "Le gérant gère produits et commandes"
+  ],
+  "flowStepsEn": [
+    "The customer orders online",
+    "Cart validated ($50 minimum)",
+    "In-store pickup or delivery",
+    "The owner manages products & orders"
+  ],
+  "previewCaptionFr": "boutique en ligne + tableau de bord gérant",
+  "previewCaptionEn": "online store + owner dashboard",
   "orderIndex": 4,
   "notes": "Site lisible via WebFetch (https://www.kfresh.ca/). Épicerie afro-caribéenne à Nepean (2090 Robertson Rd, Ottawa). La note 4,9/5 (~12 600 avis) est un chiffre auto-déclaré affiché sur le site : confiance moyenne, à valider par le client avant publication. La « livraison gratuite le week-end dès 300 $ » est marquée « Coming Soon » sur le site : volontairement omise des features et métriques. Applications mobiles (Google Play / App Store) mentionnées sur le site mais rôle de StackLab non confirmé : non mises en avant. Iframe embeddable confirmé (aucune restriction de frame, docs/iframe-check.md)."
 }

@@ -327,6 +327,12 @@ section { padding: clamp(4rem, 10vw, 7rem) var(--pad); }
   background: var(--bg2);
   display: flex; flex-direction: column;
 }
+/* Interlocking spans: 12 = 12 = 7+5 = 5+7 = 7+5 — zero voids */
+.shot.s12 { grid-column: span 12; }
+.shot.s7 { grid-column: span 7; }
+.shot.s5 { grid-column: span 5; }
+/* Whole-tile link (stretched over the figure) */
+.shot .shot-link { position: absolute; inset: 0; z-index: 2; border-radius: inherit; }
 .shot .frame { overflow: hidden; flex: 1; }
 .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .shot.s12 .frame { aspect-ratio: 16 / 7; }
@@ -337,19 +343,161 @@ section { padding: clamp(4rem, 10vw, 7rem) var(--pad); }
   padding: .8rem 1rem; border-top: 1px solid var(--line);
   font-family: var(--mono); font-size: .72rem; text-transform: uppercase;
   letter-spacing: .12em; color: var(--muted);
+  min-width: 0;
 }
+/* Single-line caption — never wraps vertically */
+.shot .cap { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 .shot figcaption .arr { transition: transform var(--hover) var(--ease-out); }
 .shot:active img { transform: scale(1.01); }
 @media (hover: hover) and (pointer: fine) {
   .shot:hover img { transform: scale(1.02); }
   .shot:hover figcaption { color: var(--text); }
-  .shot:hover figcaption .arr { transform: translateX(4px); }
+  .shot:hover figcaption .arr { transform: translate(3px, -3px); }
 }
 .shot img { transition: transform .6s var(--ease-out); }
 @media (prefers-reduced-motion: reduce) { .shot img { transition: none; } }
 @media (max-width: 860px) {
   .shot.s12 .frame, .shot.s7 .frame { aspect-ratio: 16 / 10; }
-  .shot.s7, .shot.s5 { grid-column: span 12; }
+  .shot.s12, .shot.s7, .shot.s5 { grid-column: span 12; }
+}
+
+/* ============================================================
+   Project navigator — shared (flow map + live preview)
+   ============================================================ */
+.pnav { display: flex; align-items: center; gap: .6rem; margin-bottom: 1.5rem; }
+.pnav-chips { display: flex; gap: .5rem; flex-wrap: wrap; flex: 1; min-width: 0; }
+.nbtn {
+  flex: none;
+  min-width: 44px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: transparent; color: var(--text);
+  font-family: var(--mono); font-size: 1rem; line-height: 1;
+  cursor: pointer;
+  transition: border-color var(--hover) var(--ease-out), background var(--hover) var(--ease-out),
+              color var(--hover) var(--ease-out), transform var(--press) var(--ease-out);
+}
+.nbtn:active { transform: scale(0.94); }
+@media (hover: hover) and (pointer: fine) {
+  .nbtn:hover { border-color: var(--muted); background: var(--bg2); }
+}
+
+/* ============================================================
+   Flow map — "L'architecture, en clair" (self-drawn, no images)
+   ============================================================ */
+.flow-stage {
+  border: 1px solid var(--line); border-radius: 8px;
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(246,246,246,.04), transparent 70%),
+    var(--bg2);
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+}
+.flow-panel[hidden] { display: none; }
+.flow-head { margin-bottom: 2rem; }
+.flow-kicker {
+  color: var(--muted); font-size: .72rem; letter-spacing: .15em; text-transform: uppercase;
+}
+.flow-name {
+  margin-top: .5rem;
+  font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 700;
+  letter-spacing: -0.02em; text-transform: uppercase; line-height: 1.1;
+}
+.flow-intro { color: var(--muted); margin-top: .9rem; font-size: 1rem; line-height: 1.7; max-width: 62ch; }
+.flow-intro .how {
+  display: inline-block;
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: .15rem .7rem; margin-inline-end: .8rem;
+  font-size: .68rem; text-transform: uppercase; letter-spacing: .15em;
+  color: var(--muted); vertical-align: middle;
+}
+.flow { display: flex; align-items: stretch; list-style: none; padding: 0; margin: 0; }
+.flow-step { display: flex; align-items: stretch; flex: 1 1 0; min-width: 0; }
+.flow-node {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: .6rem;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--bg);
+  padding: 1.1rem 1.2rem;
+  transition: border-color var(--hover) var(--ease-out), background var(--hover) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .flow-node:hover { border-color: var(--muted); background: var(--bg2); }
+}
+.fn-idx { color: var(--muted); font-size: .7rem; letter-spacing: .15em; }
+.fn-txt { font-weight: 600; font-size: .95rem; line-height: 1.5; letter-spacing: -0.01em; }
+/* Connector: line + travelling dot (transform/opacity only) + arrow tip */
+.flow-link {
+  flex: 0 0 44px; align-self: center;
+  position: relative; height: 2px;
+}
+.flow-line {
+  position: absolute; inset-block-start: 50%; inset-inline: 0 10px; height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, var(--line), var(--muted));
+}
+.flow-tip {
+  position: absolute; inset-inline-end: 0; inset-block-start: 50%;
+  transform: translateY(-54%);
+  color: var(--muted); font-family: var(--mono); font-size: .8rem; line-height: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .flow-dot {
+    position: absolute; inset-block-start: 50%; inset-inline-start: 0;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--text);
+    transform: translate(0, -50%); opacity: 0;
+    animation: flowdot 2.4s var(--ease-in-out) infinite;
+  }
+  @keyframes flowdot {
+    0% { transform: translate(0, -50%); opacity: 0; }
+    20%, 60% { opacity: 1; }
+    100% { transform: translate(39px, -50%); opacity: 0; }
+  }
+  /* Staggered node entrance on project change */
+  .flow-play .flow-node {
+    animation: nodein .55s var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 90ms);
+  }
+  .flow-play .flow-link {
+    animation: linkin .4s var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 200ms);
+  }
+  @keyframes nodein { from { opacity: 0; transform: translateY(14px); } }
+  @keyframes linkin { from { opacity: 0; } }
+}
+@media (prefers-reduced-motion: reduce) { .flow-dot { display: none; } }
+@media (max-width: 860px) {
+  .flow { flex-direction: column; }
+  .flow-step { flex-direction: column; flex: none; }
+  .flow-node { width: 100%; }
+  .flow-link { flex: none; width: auto; height: 36px; align-self: flex-start; margin-inline-start: 2rem; }
+  .flow-line { inset-block: 0 10px; inset-inline: auto; inset-inline-start: 50%; width: 1px; height: auto; transform: translateX(-50%); background: linear-gradient(180deg, var(--line), var(--muted)); }
+  .flow-tip { inset-inline: auto; inset-block-end: -2px; inset-inline-start: 50%; transform: translateX(-50%) rotate(90deg); }
+  @media (prefers-reduced-motion: no-preference) {
+    .flow-dot { animation-name: flowdotv; }
+    @keyframes flowdotv {
+      0% { transform: translate(-50%, 0); opacity: 0; }
+      20%, 60% { opacity: 1; }
+      100% { transform: translate(-50%, 31px); opacity: 0; }
+    }
+  }
+}
+
+/* ============================================================
+   Live preview — per-project panels (navigator-driven)
+   ============================================================ */
+.demo-panel[hidden] { display: none; }
+.demo-shot { margin: 0; position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg); }
+.demo-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.demo-static {
+  margin-top: 1.2rem;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: .6rem 1.6rem;
+}
+.demo-static .demo-note { margin-top: 0; }
+.demo-cap {
+  margin-top: 1.2rem; color: var(--muted);
+  font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
 }
 
 /* ============================================================
