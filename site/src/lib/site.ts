@@ -109,12 +109,3 @@ export function primaryContactHref(text: string): { href: string; external: bool
   if (SOCIALS.email) return { href: `mailto:${SOCIALS.email}?subject=${encodeURIComponent(text)}`, external: false };
   return { href: "#contact", external: false };
 }
-
-/** Browser mockup host from a live URL (for the mono URL pill). */
-export function hostOf(url: string): string {
-  try {
-    return new URL(url).host;
-  } catch {
-    return url;
-  }
-}

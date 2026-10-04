@@ -1,11 +1,11 @@
 // One selection shared by every project-switching section on the page:
-// "Dans les coulisses", "L'aperçu en direct" and "L'architecture, en clair".
+// "Dans les coulisses" and "L'architecture, en clair".
 //
 // The chosen slug lives on <html data-active-project> so it survives
 // Astro's component boundaries; changes travel as a window event that every
 // navigator and every section listens to. Choosing a project in one section
-// therefore moves all three, which is what makes the arrows feel like one
-// control instead of three independent ones.
+// therefore moves both, which is what makes the arrows feel like one
+// control instead of two independent ones.
 
 const KEY = "stacklab-project";
 

@@ -769,23 +769,6 @@ section { padding: clamp(4rem, 10vw, 7rem) var(--pad); }
 }
 
 /* ============================================================
-   Live preview — per-project panels (navigator-driven)
-   ============================================================ */
-.demo-panel[hidden] { display: none; }
-.demo-shot { margin: 0; position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg); }
-.demo-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-.demo-static {
-  margin-top: 1.2rem;
-  display: flex; flex-wrap: wrap; align-items: center;
-  gap: .6rem 1.6rem;
-}
-.demo-static .demo-note { margin-top: 0; }
-.demo-cap {
-  margin-top: 1.2rem; color: var(--muted);
-  font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
-}
-
-/* ============================================================
    Live demo — browser mockup, click-to-load
    ============================================================ */
 .browser {
