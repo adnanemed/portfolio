@@ -156,7 +156,7 @@ a, button, [role="button"] {
 .nav .brand { display: flex; align-items: center; gap: .6rem; font-weight: 800; letter-spacing: -.01em; font-size: .95rem; }
 /* The mark's SVG viewBox is square, so width must equal height or the cube
    floats in dead space away from the wordmark. */
-.nav .brand img { height: 26px; width: 26px; transition: transform var(--hover) var(--ease-out); }
+.nav .brand img { height: 30px; width: 30px; transition: transform var(--hover) var(--ease-out); }
 .nav .brand:hover img { transform: scale(1.08) rotate(-6deg); }
 
 /* Theme-aware logo: the site is dark-first, so the black & white mark is the
@@ -181,6 +181,8 @@ a, button, [role="button"] {
   transition: color var(--hover) var(--ease-out), border-color var(--hover) var(--ease-out);
 }
 .nav .lang:hover { color: var(--text); border-color: color-mix(in srgb, var(--text) 40%, transparent); }
+/* Language inside the mobile menu only — the bar keeps it on desktop */
+.nav .links .lang-panel { display: none; }
 /* Links: centered in the bar as calm uppercase labels; hover lifts them with
    a soft glass pill — no underline, no roll, nothing that reads as chrome. */
 .nav .links {
@@ -251,6 +253,11 @@ a, button, [role="button"] {
 
 @media (max-width: 840px) {
   .nav .btn-solid { margin-inline-start: auto; }
+  .nav .lang { display: none; }
+  .nav .links .lang-panel {
+    display: inline-flex; font-family: var(--mono);
+    letter-spacing: .14em; text-transform: uppercase; font-size: .78rem;
+  }
   .nav__burger { display: grid; }
   /* The panel hangs off the bar itself (the nav is its containing block),
      so it always opens right under the header wherever the page scrolled. */
@@ -287,7 +294,7 @@ a, button, [role="button"] {
   .nav .btn-solid { padding: .4rem .9rem; font-size: .66rem; min-height: 34px; }
   .nav .lang { padding-inline: .45rem; min-height: 28px; font-size: .6rem; }
   .nav .brand { font-size: .88rem; gap: .45rem; }
-  .nav .brand img { height: 22px; width: 22px; }
+  .nav .brand img { height: 26px; width: 26px; }
 }
 @media (max-width: 380px) {
   .nav .brand span { display: none; }

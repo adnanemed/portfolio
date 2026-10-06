@@ -18,16 +18,17 @@ const d = t[locale];
     <img class="logo-mark logo-mark--bw" src="/logo-stacklab-bw.png" alt="StackLab" width="150" height="34" data-logo="bw" aria-hidden="true" />
     <span>StackLab</span>
   </a>
-  <a class="lang" href={altPath} aria-label={d.langSwitchAria} hreflang={locale === "fr" ? "en" : "fr"}>{d.langSwitch}</a>
   <div class="links" id="navMenu">
     <a href={d.homeUrl + "#projets"}>{d.nav.projects}</a>
     <a href={d.homeUrl + "#processus"}>{d.nav.process}</a>
     <a href={d.homeUrl + "#produit"}>{d.nav.produit}</a>
+    <a class="lang-panel" href={altPath} aria-label={d.langSwitchAria} hreflang={locale === "fr" ? "en" : "fr"}>{d.langSwitch}</a>
   </div>
   <button type="button" class="btn-solid" data-contact-modal="top">
     <span class="cta-label">{d.nav.cta}</span>
     <span class="cta-label-short">{d.nav.contact}</span>
   </button>
+  <a class="lang" href={altPath} aria-label={d.langSwitchAria} hreflang={locale === "fr" ? "en" : "fr"}>{d.langSwitch}</a>
   <button
     type="button"
     class="nav__burger"
