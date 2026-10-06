@@ -1,8 +1,9 @@
 ---
-// Footer — socials rendered only if present (from content.json / API
-// refresh), rights, back-to-top.
+// Footer — horizontal bands, one per zone (brand, navigation shortcuts,
+// social & contact, legal), each separated by a hairline over a dark stage
+// with a soft glow, an outlined wordmark and a bottom bar.
 import { t } from "@/lib/i18n";
-import { SOCIALS, type Locale } from "@/lib/site";
+import { SOCIALS, localePath, type Locale } from "@/lib/site";
 
 interface Props {
   locale: Locale;
@@ -15,22 +16,184 @@ const socials = [
   { key: "whatsapp", label: "WhatsApp", href: SOCIALS.whatsapp ? `https://wa.me/${SOCIALS.whatsapp.replace(/[^\d]/g, "")}` : null },
   { key: "email", label: "Email", href: SOCIALS.email ? `mailto:${SOCIALS.email}` : null },
 ].filter((s) => s.href);
+// Content can ship without any social handle; never leave the band empty.
+if (socials.length === 0) {
+  socials.push({ key: "contact", label: d.footer.nav.contact, href: d.homeUrl + "#contact" });
+}
+// Built in the frontmatter: a single spread per anchor keeps the scoped-style
+// class from landing twice on the same element.
+const socialLinks = socials.map((s) => {
+  const attrs: Record<string, string> = { href: s.href!, "data-social": s.key };
+  if (s.href!.startsWith("http")) {
+    attrs.target = "_blank";
+    attrs.rel = "noopener noreferrer";
+  }
+  if (s.key === "email") attrs["data-public-email"] = "";
+  return { attrs, label: s.label + (s.key === "contact" ? "" : " ↗") };
+});
+const shortcuts = [
+  { label: d.footer.nav.projects, href: d.homeUrl + "#projets" },
+  { label: d.footer.nav.method, href: d.homeUrl + "#processus" },
+  { label: d.footer.nav.products, href: d.homeUrl + "#produit" },
+  { label: d.footer.nav.contact, href: d.homeUrl + "#contact" },
+];
+const legal = [
+  { label: d.footer.privacy, href: localePath("/privacy", locale) },
+  { label: d.footer.terms, href: localePath("/terms", locale) },
+];
 ---
 
-<footer>
-  <span>{d.footer.rights}</span>
-  <span data-socials class="footer-socials">
-    {socials.map((s) => (
-      <a
-        href={s.href!}
-        data-social={s.key}
-        {...(s.href!.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-        {...(s.key === "email" ? { "data-public-email": "" } : {})}
-      >
-        {s.label} ↗
+<footer class="site-footer">
+  <div class="footer-glow" aria-hidden="true"></div>
+  <div class="footer-inner">
+    <div class="footer-band footer-band--brand">
+      <a class="footer-logo" href={d.homeUrl}>
+        <img class="logo-mark logo-mark--color" src="/logo-stacklab.svg" alt="" width="30" height="30" />
+        <img class="logo-mark logo-mark--bw" src="/logo-stacklab-bw.png" alt="" width="30" height="30" aria-hidden="true" />
+        <span>StackLab</span>
       </a>
-    ))}
-  </span>
-  <span>{d.footer.tagline}</span>
-  <a href={d.homeUrl + "#top"}>{d.footer.top}</a>
+      <p class="footer-note">{d.footer.brandNote}</p>
+      <p class="footer-status"><i aria-hidden="true"></i>{d.footer.status}</p>
+    </div>
+
+    <div class="footer-band">
+      <h2>{d.footer.navTitle}</h2>
+      <ul>
+        {shortcuts.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-band">
+      <h2>{d.footer.socialTitle}</h2>
+      <ul data-socials class="footer-socials">
+        {socialLinks.map((l) => (
+          <li><a {...l.attrs}>{l.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-band">
+      <h2>{d.footer.legalTitle}</h2>
+      <ul>
+        {legal.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <p class="footer-wordmark" aria-hidden="true">StackLab</p>
+
+  <div class="footer-bottom">
+    <span>{d.footer.rights} · {d.footer.tagline}</span>
+    <a href={d.homeUrl + "#top"}>{d.footer.top}</a>
+  </div>
 </footer>
+
+<style>
+  .site-footer {
+    position: relative; display: block;
+    border-top: 0;
+    padding: clamp(2.5rem, 6vw, 4.5rem) var(--pad) 1.5rem;
+    overflow: hidden;
+  }
+  .site-footer::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent,
+      color-mix(in srgb, var(--text) 18%, transparent) 15%,
+      color-mix(in srgb, var(--text) 18%, transparent) 85%, transparent);
+  }
+  .footer-glow {
+    position: absolute; top: -22%; left: 50%; transform: translateX(-50%);
+    width: 72vw; height: 38vw; border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--text) 7%, transparent), transparent 65%);
+    filter: blur(70px); pointer-events: none;
+  }
+  .footer-inner {
+    position: relative;
+    width: min(1200px, 100%); margin-inline: auto;
+  }
+  /* One horizontal band per zone, divided by hairlines */
+  .footer-band {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 1rem 2.5rem;
+    padding: 1.7rem 0;
+  }
+  .footer-band + .footer-band {
+    border-top: 1px solid color-mix(in srgb, var(--text) 9%, transparent);
+  }
+  .footer-band h2 {
+    flex: none; margin: 0;
+    font-family: var(--mono); font-size: .66rem; font-weight: 600;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+  }
+  .footer-band ul {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: .2rem 2.2rem;
+    margin-inline-start: auto;
+  }
+  .footer-band ul a {
+    display: inline-flex; align-items: center; min-height: 40px;
+    color: color-mix(in srgb, var(--text) 78%, transparent);
+    text-decoration: none; font-size: .92rem; font-weight: 500;
+    transition: color var(--hover) var(--ease-out);
+  }
+  .footer-band ul a:hover, .footer-band ul a:focus-visible { color: var(--text); }
+
+  /* Brand band: logo + note + availability chip on one line */
+  .footer-band--brand { padding-top: .4rem; padding-bottom: 2rem; }
+  .footer-logo {
+    display: inline-flex; align-items: center; gap: .7rem;
+    color: var(--text); text-decoration: none;
+    font-weight: 800; letter-spacing: -.01em; font-size: 1.15rem;
+  }
+  .footer-logo img { height: 30px; width: 30px; }
+  .footer-note {
+    margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.6;
+    max-width: 46ch;
+  }
+  .footer-status {
+    display: inline-flex; align-items: center; gap: .55rem;
+    margin: 0 0 0 auto;
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+    border-radius: 999px; padding: .42rem .85rem;
+    background: color-mix(in srgb, var(--text) 5%, transparent);
+  }
+  .footer-status i {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4ade80; box-shadow: 0 0 10px rgba(74, 222, 128, .7);
+  }
+
+  .footer-wordmark {
+    position: relative;
+    width: min(1200px, 100%); margin: clamp(1.5rem, 4vw, 3rem) auto 0;
+    font-size: clamp(3.5rem, 13vw, 11rem); font-weight: 900;
+    letter-spacing: -.04em; line-height: .85; text-transform: uppercase; text-align: center;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--text) 15%, transparent);
+    user-select: none; pointer-events: none;
+  }
+  .footer-bottom {
+    position: relative;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 1rem; flex-wrap: wrap;
+    width: min(1200px, 100%); margin: 1.6rem auto 0; padding-top: 1.2rem;
+    border-top: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+    color: var(--muted); font-size: .8rem;
+  }
+  .footer-bottom a {
+    color: var(--muted); text-decoration: none;
+    min-height: 44px; display: inline-flex; align-items: center;
+    transition: color var(--hover) var(--ease-out);
+  }
+  .footer-bottom a:hover { color: var(--text); }
+  @media (max-width: 720px) {
+    .footer-band { flex-direction: column; align-items: flex-start; gap: .8rem; padding: 1.4rem 0; }
+    .footer-band ul { margin-inline-start: 0; gap: .1rem 1.6rem; }
+    .footer-status { margin-inline-start: 0; }
+  }
+</style>

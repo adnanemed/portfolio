@@ -19,13 +19,25 @@ const d = t[locale];
     <span>StackLab</span>
   </a>
   <a class="lang" href={altPath} aria-label={d.langSwitchAria} hreflang={locale === "fr" ? "en" : "fr"}>{d.langSwitch}</a>
-  <div class="links">
+  <div class="links" id="navMenu">
     <a href={d.homeUrl + "#projets"}>{d.nav.projects}</a>
-    <a href={d.homeUrl + "#coulisses"}>{d.nav.coulisses}</a>
     <a href={d.homeUrl + "#processus"}>{d.nav.process}</a>
-    <a href={d.homeUrl + "#contact"}>{d.nav.contact}</a>
+    <a href={d.homeUrl + "#produit"}>{d.nav.produit}</a>
   </div>
-  <a class="btn-solid" href={d.homeUrl + "#contact"}>{d.nav.cta}</a>
+  <button type="button" class="btn-solid" data-contact-modal="top">
+    <span class="cta-label">{d.nav.cta}</span>
+    <span class="cta-label-short">{d.nav.contact}</span>
+  </button>
+  <button
+    type="button"
+    class="nav__burger"
+    data-nav-toggle
+    aria-expanded="false"
+    aria-controls="navMenu"
+    aria-label={d.nav.menuAria}
+  >
+    <span class="nav__burger-bars" aria-hidden="true"></span>
+  </button>
 </nav>
 
 <!-- Theme control: fixed to the bottom-left edge so it stays reachable on
@@ -82,6 +94,38 @@ const d = t[locale];
 
     window.addEventListener("pointerleave", () => {
       btn.removeAttribute("data-visible");
+    });
+  })();
+
+  // Mobile menu: conventional hamburger toggle. Opens the dropdown panel
+  // with the primary links; closes on link tap, Escape, outside click, or
+  // when the viewport grows past the mobile breakpoint.
+  (function () {
+    "use strict";
+    const nav = document.querySelector<HTMLElement>(".nav");
+    const burger = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+    if (!nav || !burger) return;
+
+    const setOpen = (open: boolean) => {
+      nav.toggleAttribute("data-open", open);
+      burger.setAttribute("aria-expanded", String(open));
+    };
+
+    burger.addEventListener("click", () => setOpen(!nav.hasAttribute("data-open")));
+    nav.querySelector(".links")?.addEventListener("click", (e) => {
+      if ((e.target as Element).closest("a")) setOpen(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && nav.hasAttribute("data-open")) {
+        setOpen(false);
+        burger.focus();
+      }
+    });
+    document.addEventListener("click", (e) => {
+      if (nav.hasAttribute("data-open") && !nav.contains(e.target as Node)) setOpen(false);
+    });
+    window.matchMedia("(min-width: 841px)").addEventListener("change", (e) => {
+      if (e.matches) setOpen(false);
     });
   })();
 </script>

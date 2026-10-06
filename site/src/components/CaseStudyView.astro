@@ -1,16 +1,14 @@
 ---
-// Case-study view — 8 blocks per PLAN-v2 §2.2, rendered from the
-// build-time content.json (runtime refresh via data-cs / data-cs-hash).
+// Case-study view v8 — every /projets/[slug] page follows the approved
+// problem → solution → result presentation (pinned scrub on desktop, stacked
+// on mobile), the shader gallery of the project's 3 real screenshots, the
+// detailed flow map, and the contact modal CTA. Texts come from
+// content.json (owner-validated); runtime refresh keeps working via data-cs.
 import { t, tagLabel } from "@/lib/i18n";
-import {
-  projectByLocale,
-  type Locale,
-  type Project,
-} from "@/lib/site";
+import { projectByLocale, type Locale, type Project } from "@/lib/site";
 import { hashJson } from "@/lib/hash";
 import Nav from "@/components/Nav.astro";
-import BrowserMockup from "@/components/BrowserMockup.astro";
-import ScreenshotGallery from "@/components/ScreenshotGallery.astro";
+import CaseGallery from "@/components/CaseGallery.astro";
 import FlowMapDetailed from "@/components/FlowMapDetailed.astro";
 import CtaBand from "@/components/CtaBand.astro";
 import ProjectNav from "@/components/ProjectNav.astro";
@@ -24,9 +22,9 @@ interface Props {
 const { project: p, locale } = Astro.props;
 const d = t[locale];
 const c = projectByLocale(p, locale);
+const v = d.v8.cases;
+const accent = p.accent ?? "#d4d4d8";
 
-const firstMetric = p.metrics[0] ?? null;
-const showEmbed = p.iframeEmbeddable && p.liveUrl;
 const hasScreens = p.fallbackScreenshots.length > 0;
 
 // breadcrumb JSON-LD
@@ -48,7 +46,7 @@ const crumb = {
 
 <Nav locale={locale} altPath={locale === "fr" ? `/en/projects/${p.slug}/` : `/projets/${p.slug}/`} />
 
-<main id="main" data-cs-hash={`${p.slug}:${hashJson(caseStudyView(p))}`}>
+<main id="main" data-cs-hash={`${p.slug}:${hashJson(caseStudyView(p))}`} style={`--pa:${accent}`}>
   <script type="application/ld+json" set:html={JSON.stringify(crumb)} />
   <header class="cs-hero">
     <a class="back" href={d.homeUrl}>← {d.caseStudy.back}</a>
@@ -65,34 +63,51 @@ const crumb = {
         </span>
       ))}
     </div>
-    {firstMetric && (
-      <div class="outcome">
-        <span class="big" data-cs="metric-value">{firstMetric.value}{firstMetric.suffix}</span>
-        <span class="lbl" data-cs="metric-label">{locale === "fr" ? firstMetric.labelFr : firstMetric.labelEn}</span>
-      </div>
-    )}
     <p class="arch-caption" style="margin-top:1.6rem;max-width:58ch;font-size:1rem" data-cs="summary">{c.summary}</p>
   </header>
 
-  <section class="cs-block" style="padding-top:0">
-    <div class="inner">
-      <span class="blk-idx">{d.caseStudy.problemIdx}</span>
-      <h2 set:html={d.caseStudy.problemTitle} />
-      <p data-cs="problem">{c.problem}</p>
-    </div>
-  </section>
+  <article class="v8case" data-v8-case style={`--pa:${accent}`}>
+      <div class="v8case__stage">
+        <p class="v8case__kicker">
+          {locale === "fr" ? `Étude de cas · ${c.name} — ${c.sector}` : `Case study · ${c.name} — ${c.sector}`}
+        </p>
 
-  <section class="cs-block" style="border-top:1px solid var(--line)">
-    <div class="inner">
-      <span class="blk-idx">{d.caseStudy.solutionIdx}</span>
-      <h2 set:html={d.caseStudy.solutionTitle} />
-      <p data-cs="solution">{c.solution}</p>
-    </div>
-  </section>
+        <div class="v8case__phase" data-v8-phase>
+          <p class="v8case__label" data-v8-cs-item>{v.problem}</p>
+          <p class="v8case__quote" data-cs="problem" data-v8-cs-item>{c.problem}</p>
+        </div>
+
+        <div class="v8case__phase" data-v8-phase>
+          <p class="v8case__label" data-v8-cs-item>{v.solution}</p>
+          <p class="v8case__quote" data-cs="solution" data-v8-cs-item>{c.solution}</p>
+        </div>
+
+        <div class="v8case__phase" data-v8-phase>
+          <p class="v8case__label" data-v8-cs-item>{v.result}</p>
+          <dl class="v8case__metrics" data-cs="metrics">
+            {p.metrics.map((m) => (
+              <div data-v8-cs-item>
+                <dd class="v">{m.value}<i style="font-style:normal">{m.suffix}</i></dd>
+                <dt class="l">{locale === "fr" ? m.labelFr : m.labelEn}</dt>
+              </div>
+            ))}
+          </dl>
+          <div class="v8case__actions" data-v8-cs-item>
+            <button type="button" class="btn-primary8" data-contact-modal>
+              {d.contact.megaCta} <span class="arr" aria-hidden="true">→</span>
+            </button>
+            {p.liveUrl && (
+              <a class="btn-ghost8" href={p.liveUrl} target="_blank" rel="noopener noreferrer">
+                {d.v8.projects.live} <span class="arr" aria-hidden="true">↗</span>
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
 
   <section class="cs-block" style="border-top:1px solid var(--line)">
     <div class="inner" style="max-width:none">
-      <span class="blk-idx">{d.caseStudy.featuresIdx}</span>
       <h2 set:html={d.caseStudy.featuresTitle} />
       <div class="features" data-cs="features">
         {c.features.map((f) => (
@@ -103,7 +118,7 @@ const crumb = {
         ))}
       </div>
       {p.metrics.length > 1 && (
-        <div class="cs-metrics" data-cs="metrics">
+        <div class="cs-metrics" data-cs="metrics-alt">
           {p.metrics.map((m) => (
             <div>
               <div class="v">{m.value}{m.suffix}</div>
@@ -115,40 +130,12 @@ const crumb = {
     </div>
   </section>
 
-  <section class="cs-block" style="border-top:1px solid var(--line)">
-    <span class="blk-idx">{d.caseStudy.liveIdx}</span>
-    <h2 set:html={d.caseStudy.liveTitle} />
-
-    {showEmbed && (
-      <BrowserMockup url={p.liveUrl!} locale={locale} title={c.name} uid={p.slug} />
-    )}
-
-    {!showEmbed && hasScreens && (
-      <>
-        <ScreenshotGallery project={p} locale={locale} />
-        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
-          {p.liveUrl ? (
-            <a class="btn-wipe" href={p.liveUrl} target="_blank" rel="noopener noreferrer">
-              {d.caseStudy.openSite} <span class="arr" aria-hidden="true">↗</span>
-            </a>
-          ) : (
-            <>
-              <a class="btn-wipe" href={d.homeUrl + "#contact"}>
-                {d.caseStudy.withheldCta} <span class="arr" aria-hidden="true">↗</span>
-              </a>
-              <p class="demo-note" style="margin-top:0">{d.caseStudy.withheldNote}</p>
-            </>
-          )}
-        </div>
-      </>
-    )}
-  </section>
+  {hasScreens && <CaseGallery project={p} locale={locale} />}
 
   {p.flowDetailed && p.flowDetailed.phases.length > 0 && (
     <section class="cs-block" style="border-top:1px solid var(--line)">
       <div class="inner" style="max-width:none">
-        <span class="blk-idx">{d.caseStudy.archIdx}</span>
-        <h2 set:html={d.caseStudy.archTitle} />
+        <h2 set:html={d.caseStudy.archTitleText} />
         <FlowMapDetailed locale={locale} slug={p.slug} name={c.name} flow={p.flowDetailed} />
       </div>
     </section>
@@ -162,6 +149,8 @@ const crumb = {
 <SiteFooter locale={locale} />
 
 <script>
+  // v8 orchestrator (pins, gallery GL, reveals, Lenis) + runtime refresh.
+  import "@/scripts/v8/home";
   import { initRefresh } from "@/lib/refresh";
   initRefresh();
 </script>

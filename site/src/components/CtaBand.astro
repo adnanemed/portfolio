@@ -1,7 +1,7 @@
 ---
-// Case-study CTA band — WhatsApp primary + form anchor secondary.
+// Case-study CTA band — contact modal (primary) + back to projects.
 import { t } from "@/lib/i18n";
-import { primaryContactHref, localePath, type Locale } from "@/lib/site";
+import { localePath, type Locale } from "@/lib/site";
 
 interface Props {
   locale: Locale;
@@ -10,24 +10,17 @@ interface Props {
 const { locale, projectName } = Astro.props;
 const d = t[locale];
 const waText = d.caseStudy.waText.replace("{name}", projectName);
-const cta = primaryContactHref(waText);
 ---
 
-<div class="cta-band">
+<div class="cta-band v8">
   <div>
     <h2 set:html={d.caseStudy.ctaTitle} />
     <p class="arch-caption" style="margin-top:.8rem">{d.caseStudy.ctaNote}</p>
   </div>
   <div class="actions">
-    <a
-      class="btn-wipe"
-      href={cta.href}
-      data-contact-cta
-      data-wa-text={waText}
-      {...(cta.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-    >
-      {d.contact.megaCta} <span class="arr" aria-hidden="true">↗</span>
-    </a>
-    <a class="btn-wipe" href={localePath("/#contact", locale)}>{d.nav.contact} <span class="arr" aria-hidden="true">↗</span></a>
+    <button type="button" class="btn-primary8 btn-lg8" data-contact-modal="bottom" data-wa-text={waText}>
+      {d.contact.megaCta} <span class="arr" aria-hidden="true">→</span>
+    </button>
+    <a class="btn-ghost8" href={localePath("/", locale)}>{d.caseStudy.back} <span class="arr" aria-hidden="true">→</span></a>
   </div>
 </div>

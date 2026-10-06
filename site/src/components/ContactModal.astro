@@ -1,0 +1,43 @@
+---
+// Contact modal — native <dialog> opened by every contact CTA on the site
+// (hero, nav, end-of-section, case pages, footer) via [data-contact-modal].
+// Contains the existing ContactForm (same submission pipeline) + a WhatsApp
+// fallback link. A11y: native focus trap + ESC, backdrop click closes,
+// focus returns to the trigger, closing animation honors reduced motion.
+import { t } from "@/lib/i18n";
+import { primaryContactHref, type Locale } from "@/lib/site";
+import ContactForm from "@/components/ContactForm.astro";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+const wa = primaryContactHref(d.contact.waText);
+const waIsWhatsApp = wa.external && wa.href.startsWith("https://wa.me");
+---
+
+<dialog class="v8modal" id="contactModal" aria-labelledby="contactModalTitle">
+  <div class="v8modal__head">
+    <div>
+      <h2 class="v8modal__title" id="contactModalTitle" set:html={d.contact.title} />
+      <p class="v8modal__baseline">{d.contact.note}</p>
+    </div>
+    <button type="button" class="v8modal__close" data-modal-close aria-label={d.contact.modalClose}>
+      ×
+    </button>
+  </div>
+  <div class="v8modal__body">
+    <ContactForm locale={locale} />
+    <p class="v8modal__alt">
+      <span>{d.contact.formTitle}</span>
+      {waIsWhatsApp && (
+        <a href={wa.href} target="_blank" rel="noopener noreferrer">{d.waFloat} ↗</a>
+      )}
+    </p>
+  </div>
+</dialog>
+
+<script>
+  import "@/scripts/contact-modal";
+</script>

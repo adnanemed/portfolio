@@ -1,19 +1,17 @@
 ---
-// Home view shared by / (FR) and /en/ (EN) — sections exactly per the
-// approved preview: hero, stats, marquee, case index, coulisses,
-// architecture, anatomy, manifesto, process, contact, footer.
+// Home view v8 shared by / (FR) and /en/ (EN). Slim conversion skeleton:
+// hero → projects (live links + case studies) → 3D pipeline (method) →
+// PromptifyApp product → discreet contact end + footer. The contact form
+// lives in the global modal (ContactModal), opened by every [data-contact-modal]
+// CTA. All WebGL is a decorative enhancement layer; content is plain HTML.
 import { t } from "@/lib/i18n";
-import { projects, SOCIALS, WHATSAPP_FALLBACK, waLink, type Locale } from "@/lib/site";
+import { SOCIALS, WHATSAPP_FALLBACK, waLink, type Locale } from "@/lib/site";
 import Nav from "@/components/Nav.astro";
-import Hero from "@/components/Hero.astro";
-import Stats from "@/components/Stats.astro";
-import SectorMarquee from "@/components/SectorMarquee.astro";
-import CaseIndex from "@/components/CaseIndex.astro";
-import ShotsGrid from "@/components/ShotsGrid.astro";
-import FlowMap from "@/components/FlowMap.astro";
-import AnatomyRows from "@/components/AnatomyRows.astro";
-import Manifesto from "@/components/Manifesto.astro";
-import ContactSection from "@/components/ContactSection.astro";
+import Hero3D from "@/components/Hero3D.astro";
+import ProjectRows from "@/components/ProjectRows.astro";
+import Pipeline3D from "@/components/Pipeline3D.astro";
+import PromptifyForge from "@/components/PromptifyForge.astro";
+import ContactEnd from "@/components/ContactEnd.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 
 interface Props {
@@ -22,18 +20,6 @@ interface Props {
 const { locale } = Astro.props;
 const d = t[locale];
 
-// All six projects, in editorial order — drives the flow map (FIX 2).
-// Data lives in content.json.
-const ordered = [...projects].sort((a, b) => a.orderIndex - b.orderIndex);
-
-const flowItems = ordered.map((p) => ({
-  slug: p.slug,
-  name: locale === "fr" ? p.nameFr : p.nameEn,
-  sector: locale === "fr" ? p.sectorFr : p.sectorEn,
-  intro: (locale === "fr" ? p.flowIntroFr : p.flowIntroEn) ?? "",
-  steps: (locale === "fr" ? p.flowStepsFr : p.flowStepsEn) ?? [],
-}));
-
 const waNumber = SOCIALS.whatsapp || WHATSAPP_FALLBACK || null;
 const waHref = waNumber ? waLink(waNumber, d.contact.waText) : null;
 ---
@@ -41,41 +27,15 @@ const waHref = waNumber ? waLink(waNumber, d.contact.waText) : null;
 <Nav locale={locale} altPath={locale === "fr" ? "/en/" : "/"} />
 
 <main id="main">
-  <Hero locale={locale} />
-  <Stats locale={locale} />
-  <SectorMarquee locale={locale} />
+  <Hero3D locale={locale} />
 
-  <CaseIndex locale={locale} />
+  <ProjectRows locale={locale} />
 
-  <ShotsGrid locale={locale} />
+  <Pipeline3D locale={locale} />
 
-  <section id="architecture">
-    <div class="sec-head sr">
-      <h2 set:html={d.arch.title} />
-      <span class="idx">{d.arch.idx}</span>
-    </div>
-    <FlowMap locale={locale} items={flowItems} />
-  </section>
+  <PromptifyForge locale={locale} />
 
-  <section id="anatomie">
-    <div class="sec-head sr">
-      <h2 set:html={d.anatomy.title} />
-      <span class="idx">{d.anatomy.idx}</span>
-    </div>
-    <AnatomyRows rows={d.anatomy.rows} />
-  </section>
-
-  <Manifesto locale={locale} />
-
-  <section id="processus">
-    <div class="sec-head sr">
-      <h2 set:html={d.process.title} />
-      <span class="idx">{d.process.idx}</span>
-    </div>
-    <AnatomyRows rows={d.process.rows} />
-  </section>
-
-  <ContactSection locale={locale} />
+  <ContactEnd locale={locale} />
 </main>
 
 <SiteFooter locale={locale} />
@@ -87,6 +47,7 @@ const waHref = waNumber ? waLink(waNumber, d.contact.waText) : null;
 )}
 
 <script>
-  import { initRefresh } from "@/lib/refresh";
-  initRefresh();
+  // v8 orchestrator: GSAP + Lenis + tilt + pins + chat, and the tier-gated
+  // dynamic import of the Three.js scenes (hero, pipeline).
+  import "@/scripts/v8/home";
 </script>

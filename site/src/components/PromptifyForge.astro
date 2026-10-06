@@ -1,0 +1,53 @@
+---
+// v8 product section — PromptifyApp as an animated conversation ending on the
+// "PROMPT FORGÉ" card. Accent = the product's own color (--pa). The chat
+// sequence is pure enhancement: without JS every bubble is visible.
+import { t } from "@/lib/i18n";
+import { getProject, type Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale].v8.forge;
+const accent = getProject("promptifyapp")?.accent ?? "#ff4b4b";
+// Plain-text aria label: sectionTitle carries markup, attributes must not.
+const sectionAria = locale === "fr" ? "Nos produits" : "Our products";
+---
+
+<section id="produit" class="v8 v8forge-sec" style={`--pa:${accent}`} aria-label={sectionAria}>
+  <div class="v8-wrap v8forge">
+    <h2 class="v8-h2 v8forge__head v8-reveal" set:html={d.sectionTitle} />
+    <div>
+      <h3 class="v8forge__product v8-reveal">{d.title}</h3>
+      <p class="v8-lead v8-reveal">{d.lead}</p>
+      <div class="v8-reveal" style="display:flex;flex-wrap:wrap;gap:16px;margin-top:2rem">
+        <a class="btn-primary8 btn-lg8" href="https://promptifyapp.com/" target="_blank" rel="noopener noreferrer">
+          {d.cta} <span class="arr" aria-hidden="true">→</span>
+        </a>
+        <button type="button" class="btn-ghost8 btn-lg8" data-contact-modal>{d.ctaProject}</button>
+      </div>
+      <p class="v8-reveal" style="color:var(--muted);font-size:.88rem;margin-top:1rem">{d.note}</p>
+    </div>
+
+    <div class="v8chat" data-v8-chat-panel aria-label={d.chatTitle}>
+      <div class="v8chat__head"><i aria-hidden="true"></i><span>{d.chatTitle}</span></div>
+      <p class="v8chat__msg v8chat__msg--user" data-v8-chat>
+        <span aria-label={d.chatUser}>
+          <span data-v8-typed data-text={d.chatUser}>{d.chatUser}</span>
+        </span>
+      </p>
+      <p class="v8chat__msg v8chat__msg--bot" data-v8-chat>{d.chatBot}</p>
+      <p class="v8chat__pill" data-v8-chat>{d.forgePill}</p>
+      <div class="v8card" data-v8-chat>
+        <div class="v8card__bar"><b>{d.forged}</b><i aria-hidden="true"></i></div>
+        <dl class="v8card__rows">
+          {d.rows.map(([k, val]) => (
+            <div class="v8card__row"><dt>{k}</dt><dd>{val}</dd></div>
+          ))}
+        </dl>
+        <div class="v8card__cta"><span>{d.readyFor}</span><b>ChatGPT · Claude · Gemini</b></div>
+      </div>
+    </div>
+  </div>
+</section>

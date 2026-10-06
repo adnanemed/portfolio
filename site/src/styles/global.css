@@ -127,66 +127,171 @@ a, button, [role="button"] {
 /* ============================================================
    Nav
    ============================================================ */
-/* Nav sits in the normal flow at the top of the document and scrolls away
-   with the page — no fixed overlay, no blur scrim to fight with. It is
-   compact by design: small type, tight gaps, hairline rules. */
+/* Full-bleed fluid top bar: the glass spans edge to edge so its sides melt
+   into the page — no detached pill, no visible roundness. A hairline that
+   fades at both ends marks the scroll edge instead of a hard border. */
 .nav {
   position: absolute; top: 0; left: 0; right: 0; z-index: 50;
-  display: flex; align-items: center; gap: 1.4rem;
-  padding: .9rem var(--pad);
-  padding-top: calc(.9rem + env(safe-area-inset-top, 0px));
-  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 1rem;
+  padding: .8rem var(--pad);
+  padding-top: calc(.8rem + env(safe-area-inset-top, 0px));
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
 }
-.nav .brand { display: flex; align-items: center; gap: .5rem; font-weight: 700; letter-spacing: .02em; font-size: .92rem; }
-.nav .brand img { height: 24px; width: auto; }
+.nav::before {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(90deg, transparent,
+    color-mix(in srgb, var(--text) 16%, transparent) 15%,
+    color-mix(in srgb, var(--text) 16%, transparent) 85%, transparent);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nav { animation: navIn .8s var(--ease-out) both; }
+  @keyframes navIn {
+    from { opacity: 0; transform: translateY(-16px) scale(.98); filter: blur(10px); }
+    to { opacity: 1; transform: none; filter: blur(0); }
+  }
+}
+.nav .brand { display: flex; align-items: center; gap: .6rem; font-weight: 800; letter-spacing: -.01em; font-size: .95rem; }
+/* The mark's SVG viewBox is square, so width must equal height or the cube
+   floats in dead space away from the wordmark. */
+.nav .brand img { height: 26px; width: 26px; transition: transform var(--hover) var(--ease-out); }
+.nav .brand:hover img { transform: scale(1.08) rotate(-6deg); }
 
 /* Theme-aware logo: the site is dark-first, so the black & white mark is the
    default and its black field melts into the page via screen blend. Whenever
    the page renders light, the colored mark takes over instead. */
 .logo-mark--color { display: none; }
 .logo-mark--bw { display: block; mix-blend-mode: screen; }
-[data-theme="light"] .logo-mark--color { display: block; }
+/* Light mode: monochrome brand — the colored mark is flattened to a solid
+   black silhouette so cube + wordmark both read black on the light bar. */
+[data-theme="light"] .logo-mark--color { display: block; filter: brightness(0); }
 [data-theme="light"] .logo-mark--bw { display: none; mix-blend-mode: normal; }
 @media (prefers-color-scheme: light) {
-  html:not([data-theme="dark"]) .logo-mark--color { display: block; }
+  html:not([data-theme="dark"]) .logo-mark--color { display: block; filter: brightness(0); }
   html:not([data-theme="dark"]) .logo-mark--bw { display: none; mix-blend-mode: normal; }
 }
 .nav .lang {
-  font-family: var(--mono); font-size: .7rem; letter-spacing: .1em;
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .12em;
   color: var(--muted); text-transform: uppercase;
-  min-height: 34px; padding-inline: .3rem; display: inline-flex; align-items: center;
-  transition: color var(--hover) var(--ease-out);
+  min-height: 30px; padding-inline: .6rem; display: inline-flex; align-items: center;
+  border: 1px solid color-mix(in srgb, var(--text) 16%, transparent);
+  border-radius: 999px;
+  transition: color var(--hover) var(--ease-out), border-color var(--hover) var(--ease-out);
 }
-.nav .lang:hover { color: var(--text); }
-.nav .links { display: flex; gap: .15rem; margin-inline-start: auto; font-size: .8rem; color: var(--muted); }
+.nav .lang:hover { color: var(--text); border-color: color-mix(in srgb, var(--text) 40%, transparent); }
+/* Links: centered in the bar as calm uppercase labels; hover lifts them with
+   a soft glass pill — no underline, no roll, nothing that reads as chrome. */
+.nav .links {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  display: flex; gap: .2rem;
+}
 .nav .links a {
-  position: relative; padding: .35rem .55rem; display: inline-block;
-  transition: color var(--hover) var(--ease-out);
+  display: inline-flex; align-items: center; min-height: 34px;
+  padding-inline: .85rem; border-radius: 999px;
+  font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted);
+  transition: color var(--hover) var(--ease-out), background var(--hover) var(--ease-out);
 }
-.nav .links a::after {
-  content: ""; position: absolute; inset-inline: .8rem; bottom: .35rem;
-  height: 1px; background: var(--text);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform var(--hover) var(--ease-out);
+.nav .links a:hover, .nav .links a:focus-visible {
+  color: var(--text);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
 }
-.nav .links a:hover { color: var(--text); }
-.nav .links a:hover::after { transform: scaleX(1); }
 
 .btn-solid {
+  position: relative; overflow: hidden; isolation: isolate;
   display: inline-flex; align-items: center; justify-content: center;
-  min-height: 34px;
+  margin-inline-start: auto;
+  min-height: 36px;
   background: var(--text); color: var(--bg);
   border-radius: 999px; border: 1px solid var(--text);
-  padding: .35rem .95rem; font-size: .74rem; font-weight: 700; letter-spacing: .02em;
-  transition: transform var(--press) var(--ease-out), background var(--hover) var(--ease-out),
-              box-shadow var(--hover) var(--ease-out);
+  padding: .4rem 1.15rem; font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  transition: transform var(--press) var(--ease-out), box-shadow var(--hover) var(--ease-out);
+}
+/* Shine sweep: a diagonal highlight crosses the pill on hover */
+.btn-solid::before {
+  content: ""; position: absolute; inset: -20%; z-index: -1;
+  background: linear-gradient(105deg, transparent 42%,
+    color-mix(in srgb, var(--bg) 55%, transparent) 50%, transparent 58%);
+  transform: translateX(-70%);
+  transition: transform .7s var(--ease-out);
+  pointer-events: none;
 }
 .btn-solid:active { transform: scale(0.96); }
 @media (hover: hover) and (pointer: fine) {
-  .btn-solid:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(246,246,246,.14); }
+  .btn-solid:hover { transform: translateY(-2px); box-shadow: 0 10px 30px color-mix(in srgb, var(--text) 28%, transparent); }
+  .btn-solid:hover::before { transform: translateX(70%); }
   .btn-solid:hover:active { transform: scale(0.96); }
 }
-@media (max-width: 840px) { .nav .links { display: none; } .nav .btn-solid { margin-inline-start: auto; } }
+.nav .cta-label-short { display: none; }
+
+/* Hamburger toggle (mobile only): the conventional menu affordance — three
+   bars morphing into a cross, paired with a dropdown panel hanging off the
+   bar so the primary links stay reachable on small screens. */
+.nav__burger {
+  display: none; flex: none; margin-inline-start: .35rem;
+  width: 40px; height: 40px; border-radius: 999px; cursor: pointer;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  transition: background var(--hover) var(--ease-out), transform var(--press) var(--ease-out);
+}
+.nav__burger:active { transform: scale(.94); }
+.nav__burger-bars { position: relative; display: block; width: 16px; height: 1.5px; border-radius: 2px; background: var(--text); transition: background .2s var(--ease-out); }
+.nav__burger-bars::before, .nav__burger-bars::after {
+  content: ""; position: absolute; left: 0; width: 16px; height: 1.5px; border-radius: 2px;
+  background: var(--text); transition: transform .3s var(--ease-out);
+}
+.nav__burger-bars::before { top: -5px; }
+.nav__burger-bars::after { top: 5px; }
+.nav[data-open] .nav__burger-bars { background: transparent; }
+.nav[data-open] .nav__burger-bars::before { transform: translateY(5px) rotate(45deg); }
+.nav[data-open] .nav__burger-bars::after { transform: translateY(-5px) rotate(-45deg); }
+
+@media (max-width: 840px) {
+  .nav .btn-solid { margin-inline-start: auto; }
+  .nav__burger { display: grid; }
+  /* The panel hangs off the bar itself (the nav is its containing block),
+     so it always opens right under the header wherever the page scrolled. */
+  .nav .links {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; gap: 0; margin: 0;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(24px) saturate(1.8);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8);
+    border-bottom: 1px solid var(--line);
+    border-radius: 0 0 22px 22px;
+    padding: .3rem var(--pad) calc(.7rem + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+    opacity: 0; visibility: hidden; transform: translateY(-10px);
+    transition: opacity .28s var(--ease-out), transform .28s var(--ease-out), visibility 0s linear .28s;
+  }
+  .nav[data-open] .links {
+    opacity: 1; visibility: visible; transform: none;
+    transition: opacity .28s var(--ease-out), transform .28s var(--ease-out);
+  }
+  .nav .links a {
+    display: flex; align-items: center; min-height: 48px;
+    height: auto; line-height: 1.2; overflow: visible;
+    padding: .8rem .2rem; font-size: .95rem; font-weight: 600;
+    letter-spacing: .04em; text-transform: none; color: var(--text);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav .links a:last-child { border-bottom: 0; }
+}
+@media (max-width: 560px) {
+  .nav { gap: .6rem; padding-inline: 1rem; }
+  .nav .cta-label { display: none; }
+  .nav .cta-label-short { display: inline; }
+  .nav .btn-solid { padding: .4rem .9rem; font-size: .66rem; min-height: 34px; }
+  .nav .lang { padding-inline: .45rem; min-height: 28px; font-size: .6rem; }
+  .nav .brand { font-size: .88rem; gap: .45rem; }
+  .nav .brand img { height: 22px; width: 22px; }
+}
+@media (max-width: 380px) {
+  .nav .brand span { display: none; }
+}
 
 /* ============================================================
    Hero — dual-state headline
@@ -1138,11 +1243,17 @@ footer a:hover { color: var(--text); }
 .dfm-phase-count { color: var(--muted); font-size: .7rem; letter-spacing: .12em; flex: none; }
 .dfm-phase-rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
 
+/* Rail horizontal : une colonne par étape, connecteurs horizontaux entre
+   elles ; quand les étapes ne tiennent pas, la rangée défile en scroll-x.
+   (L'ancien flex-basis clamp(...,1fr) était invalide et empilait tout.) */
 .dfm-steps {
-  display: flex; flex-wrap: wrap; align-items: stretch;
-  list-style: none; padding: 0; margin: 0; row-gap: 1rem;
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(250px, 1fr);
+  align-items: stretch;
+  list-style: none; padding: 0; margin: 0;
+  overflow-x: auto; scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--text) 22%, transparent) transparent;
 }
-.dfm-step { display: flex; align-items: stretch; flex: 1 1 clamp(240px, 30%, 1fr); min-width: 0; }
+.dfm-step { display: flex; align-items: stretch; min-width: 0; }
 .dfm-node {
   flex: 1; min-width: 0;
   display: flex; flex-direction: column; gap: .7rem;
@@ -1208,7 +1319,7 @@ footer a:hover { color: var(--text); }
   .dfm-dot { display: none; }
 }
 @media (max-width: 860px) {
-  .dfm-steps { flex-direction: column; flex-wrap: nowrap; row-gap: 0; }
+  .dfm-steps { display: flex; flex-direction: column; flex-wrap: nowrap; row-gap: 0; overflow-x: visible; }
   .dfm-step { flex-direction: column; flex: none; }
   .dfm-node { width: 100%; }
   .dfm-link {

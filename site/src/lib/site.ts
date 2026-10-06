@@ -29,6 +29,8 @@ export type Project = {
   solutionEn: string;
   tags: string[];
   metrics: ProjectMetric[];
+  /** v8 recolor: accent extracted from the project's own live site. */
+  accent: string | null;
   liveUrl: string | null;
   liveUrlWithheld: boolean;
   iframeEmbeddable: boolean;

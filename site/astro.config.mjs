@@ -8,6 +8,9 @@ export default defineConfig({
   site: process.env.PUBLIC_SITE_URL || "https://stacklab-site.vercel.app",
   output: "static",
   trailingSlash: "ignore",
+  devToolbar: {
+    enabled: false,
+  },
   build: {
     inlineStylesheets: "auto",
   },

@@ -220,7 +220,8 @@
       },
       "previewCaptionFr": "site patient bilingue + tableau de bord du cabinet",
       "previewCaptionEn": "bilingual patient site + clinic dashboard",
-      "orderIndex": 1
+      "orderIndex": 1,
+      "accent": "#f59e0b"
     },
     {
       "slug": "auradrive",
@@ -448,7 +449,8 @@
       },
       "previewCaptionFr": "site de réservation + portail d'agence",
       "previewCaptionEn": "booking site + agency portal",
-      "orderIndex": 2
+      "orderIndex": 2,
+      "accent": "#d8be75"
     },
     {
       "slug": "saveur-charme",
@@ -669,7 +671,8 @@
       },
       "previewCaptionFr": "démo live — côté client & côté gérant",
       "previewCaptionEn": "live demo — customer & owner side",
-      "orderIndex": 3
+      "orderIndex": 3,
+      "accent": "#cda274"
     },
     {
       "slug": "kfresh",
@@ -862,7 +865,8 @@
       },
       "previewCaptionFr": "boutique en ligne + tableau de bord gérant",
       "previewCaptionEn": "online store + owner dashboard",
-      "orderIndex": 4
+      "orderIndex": 4,
+      "accent": "#4ade80"
     },
     {
       "slug": "sigmaparts",
@@ -899,7 +903,7 @@
           "suffix": ""
         }
       ],
-      "liveUrl": "/demos/sigmaparts/",
+      "liveUrl": "https://sigmaparts.ma/",
       "liveUrlWithheld": false,
       "iframeEmbeddable": true,
       "architectureImage": null,
@@ -1049,7 +1053,8 @@
       },
       "previewCaptionFr": "catalogue pièces + demande de devis",
       "previewCaptionEn": "parts catalogue + quote request",
-      "orderIndex": 5
+      "orderIndex": 5,
+      "accent": "#e5a600"
     },
     {
       "slug": "promptifyapp",
@@ -1098,7 +1103,7 @@
           "suffix": "/jour"
         }
       ],
-      "liveUrl": "/demos/promptifyapp/",
+      "liveUrl": "https://promptifyapp.com/",
       "liveUrlWithheld": false,
       "iframeEmbeddable": true,
       "architectureImage": null,
@@ -1106,8 +1111,8 @@
       "architectureCaptionEn": null,
       "fallbackScreenshots": [
         "/projects/promptifyapp/promptifyapp-hero.webp",
-        "/projects/promptifyapp/promptifyapp-library.webp",
-        "/projects/promptifyapp/promptifyapp-studio.webp"
+        "/projects/promptifyapp/promptifyapp-studio.webp",
+        "/projects/promptifyapp/promptifyapp-library.webp"
       ],
       "featuresFr": [
         {
@@ -1246,7 +1251,8 @@
       },
       "previewCaptionFr": "extension navigateur — produit propre",
       "previewCaptionEn": "browser extension — own product",
-      "orderIndex": 6
+      "orderIndex": 6,
+      "accent": "#ff4b4b"
     }
   ]
 }

@@ -1,0 +1,48 @@
+---
+// EN terms of use / legal notice.
+import Base from "@/layouts/Base.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+---
+
+<Base
+  locale="en"
+  title="Terms of Use / Legal Notice — StackLab"
+  description="Terms of use, intellectual property, liability and legal notice for this site."
+  frPath="/terms"
+  enPath="/en/terms"
+>
+  <main class="legal">
+    <h1>Terms of <span class="serif">use</span></h1>
+    <p class="legal-updated">Last updated: June 2026</p>
+    <section>
+      <h2>Purpose</h2>
+      <p>This site showcases demonstration projects and own products. Using the site implies acceptance of these terms.</p>
+    </section>
+    <section>
+      <h2>Intellectual property</h2>
+      <p>All content (text, visuals, code, mockups) remains the exclusive property of StackLab unless stated otherwise. Reproduction without written permission is prohibited.</p>
+    </section>
+    <section>
+      <h2>Liability</h2>
+      <p>Live demos are provided "as is" for illustration purposes. StackLab is not liable for temporary outages or display errors.</p>
+    </section>
+    <section>
+      <h2>Legal notice</h2>
+      <p>Publisher: StackLab — independent studio. Hosting: European cloud provider. For any request: use the site contact form.</p>
+    </section>
+    <section>
+      <h2>Governing law</h2>
+      <p>These terms are governed by the law of the publisher's location; disputes fall under the jurisdiction of its competent courts.</p>
+    </section>
+  </main>
+  <SiteFooter locale="en" />
+</Base>
+
+<style>
+  .legal { max-width: 720px; margin: 0 auto; padding: 6rem 1.5rem 4rem; }
+  .legal h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 0 0 0.5rem; }
+  .legal-updated { opacity: 0.55; margin: 0 0 3rem; }
+  .legal section { margin: 0 0 2.2rem; }
+  .legal h2 { font-size: 1.05rem; margin: 0 0 0.6rem; }
+  .legal p { line-height: 1.7; opacity: 0.85; }
+</style>

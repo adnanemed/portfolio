@@ -1,0 +1,58 @@
+---
+// v8 pipeline — neon 3D tube linking the 4 method nodes. The pulse is scrubbed
+// by ScrollTrigger; nodes carry the accent of a real project (--pa) and the
+// HTML list is the accessible control (click = camera zoom via the scene).
+import { t } from "@/lib/i18n";
+import { getProject, type Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale].v8.pipeline;
+
+// Un projet (donc une couleur extraite) par étape de la méthode.
+const nodeAccents = ["lahyani", "kfresh", "promptifyapp", "auradrive"].map(
+  (slug) => getProject(slug)?.accent ?? "#d4d4d8"
+);
+---
+
+<section id="processus" class="v8" aria-label={d.title} style="background:var(--bg2);border-block:1px solid var(--line);padding:5rem 0">
+  <div class="v8-wrap">
+    <h2 class="v8-h2 v8-reveal">{d.title}</h2>
+    <p class="v8-lead v8-reveal">{d.lead}</p>
+    <div class="v8pipe">
+      <div class="v8pipe__stage v8-reveal">
+        <canvas id="pipeCanvas" aria-hidden="true"></canvas>
+      </div>
+      <div>
+        <ol class="v8pipe__list">
+          {d.nodes.map((n, i) => (
+            <li>
+              <button
+                type="button"
+                class="v8pipe__node v8-reveal"
+                data-pipe-node={i}
+                aria-pressed="false"
+                style={`--pa:${nodeAccents[i]}`}
+              >
+                <span class="v8pipe__num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <span>
+                  <span class="v8pipe__name">{n.name}</span>
+                  <span class="v8pipe__desc">{n.desc}</span>
+                </span>
+                <i class="v8pipe__dot" aria-hidden="true"></i>
+              </button>
+            </li>
+          ))}
+        </ol>
+        <p class="v8pipe__hint" id="pipeHint">{d.hintFallback}</p>
+      </div>
+    </div>
+      <div class="v8pipe__cta v8-reveal" style="margin-top:3rem">
+        <button type="button" class="btn-primary8 btn-lg8" data-contact-modal>
+          {t[locale].contact.megaCta} <span class="arr" aria-hidden="true">→</span>
+        </button>
+      </div>
+  </div>
+</section>

@@ -1,0 +1,610 @@
+/* ============================================================
+   StackLab — v8 skin layer ("flex tech / WebGL").
+   Loaded AFTER global.css: overrides the monochrome tokens with
+   the v8 zinc palette, swaps the type system to Satoshi, and adds
+   the v8 sections (hero 3D, project rows, shader gallery, case
+   sequences, pipeline, forge, terminal). Everything degrades
+   gracefully: no WebGL / reduced motion → static content.
+   ============================================================ */
+
+:root {
+  --bg: #0a0a0c;
+  --bg2: #0e0e11;
+  --surface: #141417;
+  --surface2: #1a1a1f;
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
+  --line: rgba(245, 245, 247, 0.09);
+  --ink: #f4f4f5; /* CTA blanc plein */
+  --paper: #131316; /* encre sur blanc */
+  --v8-ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  /* --pa: accent PAR PROJET — posé inline par les composants (content.json) */
+  --pa: #d4d4d8;
+}
+[data-theme="light"] {
+  --bg: #f6f6f7;
+  --bg2: #efeff1;
+  --surface: #ffffff;
+  --surface2: #f1f1f3;
+  --text: #131316;
+  --muted: #5f5f66;
+  --line: rgba(19, 19, 22, 0.12);
+  --ink: #131316;
+  --paper: #f4f4f5;
+}
+
+body {
+  font-family: "Satoshi", "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+/* v8 : le mot mis en avant n'est plus un serif italique — c'est un sans très
+   gras, comme les mots accent de la preview. Une ligne = tout le site suit. */
+.serif {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.mono, .v8-mono { font-family: var(--mono); }
+
+/* ---------- Boutons v8 (blanc plein = point de poids maximal) ---------- */
+/* Boutons v8 (blanc plein = point de poids maximal). Sélecteurs globaux :
+   les pages case-study n'ont pas d'ancêtre .v8, et un bouton non stylé
+   retombe sur le gris par défaut du navigateur. */
+.btn-primary8,
+[data-theme] .btn-solid,
+.btn-mega {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.btn-primary8 {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 44px; padding: 12px 24px; border-radius: 12px;
+  font-size: 0.95rem; font-weight: 700; text-decoration: none; cursor: pointer;
+  border: 1px solid var(--ink);
+  transition: transform 0.16s var(--v8-ease), background 0.2s var(--v8-ease);
+}
+.btn-primary8:active { transform: scale(0.97); }
+.btn-primary8:hover { background: #ffffff; }
+[data-theme="light"] .btn-primary8:hover { background: #000; }
+.btn-ghost8 {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 44px; padding: 12px 24px; border-radius: 12px;
+  font-size: 0.95rem; font-weight: 700; text-decoration: none; cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--text) 32%, transparent);
+  color: var(--text);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
+  transition: transform 0.16s var(--v8-ease), background 0.2s var(--v8-ease),
+              border-color 0.2s var(--v8-ease);
+}
+.btn-ghost8:active { transform: scale(0.97); }
+.btn-ghost8:hover {
+  background: color-mix(in srgb, var(--text) 14%, transparent);
+  border-color: color-mix(in srgb, var(--text) 55%, transparent);
+  transform: translateY(-1px);
+}
+.btn-lg8 { min-height: 56px; padding: 16px 32px; font-size: 1.05rem; border-radius: 14px; }
+.v8 .arr { font-weight: 600; }
+
+/* ---------- Squelette section v8 ---------- */
+.v8 { position: relative; }
+.v8-wrap { width: min(1200px, 100%); margin-inline: auto; padding-inline: var(--pad); }
+.v8-kicker {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted);
+}
+.v8-kicker::before { content: ""; width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
+.v8-h2 {
+  font-size: clamp(2.2rem, 5.2vw, 4rem); line-height: 1.02;
+  letter-spacing: -0.035em; font-weight: 900; margin: 1.4rem 0 1rem;
+  max-width: 18ch;
+}
+.v8-lead { color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.15rem); max-width: 56ch; }
+.v8-grad {
+  background: linear-gradient(100deg, var(--text), var(--muted) 70%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.v8-reveal { opacity: 0; transform: translateY(28px); }
+html.no-motion .v8-reveal { opacity: 1; transform: none; }
+
+/* ============================================================
+   F1 — HERO 3D
+   ============================================================ */
+.hero3d {
+  position: relative;
+  min-height: 100vh;
+  min-height: clamp(540px, 92svh, 980px);
+  display: flex; align-items: center; overflow: hidden; isolation: isolate;
+}
+/* Small screens: the hero hugs its content — no forced viewport height
+   leaving a dead void between the CTAs and the next section. */
+@media (max-width: 840px) {
+  .hero3d { min-height: 0; }
+  .hero3d__inner { padding: calc(5rem + env(safe-area-inset-top, 0px)) var(--pad) 3.4rem; }
+}
+.hero3d__fallback {
+  position: absolute; inset: 0; z-index: -3;
+  background:
+    radial-gradient(58% 48% at 74% 30%, rgba(245, 245, 247, 0.06), transparent 66%),
+    radial-gradient(40% 36% at 16% 76%, rgba(245, 245, 247, 0.03), transparent 70%),
+    linear-gradient(180deg, rgba(10, 10, 12, 0.6), rgba(10, 10, 12, 0.3) 45%, var(--bg) 96%);
+}
+[data-theme="light"] .hero3d__fallback {
+  background:
+    radial-gradient(58% 48% at 74% 30%, rgba(19, 19, 22, 0.06), transparent 66%),
+    linear-gradient(180deg, rgba(246, 246, 247, 0.6), var(--bg) 96%);
+}
+.hero3d__canvas { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; display: block; }
+.hero3d__inner { width: min(1200px, 100%); margin-inline: auto; padding: clamp(6.5rem, 12svh, 9rem) var(--pad) clamp(3rem, 7svh, 5rem); position: relative; }
+.hero3d__eyebrow {
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.4rem;
+}
+.hero3d__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.4rem; }
+.hero3d__chips span {
+  font-family: var(--mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+  border: 1px solid var(--line); border-color: rgba(245, 245, 247, 0.2);
+  background: rgba(245, 245, 247, 0.04); border-radius: 999px; padding: 6px 12px;
+}
+[data-theme="light"] .hero3d__chips span { border-color: rgba(19, 19, 22, 0.2); background: rgba(19, 19, 22, 0.03); }
+.hero3d h1 {
+  font-size: clamp(2.8rem, 9vw, 7.5rem); line-height: 0.98; letter-spacing: -0.04em;
+  font-weight: 900; max-width: 12ch;
+}
+.hero3d h1 span { display: block; }
+.hero3d__sub { margin: 1.6rem 0 2rem; color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.2rem); max-width: 52ch; }
+.hero3d__ctas { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.hero3d__fps {
+  position: absolute; left: var(--pad); bottom: 1.4rem;
+  font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+}
+.hero3d__fps[hidden] { display: none; }
+
+/* ============================================================
+   F2 — RANGÉES PROJETS (tilt 3D + popup glass)
+   ============================================================ */
+.v8proj { display: grid; gap: 2rem; align-items: center; margin-bottom: 6rem; }
+@media (min-width: 900px) {
+  .v8proj { grid-template-columns: 7fr 5fr; gap: 3rem; }
+  .v8proj:nth-child(even) .v8proj__media { order: 2; }
+}
+.v8proj__media { perspective: 1100px; }
+.v8tilt { position: relative; transform-style: preserve-3d; }
+.v8tilt__frame {
+  border-radius: 20px; overflow: hidden; border: 1px solid var(--line);
+  border-color: rgba(245, 245, 247, 0.18); background: var(--surface);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.5);
+}
+[data-theme="light"] .v8tilt__frame { border-color: rgba(19, 19, 22, 0.15); box-shadow: 0 32px 90px rgba(19, 19, 22, 0.15); }
+.v8tilt__frame img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+.v8tilt__depth {
+  position: absolute; inset: -1px; border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--pa) 45%, transparent);
+  background: color-mix(in srgb, var(--pa) 6%, transparent);
+  transform: translateZ(-40px); opacity: 0;
+  transition: opacity 0.3s var(--v8-ease); pointer-events: none;
+}
+.v8proj.pop--open .v8tilt__depth { opacity: 1; }
+.v8proj__sector {
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--pa); margin-bottom: 0.7rem;
+}
+.v8proj h3 { font-size: clamp(1.8rem, 3.6vw, 2.7rem); line-height: 1.05; letter-spacing: -0.03em; font-weight: 900; margin-bottom: 1rem; }
+.v8proj__summary { color: var(--muted); max-width: 52ch; margin-bottom: 1.5rem; }
+.v8proj__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.v8proj__case {
+  color: var(--muted); font-size: 0.88rem; font-weight: 600; text-decoration: none;
+  border-bottom: 1px solid rgba(245, 245, 247, 0.2); padding-bottom: 4px;
+  transition: color 0.2s var(--v8-ease), border-color 0.2s var(--v8-ease);
+}
+[data-theme="light"] .v8proj__case { border-color: rgba(19, 19, 22, 0.25); }
+.v8proj__case:hover, .v8proj__case:focus-visible { color: var(--text); border-color: var(--pa); }
+.v8proj__index { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); display: block; margin-bottom: 0.5rem; }
+
+/* ============================================================
+   F3 — GALERIE SHADER
+   ============================================================ */
+.v8gal { background: var(--bg2); border-block: 1px solid var(--line); padding: 5rem 0; }
+.v8gal__viewport {
+  position: relative; border-radius: 20px; overflow: hidden;
+  border: 1px solid var(--line); border-color: rgba(245, 245, 247, 0.18);
+  background: var(--surface); aspect-ratio: 16 / 9;
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.45);
+}
+[data-theme="light"] .v8gal__viewport { border-color: rgba(19, 19, 22, 0.15); }
+.v8gal__viewport img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.v8gal__viewport canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: none; }
+.v8gal__viewport.gal--gl canvas { display: block; }
+.v8gal__viewport.gal--gl img { visibility: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .v8gal__viewport.gal--wipe img { animation: v8galwipe 0.8s var(--v8-ease); }
+  @keyframes v8galwipe {
+    from { clip-path: circle(0% at 50% 50%); filter: saturate(1.3); }
+    to { clip-path: circle(75% at 50% 50%); filter: none; }
+  }
+}
+.v8gal__hud { position: absolute; bottom: 16px; right: 16px; display: flex; gap: 8px; align-items: center; z-index: 3; }
+.v8gal__count {
+  font-family: var(--mono); font-size: 0.72rem; color: var(--muted);
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px;
+  backdrop-filter: blur(8px);
+}
+.v8gal__hud button {
+  width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line);
+  border-color: rgba(245, 245, 247, 0.2); background: color-mix(in srgb, var(--bg) 60%, transparent);
+  color: var(--text); font-size: 1.1rem; cursor: pointer; backdrop-filter: blur(8px);
+  transition: background 0.2s var(--v8-ease);
+}
+[data-theme="light"] .v8gal__hud button { border-color: rgba(19, 19, 22, 0.2); }
+.v8gal__hud button:hover { background: rgba(245, 245, 247, 0.14); }
+[data-theme="light"] .v8gal__hud button:hover { background: rgba(19, 19, 22, 0.08); }
+.v8gal__tabs { display: flex; gap: 8px; overflow-x: auto; margin-top: 1.4rem; padding-bottom: 4px; scrollbar-width: none; }
+.v8gal__tabs::-webkit-scrollbar { display: none; }
+.v8gal__tab {
+  flex: none; font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--muted); border: 1px solid rgba(245, 245, 247, 0.2);
+  background: rgba(245, 245, 247, 0.02); border-radius: 999px; padding: 10px 16px;
+  cursor: pointer; transition: all 0.2s var(--v8-ease);
+}
+[data-theme="light"] .v8gal__tab { border-color: rgba(19, 19, 22, 0.2); background: rgba(19, 19, 22, 0.02); }
+.v8gal__tab:hover { color: var(--text); background: rgba(245, 245, 247, 0.06); }
+[data-theme="light"] .v8gal__tab:hover { background: rgba(19, 19, 22, 0.05); }
+.v8gal__tab[aria-pressed="true"] { color: var(--paper); background: var(--ink); border-color: var(--ink); }
+.v8gal__hint { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-top: 0.8rem; }
+
+/* ============================================================
+   SÉQUENCES CASE STUDIES (pin scrub desktop)
+   ============================================================ */
+.v8case { position: relative; }
+.v8case__stage { position: relative; padding: 2rem var(--pad) 3rem; }
+.v8case__kicker {
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.4rem; display: block;
+}
+.v8case__phase { padding: 1.5rem 0; }
+.v8case__label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--text);
+  background: color-mix(in srgb, var(--text) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--text) 20%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 999px; padding: 8px 16px; margin-bottom: 1.2rem;
+}
+.v8case__label::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--pa); box-shadow: 0 0 10px color-mix(in srgb, var(--pa) 70%, transparent);
+}
+.v8case__headline { font-size: clamp(2rem, 5.2vw, 4.2rem); line-height: 1.02; letter-spacing: -0.035em; font-weight: 900; max-width: 16ch; margin-bottom: 1rem; }
+.v8case__headline .w { display: inline-block; }
+.v8case__body { color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.15rem); max-width: 54ch; }
+/* Citation large : problem/solution des case pages (contenu owner-validated) */
+.v8case__quote {
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem); line-height: 1.7; letter-spacing: 0;
+  font-weight: 500; max-width: 62ch;
+  color: color-mix(in srgb, var(--text) 86%, transparent);
+}
+.v8case__steps { list-style: none; display: grid; gap: 1rem; max-width: 560px; margin-top: 1.5rem; }
+.v8case__steps li {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  border: 1px solid var(--line); border-radius: 16px; padding: 16px 24px;
+}
+.v8case__steps .n {
+  font-family: var(--mono); font-weight: 600; color: var(--pa); font-size: 0.85rem;
+  border: 1px solid var(--line); border-radius: 8px; min-width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+}
+.v8case__steps h4 { font-size: 1rem; font-weight: 700; }
+.v8case__steps p { color: var(--muted); font-size: 0.88rem; line-height: 1.55; margin-top: 2px; }
+.v8case__shot {
+  width: 100%; max-width: 420px; border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--line); border-color: rgba(245, 245, 247, 0.18);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5); background: var(--surface);
+}
+[data-theme="light"] .v8case__shot { border-color: rgba(19, 19, 22, 0.15); }
+.v8case__shot img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+.v8case__metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin: 1.5rem 0 2rem; max-width: 720px; }
+.v8case__metrics .v { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.v8case__metrics .l { color: var(--muted); font-size: 0.88rem; margin-top: 8px; display: block; }
+.v8case__actions { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+@media (min-width: 900px) {
+  html.fx .v8case__stage { height: 100vh; height: 100svh; padding: 0; overflow: hidden; }
+  html.fx .v8case__kicker { position: absolute; top: 2.5rem; left: var(--pad); right: var(--pad); margin: 0; z-index: 2; }
+  html.fx .v8case__phase {
+    position: absolute; inset: 0; padding: 7.5rem var(--pad) 3rem;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    will-change: transform, opacity;
+  }
+  html.fx .v8case__shot { position: absolute; right: var(--pad); top: 50%; transform: translateY(-50%); max-width: 400px; }
+}
+@media (max-width: 899px) {
+  .v8case__shot { margin-top: 1.5rem; }
+  .v8case__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ============================================================
+   F4 — PIPELINE 3D
+   ============================================================ */
+.v8pipe { display: grid; gap: 2rem; margin-top: 3rem; }
+@media (min-width: 1000px) { .v8pipe { grid-template-columns: 1.25fr 1fr; gap: 3rem; align-items: center; } }
+.v8pipe__stage {
+  position: relative; border-radius: 20px; border: 1px solid var(--line);
+  background: radial-gradient(60% 60% at 50% 45%, rgba(245, 245, 247, 0.05), transparent 70%), var(--bg);
+  aspect-ratio: 16 / 10; overflow: hidden;
+}
+[data-theme="light"] .v8pipe__stage { background: radial-gradient(60% 60% at 50% 45%, rgba(19, 19, 22, 0.04), transparent 70%), var(--bg2); }
+.v8pipe__stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.v8pipe__stage::before {
+  content: ""; position: absolute; left: 8%; right: 8%; top: 50%; height: 2px;
+  background: linear-gradient(90deg, transparent, #71717a 20%, #d4d4d8 50%, #71717a 80%, transparent);
+  opacity: 0.5; filter: blur(0.5px);
+}
+[data-theme="light"] .v8pipe__stage::before { background: linear-gradient(90deg, transparent, var(--muted) 20%, var(--text) 50%, var(--muted) 80%, transparent); }
+/* padding/margin remis à zéro : le padding-inline-start par défaut du <ol>
+   décalait la colonne de nodes hors de l'axe sur mobile. */
+.v8pipe__list { list-style: none; display: grid; gap: 12px; padding: 0; margin: 0; }
+.v8pipe__node {
+  width: 100%; display: flex; gap: 16px; align-items: flex-start; text-align: left;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+  padding: 16px 24px; cursor: pointer; color: var(--text); font-family: inherit; font-size: 1rem;
+  transition: border-color 0.2s var(--v8-ease), background 0.2s var(--v8-ease);
+}
+.v8pipe__node:hover { border-color: color-mix(in srgb, var(--text) 35%, transparent); }
+.v8pipe__node[aria-pressed="true"] { border-color: var(--text); background: color-mix(in srgb, var(--text) 8%, transparent); }
+.v8pipe__node.v8pipe--lit { border-color: var(--text); box-shadow: 0 0 24px color-mix(in srgb, var(--text) 18%, transparent); }
+.v8pipe__num {
+  font-family: var(--mono); font-weight: 600; font-size: 0.8rem; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 8px; min-width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center; flex: none; margin-top: 2px;
+}
+.v8pipe__name { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.01em; display: block; }
+.v8pipe__desc { color: var(--muted); font-size: 0.88rem; display: block; margin-top: 2px; }
+.v8pipe__dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--pa);
+  margin-left: auto; flex: none; margin-top: 6px;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--pa) 60%, transparent);
+}
+.v8pipe__hint { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-top: 1rem; }
+@media (max-width: 899px) {
+  .v8pipe__hint { text-align: center; }
+  .v8pipe__cta { display: flex; justify-content: center; }
+}
+
+/* ============================================================
+   PRODUIT — conversation Forge (accent Promptify via --pa)
+   ============================================================ */
+.v8forge-sec {
+  background: radial-gradient(55% 45% at 82% 18%, color-mix(in srgb, var(--pa) 7%, transparent), transparent 70%), var(--bg);
+  padding: 5rem 0;
+}
+.v8forge { display: grid; gap: 3rem; align-items: center; }
+@media (min-width: 960px) { .v8forge { grid-template-columns: 1fr 1fr; } }
+/* Section header spans the full grid; the product name steps down a level */
+.v8forge__head { grid-column: 1 / -1; margin: 0; }
+.v8forge__product {
+  font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.05;
+  letter-spacing: -0.03em; font-weight: 900; margin: 0 0 1rem;
+}
+.v8chat {
+  background: var(--surface); border: 1px solid var(--line); border-color: rgba(245, 245, 247, 0.18);
+  border-radius: 24px; padding: 24px; display: grid; gap: 16px;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.45);
+}
+[data-theme="light"] .v8chat { border-color: rgba(19, 19, 22, 0.15); box-shadow: 0 40px 120px rgba(19, 19, 22, 0.15); }
+.v8chat__head { display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.v8chat__head i { width: 10px; height: 10px; border-radius: 50%; background: var(--pa); box-shadow: 0 0 12px color-mix(in srgb, var(--pa) 60%, transparent); }
+.v8chat__head span { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.v8chat__msg { max-width: 88%; border-radius: 16px; padding: 12px 16px; font-size: 0.9rem; line-height: 1.5; }
+.v8chat__msg--user { justify-self: end; background: var(--pa); color: var(--paper); font-weight: 600; border-bottom-right-radius: 4px; }
+.v8chat__msg--bot { justify-self: start; background: var(--surface2); border: 1px solid var(--line); color: var(--text); border-bottom-left-radius: 4px; }
+.v8chat__pill {
+  justify-self: center; background: var(--pa); color: var(--paper); font-weight: 800;
+  letter-spacing: 0.04em; border-radius: 999px; padding: 10px 24px; font-size: 0.9rem;
+}
+.v8card {
+  justify-self: center; width: 100%; max-width: 380px;
+  background: linear-gradient(180deg, var(--surface2), var(--surface));
+  border: 1px solid color-mix(in srgb, var(--pa) 45%, transparent);
+  border-radius: 16px; overflow: hidden; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+}
+.v8card__bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; border-bottom: 1px solid var(--line);
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+}
+.v8card__bar b { color: var(--pa); }
+.v8card__bar i { width: 8px; height: 8px; border-radius: 50%; background: var(--pa); }
+@media (prefers-reduced-motion: no-preference) {
+  .v8card__bar i { animation: v8pulse 1.6s ease-in-out infinite; }
+  @keyframes v8pulse { 50% { opacity: 0.35; } }
+}
+.v8card__rows { display: grid; }
+.v8card__row { display: flex; justify-content: space-between; gap: 16px; padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 0.84rem; }
+.v8card__row:last-child { border-bottom: 0; }
+.v8card__row dt { color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.7rem; align-self: center; }
+.v8card__row dd { color: var(--text); font-weight: 600; text-align: right; }
+.v8card__cta { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: color-mix(in srgb, var(--pa) 8%, transparent); }
+.v8card__cta span { font-size: 0.78rem; color: var(--muted); }
+.v8card__cta b { color: var(--pa); font-size: 0.78rem; letter-spacing: 0.06em; }
+
+/* ---------- Case-study pages : tokens v8 + accent projet ---------- */
+.blk-idx { color: var(--pa); }
+.cs-hero .meta > span:first-child { color: var(--pa); font-weight: 700; }
+.outcome .big { font-weight: 900; letter-spacing: -0.03em; }
+.demo-badge { border-color: color-mix(in srgb, var(--pa) 55%, transparent); color: var(--pa); }
+
+/* ============================================================
+   MOD 4 — MODAL CONTACT (<dialog> natif)
+   ============================================================ */
+dialog.v8modal {
+  background: color-mix(in srgb, var(--surface) 62%, transparent);
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--text) 16%, transparent);
+  border-radius: 28px;
+  padding: 0;
+  position: fixed; inset: 0; margin: auto;
+  width: min(640px, calc(100vw - 24px));
+  height: fit-content;
+  max-height: min(88vh, 880px);
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  box-shadow:
+    0 48px 160px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 color-mix(in srgb, var(--text) 18%, transparent);
+  overflow: hidden;
+}
+/* The flex column layout must only apply while open: the UA hides closed
+   dialogs with display:none, and an author display:flex would override it
+   and leave the card sitting on the page from load. */
+dialog.v8modal:not([open]) { display: none; }
+dialog.v8modal[open] { display: flex; flex-direction: column; }
+dialog.v8modal::backdrop {
+  background: rgba(6, 6, 8, 0.55);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+}
+.v8modal__head {
+  position: relative; flex: none;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 2.4rem clamp(1.4rem, 6vw, 3.6rem) 1.3rem;
+  border-bottom: 1px solid var(--line);
+}
+.v8modal__title { font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 900; letter-spacing: -0.035em; line-height: 1.08; text-wrap: balance; }
+.v8modal__baseline { color: var(--muted); font-size: 0.88rem; margin-top: 0.5rem; }
+.v8modal__close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 40px; height: 40px; border-radius: 999px; cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text); font-size: 1.1rem; line-height: 1;
+  transition: background 0.2s var(--v8-ease), transform 0.16s var(--v8-ease);
+}
+.v8modal__close:hover { background: color-mix(in srgb, var(--text) 14%, transparent); }
+.v8modal__close:active { transform: scale(0.94); }
+/* The form floats directly on the frosted glass — no card-in-card. The whole
+   column (form + alt link) sits centered in the middle of the glass. */
+.v8modal__body {
+  display: grid; justify-items: center; align-content: safe center; gap: 0.25rem;
+  padding: 1.8rem 1.8rem 2rem;
+  flex: 1 1 auto; min-height: 0;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--text) 22%, transparent) transparent;
+}
+.v8modal .form-wrap {
+  width: 100%; max-width: 30rem; margin: 0;
+  border: 0; background: transparent; padding: 0;
+}
+.v8modal .field input, .v8modal .field textarea {
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background 0.2s var(--v8-ease), border-color 0.2s var(--v8-ease);
+}
+.v8modal .field input:focus, .v8modal .field textarea:focus {
+  background: color-mix(in srgb, var(--text) 11%, transparent);
+  border-color: color-mix(in srgb, var(--text) 26%, transparent);
+}
+.v8modal .btn-wipe {
+  width: 100%; justify-content: center;
+  background: var(--ink); color: var(--paper); border-color: var(--ink);
+}
+.v8modal .btn-wipe::before { display: none; }
+.v8modal .btn-wipe:hover:not(:disabled) { background: #ffffff; border-color: #ffffff; color: var(--paper); }
+[data-theme="light"] .v8modal .btn-wipe:hover:not(:disabled) { background: #000; border-color: #000; color: #f4f4f5; }
+.v8modal__alt { width: 100%; max-width: 30rem; justify-content: center; text-align: center; }
+.v8modal__alt {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid var(--line);
+  color: var(--muted); font-size: 0.85rem;
+}
+.v8modal__alt a { color: var(--text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+  /* Open direction follows the trigger: header CTAs drop the modal in from
+     the top, page-end CTAs push it up from the bottom. Closing mirrors it. */
+  dialog.v8modal[open] { animation: v8modalInUp 0.5s var(--v8-ease); }
+  dialog.v8modal[open][data-origin="top"] { animation: v8modalInDown 0.5s var(--v8-ease); }
+  dialog.v8modal[open]::backdrop { animation: v8fadeIn 0.35s ease-out; }
+  dialog.v8modal.closing { animation: v8modalOutDown 0.24s ease-in forwards; }
+  dialog.v8modal.closing[data-origin="top"] { animation: v8modalOutUp 0.24s ease-in forwards; }
+  dialog.v8modal.closing::backdrop { animation: v8fadeOut 0.24s ease-in forwards; }
+  /* Materialize: the glass arrives as a material — scale + blur + a slight
+     directional offset from the trigger, settling dead-center. */
+  @keyframes v8modalInUp { from { opacity: 0; transform: translateY(64px) scale(0.92); filter: blur(16px); } to { opacity: 1; transform: none; filter: blur(0); } }
+  @keyframes v8modalInDown { from { opacity: 0; transform: translateY(-64px) scale(0.92); filter: blur(16px); } to { opacity: 1; transform: none; filter: blur(0); } }
+  @keyframes v8modalOutDown { to { opacity: 0; transform: translateY(48px) scale(0.95); filter: blur(12px); } }
+  @keyframes v8modalOutUp { to { opacity: 0; transform: translateY(-48px) scale(0.95); filter: blur(12px); } }
+  @keyframes v8fadeIn { from { opacity: 0; } }
+  @keyframes v8fadeOut { to { opacity: 0; } }
+}
+
+/* ---------- Full-page contact finale (sans formulaire) ---------- */
+.v8contact-end {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid; place-items: center;
+  border-top: 1px solid var(--line);
+  background: var(--bg2);
+  padding: clamp(4rem, 10vh, 8rem) 0;
+  overflow: hidden;
+}
+.v8contact-end::before,
+.v8contact-end::after {
+  content: ""; position: absolute; border-radius: 50%;
+  filter: blur(90px); opacity: 0.5; pointer-events: none;
+}
+.v8contact-end::before {
+  width: 46vw; height: 46vw; left: -14vw; bottom: -20vw;
+  background: radial-gradient(circle, color-mix(in srgb, var(--text) 20%, transparent), transparent 65%);
+}
+.v8contact-end::after {
+  width: 38vw; height: 38vw; right: -12vw; top: -16vw;
+  background: radial-gradient(circle, color-mix(in srgb, var(--text) 14%, transparent), transparent 65%);
+}
+.v8contact-end__inner {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 1.4rem;
+}
+.v8contact-end h2 { font-size: clamp(2.4rem, 7vw, 5.2rem); font-weight: 900; letter-spacing: -0.035em; line-height: 1.02; }
+.v8contact-end p { color: var(--muted); font-size: clamp(0.95rem, 1.6vw, 1.1rem); margin-top: 0.2rem; max-width: 46ch; }
+.v8contact-end .v8proj__actions {
+  display: flex; flex-direction: column; align-items: stretch; gap: 1rem;
+  width: min(560px, 100%); margin-top: 1.4rem;
+}
+.v8contact-end .btn-primary8.btn-lg8 {
+  width: 100%;
+  min-height: 88px;
+  padding: 24px 48px;
+  font-size: clamp(1.2rem, 2.6vw, 1.7rem);
+  border-radius: 24px;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: 0 24px 70px color-mix(in srgb, var(--ink) 22%, transparent);
+}
+.v8contact-end .btn-primary8.btn-lg8:hover { background: #ffffff; border-color: #ffffff; }
+[data-theme="light"] .v8contact-end .btn-primary8.btn-lg8:hover { background: #000; border-color: #000; }
+
+/* ---------- Gating: états initiaux SEULEMENT si GSAP actif ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.fx .v8-reveal { opacity: 0; transform: translateY(28px); }
+  html.fx [data-v8-hero] { opacity: 0; transform: translateY(24px); }
+  html.fx [data-v8-cs-item] { opacity: 0; transform: translateY(24px); }
+  html.fx [data-v8-chat] { opacity: 0; transform: translateY(18px); }
+  html.fx .v8card { transform: translateY(18px) scale(0.96); }
+}

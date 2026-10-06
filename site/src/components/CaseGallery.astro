@@ -1,0 +1,54 @@
+---
+// v8 case gallery — the 3 real screenshots of THIS project, liquid GLSL
+// transition (monochrome ripple, edge in the project's accent), arrows +
+// counter + keyboard. Fallback: <img> + CSS wipe. Replaces the old
+// ScreenshotGallery / live embed on case-study pages.
+import { t } from "@/lib/i18n";
+import { projectByLocale, type Locale, type Project } from "@/lib/site";
+
+interface Props {
+  project: Project;
+  locale: Locale;
+}
+const { project, locale } = Astro.props;
+const d = t[locale];
+const v = d.v8.gallery;
+const c = projectByLocale(project, locale);
+const captions = v.captions as Record<string, string>;
+
+const data = {
+  name: c.name,
+  accent: project.accent ?? "#d4d4d8",
+  shots: project.fallbackScreenshots.map((src) => {
+    const key = src.split("/").pop()?.replace(".webp", "") ?? "";
+    return { url: src, caption: captions[key] ?? c.name };
+  }),
+  labels: { prev: v.prev, next: v.next, regionAria: v.title, hintWebgl: v.hintWebgl, hintFallback: v.hintFallback },
+};
+const first = data.shots[0];
+---
+
+<section class="v8 v8gal" aria-label={v.title}>
+  <div class="v8-wrap">
+
+    <h2 class="v8-h2 v8-reveal" set:html={d.caseStudy.liveTitle} />
+    <div
+      class="v8gal__viewport v8-reveal"
+      id="galViewport"
+      style={`--pa:${project.accent ?? "#d4d4d8"}`}
+      tabindex="0"
+      role="region"
+      aria-label={`${v.title} — ${c.name}`}
+    >
+      <img id="galImg" src={first.url} alt={first.caption} width="1440" height="900" loading="lazy" decoding="async" />
+      <canvas id="galCanvas" aria-hidden="true"></canvas>
+      <div class="v8gal__hud">
+        <span class="v8gal__count" id="galCount">1 / {data.shots.length}</span>
+        <button type="button" id="galPrev">←</button>
+        <button type="button" id="galNext">→</button>
+      </div>
+    </div>
+    <p class="v8gal__hint" id="galHint">{v.hintFallback}</p>
+    <script type="application/json" data-gallery-data set:html={JSON.stringify(data)} />
+  </div>
+</section>

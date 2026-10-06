@@ -1,0 +1,32 @@
+---
+// Full-page contact finale — no inline form (the form lives in the global
+// contact modal). Giant glass CTA + direct channels, centered on a
+// full-viewport stage with soft glow orbs.
+import { t } from "@/lib/i18n";
+import { primaryContactHref, type Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+const wa = primaryContactHref(d.contact.waText);
+const waIsWhatsApp = (h: { href: string; external: boolean }) => h.external && h.href.startsWith("https://wa.me");
+---
+
+<section id="contact" class="v8 v8contact-end" aria-label={d.contact.megaCta}>
+  <div class="v8-wrap v8contact-end__inner">
+    <h2 set:html={d.contact.title} />
+    <p>{d.contact.note} — {d.footer.tagline}.</p>
+    <div class="v8proj__actions">
+      <button type="button" class="btn-primary8 btn-lg8" data-contact-modal="bottom">
+        {d.contact.megaCta} <span class="arr" aria-hidden="true">→</span>
+      </button>
+      {waIsWhatsApp(wa) && (
+        <a class="btn-ghost8" href={wa.href} target="_blank" rel="noopener noreferrer">
+          {d.waFloat} <span class="arr" aria-hidden="true">↗</span>
+        </a>
+      )}
+    </div>
+  </div>
+</section>

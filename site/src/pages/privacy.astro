@@ -1,0 +1,45 @@
+---
+// FR privacy policy — default locale.
+import Base from "@/layouts/Base.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+
+---
+
+<Base
+  locale="fr"
+  title="Politique de confidentialité — StackLab"
+  description="Comment ce site traite vos données : formulaire de contact, cookies, vos droits RGPD."
+  frPath="/privacy"
+  enPath="/en/privacy"
+>
+  <main class="legal">
+    <h1>Politique de <span class="serif">confidentialité</span></h1>
+    <p class="legal-updated">Dernière mise à jour : juin 2026</p>
+    <section>
+      <h2>Données collectées</h2>
+      <p>Ce site ne collecte aucune donnée personnelle automatiquement. Seules les informations que vous envoyez volontairement via le formulaire de contact (nom, email, message) sont traitées, uniquement pour vous répondre.</p>
+    </section>
+    <section>
+      <h2>Cookies</h2>
+      <p>Aucun cookie publicitaire ou de suivi tiers n'est déposé. Un stockage local technique peut être utilisé pour mémoriser vos préférences d'affichage (langue, thème), sans transmission à des tiers.</p>
+    </section>
+    <section>
+      <h2>Vos droits</h2>
+      <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et d'effacement de vos données. Écrivez-nous via le formulaire de contact : votre demande sera traitée sous 30 jours.</p>
+    </section>
+    <section>
+      <h2>Contact</h2>
+      <p>Toute question sur cette politique peut être envoyée via le formulaire de contact du site ou par email.</p>
+    </section>
+  </main>
+  <SiteFooter locale="fr" />
+</Base>
+
+<style>
+  .legal { max-width: 720px; margin: 0 auto; padding: 6rem 1.5rem 4rem; }
+  .legal h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 0 0 0.5rem; }
+  .legal-updated { opacity: 0.55; margin: 0 0 3rem; }
+  .legal section { margin: 0 0 2.2rem; }
+  .legal h2 { font-size: 1.05rem; margin: 0 0 0.6rem; }
+  .legal p { line-height: 1.7; opacity: 0.85; }
+</style>

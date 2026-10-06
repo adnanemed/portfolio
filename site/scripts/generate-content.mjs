@@ -12,25 +12,37 @@ const repo = path.resolve(root, "..");
 const draftsDir = path.join(repo, "docs", "content-drafts");
 
 const SCREENSHOT_MAP = {
-  lahyani: ["lahyani-hero", "lahyani-booking"],
+  lahyani: ["lahyani-hero", "lahyani-booking", "lahyani-admin"],
   auradrive: ["auradrive-hero", "auradrive-catalog", "auradrive-admin"],
-  kfresh: ["kfresh-hero", "kfresh-shop"],
-  sigmaparts: ["sigmaparts-hero"],
+  kfresh: ["kfresh-hero", "kfresh-shop", "kfresh-cart"],
+  sigmaparts: ["sigmaparts-hero", "sigmaparts-catalog", "sigmaparts-quote"],
   "saveur-charme": [
     "saveur-charme-hero",
     "saveur-charme-menu",
     "saveur-charme-admin",
-    "saveur-charme-admin-menu",
   ],
-  promptifyapp: ["promptifyapp-hero"],
+  promptifyapp: ["promptifyapp-hero", "promptifyapp-studio", "promptifyapp-library"],
 };
 
 const DIAGRAM_SLUGS = new Set(["saveur-charme", "lahyani", "auradrive"]);
 
-// PromptifyApp live link is withheld (risk R1: client footer carries a
-// personal handle — plan §6). The case-study shows screenshots + a private
-// demo CTA until the owner flips this switch.
-const LIVE_URL_WITHHELD = new Set(["promptifyapp"]);
+// Accent color per project — extracted from each live site and validated by
+// the owner (v8 recolor). Single source of truth for the v8 skin.
+const ACCENTS = {
+  lahyani: "#f59e0b",
+  auradrive: "#d8be75",
+  "saveur-charme": "#cda274",
+  kfresh: "#4ade80",
+  sigmaparts: "#e5a600",
+  promptifyapp: "#ff4b4b",
+};
+
+// Owner-validated live URLs (v8). promptifyapp is no longer withheld
+// (R1 resolved by the owner) and sigmaparts moved to its own domain.
+const LIVE_URL_OVERRIDES = {
+  sigmaparts: "https://sigmaparts.ma/",
+  promptifyapp: "https://promptifyapp.com/",
+};
 
 function stripPrivate(metrics = []) {
   return metrics.map(({ labelFr, labelEn, value, suffix }) => ({
@@ -56,7 +68,7 @@ async function main() {
   const projects = [];
   for (const file of files) {
     const d = JSON.parse(await fs.readFile(path.join(draftsDir, file), "utf8"));
-    const withheld = LIVE_URL_WITHHELD.has(d.slug);
+    const liveUrl = LIVE_URL_OVERRIDES[d.slug] ?? d.liveUrl;
     projects.push({
       slug: d.slug,
       nameFr: d.nameFr,
@@ -73,9 +85,11 @@ async function main() {
       solutionEn: d.solutionEn,
       tags: d.tags ?? [],
       metrics: stripPrivate(d.metrics),
-      // R1: live URL withheld → null on the public surface
-      liveUrl: withheld ? null : d.liveUrl,
-      liveUrlWithheld: withheld,
+      // Owner-validated live URL (overrides the draft)
+      liveUrl: liveUrl,
+      liveUrlWithheld: false,
+      // v8 recolor: accent extracted from the live site
+      accent: ACCENTS[d.slug] ?? null,
       iframeEmbeddable: Boolean(d.iframeEmbeddable),
       architectureImage: localDiagram(d.slug),
       architectureCaptionFr: d.architectureCaptionFr ?? null,

@@ -1,0 +1,62 @@
+---
+// v8 projects — 6 full-bleed rows with pointer tilt (3D). Accent per project
+// via --pa (content.json). Actions: live site + case study.
+import { t } from "@/lib/i18n";
+import { projects, projectPath, projectByLocale, type Locale } from "@/lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const d = t[locale];
+const v = d.v8.projects;
+const ordered = [...projects].sort((a, b) => a.orderIndex - b.orderIndex);
+---
+
+<section id="projets" class="v8" aria-label={v.title}>
+  <div class="v8-wrap" style="padding-top:clamp(3rem, 7vw, 5.5rem);padding-bottom:2rem">
+    <h2 class="v8-h2 v8-reveal">{v.title}</h2>
+    <p class="v8-lead v8-reveal">{v.lead}</p>
+  </div>
+  <div class="v8-wrap" style="padding-top:1rem">
+    {ordered.map((p, i) => {
+      const c = projectByLocale(p, locale);
+      const hero = p.fallbackScreenshots[0];
+      return (
+        <article class="v8proj v8-reveal" style={`--pa:${p.accent ?? "#d4d4d8"}`}>
+          <div class="v8proj__media" data-tilt>
+            <div class="v8tilt">
+              <div class="v8tilt__frame">
+                <img
+                  src={hero}
+                  alt={`${d.caseStudy.screenshotAlt} — ${c.name}`}
+                  width="1440"
+                  height="900"
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+              </div>
+              <div class="v8tilt__depth" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div>
+            <span class="v8proj__index">{String(i + 1).padStart(2, "0")} / 06</span>
+            <p class="v8proj__sector">{c.sector}</p>
+            <h3>{c.name}</h3>
+            <p class="v8proj__summary">{c.summary}</p>
+            <div class="v8proj__actions">
+              <a class="btn-primary8" href={projectPath(p, locale)}>
+                {p.slug === "promptifyapp" ? v.product : v.study} <span class="arr" aria-hidden="true">→</span>
+              </a>
+              {p.liveUrl && (
+                <a class="btn-ghost8" href={p.liveUrl} target="_blank" rel="noopener noreferrer">
+                  {v.live} <span class="arr" aria-hidden="true">↗</span>
+                </a>
+              )}
+            </div>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+</section>

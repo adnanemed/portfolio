@@ -1,18 +1,13 @@
 // Runtime refresh (plan §1.1, hybrid data flow step 2):
 //   - fetch GET {API}/api/public/projects and /api/public/site
 //   - if fetched content differs from the build snapshot, update the DOM:
-//       · home → re-render the case index rows
 //       · case studies → update text containers for the current project
 //       · everywhere → WhatsApp links + socials from site settings
 //   - if the API is unreachable → keep the static build HTML (graceful).
-import { caseIndexHtml, type CaseIndexStrings } from "./render-case-index";
+// (v8: the home case-index rows were replaced by media rows rendered from
+// content.json at build time — the API refresh now only covers case pages.)
 import { hashJson } from "./hash";
-import { caseIndexView, caseStudyView, type FetchedProject } from "./refresh-views";
-
-const STRINGS: Record<"fr" | "en", CaseIndexStrings> = {
-  fr: { demoBadge: "Démo", ownBadge: "Produit propre", r1Note: "Le lien public de PromptifyApp sera activé avec la mise en ligne officielle — écrivez-nous pour une présentation privée.", studyLink: "" },
-  en: { demoBadge: "Demo", ownBadge: "Own product", r1Note: "PromptifyApp's public link will go live with the official launch — write to us for a private walkthrough.", studyLink: "" },
-};
+import { caseStudyView, type FetchedProject } from "./refresh-views";
 
 function apiBase(): string {
   return (import.meta.env.PUBLIC_API_BASE_URL || "").replace(/\/+$/, "");
@@ -166,18 +161,6 @@ export function initRefresh(): void {
     try {
       if (projRes.status === "fulfilled" && Array.isArray(projRes.value?.projects)) {
         const fetched = projRes.value.projects as FetchedProject[];
-        const caseIndex = document.querySelector<HTMLElement>('[data-refresh="case-index"]');
-        if (caseIndex) {
-          const snapshotHash = caseIndex.getAttribute("data-hash") ?? "";
-          const fetchedHash = hashJson(fetched.map(caseIndexView));
-          if (snapshotHash && fetchedHash !== snapshotHash) {
-            caseIndex.innerHTML = caseIndexHtml(
-              fetched.sort((a, b) => Number(a.orderIndex ?? 99) - Number(b.orderIndex ?? 99)) as never,
-              locale,
-              STRINGS[locale]
-            );
-          }
-        }
 
         // Case-study page: single project diff
         const csRoot = document.querySelector<HTMLElement>("[data-cs-hash]");

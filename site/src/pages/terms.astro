@@ -1,0 +1,48 @@
+---
+// FR terms of use / legal notice — default locale.
+import Base from "@/layouts/Base.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+---
+
+<Base
+  locale="fr"
+  title="Conditions d'utilisation / mentions légales — StackLab"
+  description="Conditions d'utilisation du site, propriété intellectuelle, responsabilité et mentions légales."
+  frPath="/terms"
+  enPath="/en/terms"
+>
+  <main class="legal">
+    <h1>Conditions d'<span class="serif">utilisation</span></h1>
+    <p class="legal-updated">Dernière mise à jour : juin 2026</p>
+    <section>
+      <h2>Objet</h2>
+      <p>Ce site présente des projets de démonstration et des produits propres. L'utilisation du site implique l'acceptation des présentes conditions.</p>
+    </section>
+    <section>
+      <h2>Propriété intellectuelle</h2>
+      <p>L'ensemble des contenus (textes, visuels, code, maquettes) reste la propriété exclusive de StackLab, sauf mention contraire. Toute reproduction sans autorisation écrite est interdite.</p>
+    </section>
+    <section>
+      <h2>Responsabilité</h2>
+      <p>Les démonstrations en direct sont fournies « en l'état », à des fins d'illustration. StackLab ne peut être tenu responsable des interruptions temporaires ou des erreurs d'affichage.</p>
+    </section>
+    <section>
+      <h2>Mentions légales</h2>
+      <p>Éditeur : StackLab — studio indépendant. Hébergement : prestataire cloud européen. Pour toute demande : formulaire de contact du site.</p>
+    </section>
+    <section>
+      <h2>Droit applicable</h2>
+      <p>Les présentes conditions sont régies par le droit du lieu d'édition du site ; tout litige sera traité par les tribunaux compétents de ce ressort.</p>
+    </section>
+  </main>
+  <SiteFooter locale="fr" />
+</Base>
+
+<style>
+  .legal { max-width: 720px; margin: 0 auto; padding: 6rem 1.5rem 4rem; }
+  .legal h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 0 0 0.5rem; }
+  .legal-updated { opacity: 0.55; margin: 0 0 3rem; }
+  .legal section { margin: 0 0 2.2rem; }
+  .legal h2 { font-size: 1.05rem; margin: 0 0 0.6rem; }
+  .legal p { line-height: 1.7; opacity: 0.85; }
+</style>
