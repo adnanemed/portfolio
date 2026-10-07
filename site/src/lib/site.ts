@@ -58,7 +58,10 @@ export const LOCALES: Locale[] = ["fr", "en"];
 export const SITE_URL = (import.meta.env.PUBLIC_SITE_URL || "https://stacklab-site.vercel.app").replace(/\/+$/, "");
 
 /** Dashboard base URL — public endpoints only, no secrets on the site. */
-export const API_BASE_URL = (import.meta.env.PUBLIC_API_BASE_URL || "").replace(/\/+$/, "");
+export const API_BASE_URL = (
+  import.meta.env.PUBLIC_API_BASE_URL ||
+  (import.meta.env.DEV ? "http://localhost:3000" : "https://stacklab-admin.vercel.app")
+).replace(/\/+$/, "");
 
 /** Optional build-time WhatsApp fallback if the API is unreachable. */
 export const WHATSAPP_FALLBACK = import.meta.env.PUBLIC_WHATSAPP_FALLBACK || "";

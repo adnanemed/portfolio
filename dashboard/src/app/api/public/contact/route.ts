@@ -9,7 +9,7 @@ import { contactSchema } from "@/lib/validation";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const MIN_FILL_MS = 3000;
+const MIN_FILL_MS = 1000;
 
 function jsonWithCors(req: Request, body: unknown, status: number) {
   const origin = req.headers.get("origin");
@@ -20,6 +20,8 @@ function jsonWithCors(req: Request, body: unknown, status: number) {
   };
   if (origin && isOriginAllowed(origin)) {
     headers["Access-Control-Allow-Origin"] = origin;
+  } else if (!origin) {
+    headers["Access-Control-Allow-Origin"] = "*";
   }
   return NextResponse.json(body, { status, headers });
 }

@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StackLab — Studio produit web</title>
+<meta name="description" content="StackLab conçoit et développe des sites et applications où l'image sert la conversion. Six produits en ligne en témoignent.">
+<link rel="icon" href="../site/public/logo-stacklab-bw.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   STACKLAB v7 — CINÉMATIQUE IMMERSIF
+   Fond sombre profond · récit scroll-led · GSAP ScrollTrigger
+   Robustesse : sans GSAP (offline), tout reste visible
+   (.fx gate). prefers-reduced-motion : aucune animation.
+   ============================================================ */
+:root{
+  --bg:        #06070c;
+  --bg-2:      #0a0c13;
+  --surface:   #10131d;
+  --surface-2: #151a28;
+  --line:      rgba(240,244,255,.09);
+  --line-2:    rgba(240,244,255,.18);
+  --text:      #f3f5fa;
+  --muted:     #9aa4b5;
+  --accent:    #0a7cff;
+  --accent-hi: #4d9aff;
+  --accent-soft: rgba(10,124,255,.14);
+  --cta-ink:   #04102a;
+  --ease:      cubic-bezier(.23,1,.32,1);
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Échelle 8px (base 4) */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{ -webkit-text-size-adjust:100%; }
+@media (prefers-reduced-motion: no-preference){ html{ scroll-behavior:smooth; } }
+body{
+  background:var(--bg); color:var(--text);
+  font-family:var(--font); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+img{display:block; max-width:100%;}
+a{color:inherit;}
+::selection{ background:var(--accent); color:var(--cta-ink); }
+
+/* ---------- Accessibilité ---------- */
+.skip{
+  position:absolute; left:16px; top:-64px; z-index:200;
+  background:var(--accent); color:var(--cta-ink);
+  padding:12px 24px; border-radius:8px; font-weight:700; text-decoration:none;
+  transition:top .2s var(--ease);
+}
+.skip:focus{ top:16px; }
+:focus-visible{ outline:2px solid var(--accent-hi); outline-offset:3px; border-radius:4px; }
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* ---------- Barre de progression ---------- */
+.progress{ position:fixed; inset:0 0 auto 0; height:2px; z-index:120; background:transparent; pointer-events:none; }
+.progress span{ display:block; height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-hi)); transform:scaleX(0); transform-origin:0 50%; }
+
+/* ---------- Navigation ---------- */
+.nav{
+  position:fixed; inset:0 0 auto 0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 24px; gap:24px;
+  transition:background .3s var(--ease), border-color .3s var(--ease), backdrop-filter .3s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav--solid{ background:rgba(6,7,12,.78); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom-color:var(--line); }
+.nav__brand{ display:flex; align-items:center; gap:12px; text-decoration:none; font-weight:800; letter-spacing:-.02em; font-size:18px; }
+.nav__brand img{ width:32px; height:32px; border-radius:8px; object-fit:cover; }
+.nav__links{ display:flex; gap:32px; list-style:none; }
+.nav__links a{ text-decoration:none; color:var(--muted); font-size:14px; font-weight:500; transition:color .2s var(--ease); padding:8px 0; }
+.nav__links a:hover, .nav__links a:focus-visible{ color:var(--text); }
+@media (max-width:819px){ .nav__links{ display:none; } }
+
+/* ---------- Boutons ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  min-height:44px; padding:12px 24px; border-radius:12px;
+  font-family:var(--font); font-size:15px; font-weight:700; letter-spacing:.01em;
+  text-decoration:none; cursor:pointer; border:1px solid transparent;
+  transition:transform .16s var(--ease), background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease);
+}
+.btn:active{ transform:scale(.97); }
+.btn--primary{ background:var(--accent); color:var(--cta-ink); }
+.btn--primary:hover{ background:var(--accent-hi); }
+.btn--ghost{ border-color:var(--line-2); color:var(--text); background:rgba(240,244,255,.02); }
+.btn--ghost:hover{ background:rgba(240,244,255,.07); }
+.btn--lg{ min-height:56px; padding:16px 32px; font-size:17px; border-radius:14px; }
+.btn__arrow{ font-weight:600; }
+
+/* ---------- Section générique ---------- */
+.section{ position:relative; padding:var(--s7) 0; }
+.wrap{ width:min(1160px,100%); margin-inline:auto; padding-inline:24px; }
+.kicker{
+  display:inline-flex; align-items:center; gap:12px;
+  font-size:13px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-hi);
+}
+.kicker::before{ content:""; width:24px; height:2px; background:var(--accent); border-radius:2px; }
+.h2{
+  font-size:clamp(2.4rem, 5.2vw, 4.25rem); line-height:1.02; letter-spacing:-.035em;
+  font-weight:800; margin:var(--s5) 0 var(--s4);
+}
+.h3{ font-size:clamp(1.35rem,2.4vw,1.8rem); line-height:1.15; letter-spacing:-.02em; font-weight:700; }
+.lead{ color:var(--muted); font-size:clamp(1rem,1.4vw,1.15rem); max-width:56ch; }
+.grad{
+  background:linear-gradient(100deg,var(--accent-hi),var(--accent) 60%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+/* ============================================================
+   HERO — plein écran, display géant, CTA visible immédiatement
+   ============================================================ */
+.hero{ position:relative; min-height:100vh; min-height:100svh; display:flex; align-items:center; overflow:hidden; isolation:isolate; }
+.hero__bg{ position:absolute; inset:0; z-index:-2; }
+.hero__bg img{ width:100%; height:100%; object-fit:cover; opacity:.28; filter:saturate(.7); }
+.hero__bg::after{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(60% 50% at 18% 25%, rgba(10,124,255,.16), transparent 65%),
+    linear-gradient(180deg, rgba(6,7,12,.72), rgba(6,7,12,.42) 45%, var(--bg) 96%);
+}
+@media (prefers-reduced-motion: no-preference){
+  .hero__bg img{ animation:heroZoom 16s var(--ease) both; }
+  @keyframes heroZoom{ from{ transform:scale(1.12); } to{ transform:scale(1); } }
+}
+.hero__inner{ width:min(1160px,100%); margin-inline:auto; padding:calc(64px + var(--s7)) 24px var(--s7); }
+.hero__eyebrow{ font-size:13px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:var(--s5); }
+.hero__eyebrow b{ color:var(--accent-hi); }
+.hero h1{
+  font-size:clamp(3rem, 9.2vw, 8.25rem); line-height:.98; letter-spacing:-.04em; font-weight:900;
+  text-wrap:balance; max-width:12ch;
+}
+.hero h1 span{ display:block; }
+.hero__sub{ margin:var(--s5) 0 var(--s6); color:var(--muted); font-size:clamp(1.05rem,1.6vw,1.25rem); max-width:52ch; }
+.hero__ctas{ display:flex; flex-wrap:wrap; gap:16px; align-items:center; }
+.hero__cue{
+  position:absolute; left:50%; bottom:28px; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color:var(--muted); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+}
+.hero__cue i{ width:1px; height:40px; background:linear-gradient(var(--accent-hi),transparent); display:block; }
+@media (prefers-reduced-motion: no-preference){
+  .hero__cue i{ animation:cue 1.8s var(--ease) infinite; }
+  @keyframes cue{ 0%{ transform:scaleY(.2); transform-origin:top; opacity:.4; } 55%{ transform:scaleY(1); opacity:1; } 100%{ transform:scaleY(1); transform-origin:bottom; opacity:0; } }
+}
+
+/* ---------- Bandeau défilant (capacités) ---------- */
+.band{ border-block:1px solid var(--line); padding:20px 0; overflow:hidden; background:var(--bg-2); }
+.band__track{ display:flex; gap:48px; width:max-content; }
+.band ul{ display:flex; gap:48px; list-style:none; align-items:center; }
+.band li{ font-size:14px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); white-space:nowrap; display:flex; align-items:center; gap:48px; }
+.band li::after{ content:""; width:6px; height:6px; border-radius:50%; background:var(--accent); display:inline-block; }
+@media (prefers-reduced-motion: no-preference){
+  .band__track{ animation:band 30s linear infinite; }
+  @keyframes band{ to{ transform:translateX(-50%); } }
+}
+
+/* ============================================================
+   PROJETS — moments plein écran, reveal cinématique
+   ============================================================ */
+.projects-intro{ padding:calc(64px + var(--s7)) 0 var(--s6); }
+.project{
+  position:relative; min-height:100vh; min-height:100svh;
+  display:flex; align-items:flex-end; overflow:hidden; isolation:isolate;
+}
+.project__media{ position:absolute; inset:0; z-index:-2; }
+.project__media img{ width:100%; height:100%; object-fit:cover; will-change:transform; }
+.project__shade{
+  position:absolute; inset:0; z-index:-1;
+  background:linear-gradient(180deg, rgba(6,7,12,.62), rgba(6,7,12,.28) 42%, rgba(6,7,12,.94) 84%);
+}
+.project__inner{ width:min(1160px,100%); margin-inline:auto; padding:var(--s7) 24px; }
+.project__sector{ font-size:13px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-hi); margin-bottom:var(--s3); }
+.project h3{ font-size:clamp(2rem,4.6vw,3.6rem); line-height:1.02; letter-spacing:-.03em; font-weight:800; margin-bottom:var(--s4); }
+.project__summary{ color:#c6cdd9; max-width:58ch; margin-bottom:var(--s5); }
+.project__actions{ display:flex; flex-wrap:wrap; gap:16px; align-items:center; }
+.project__case{ color:var(--muted); font-size:14px; font-weight:600; text-decoration:none; border-bottom:1px solid var(--line-2); padding-bottom:4px; transition:color .2s var(--ease), border-color .2s var(--ease); }
+.project__case:hover, .project__case:focus-visible{ color:var(--text); border-color:var(--accent-hi); }
+.project__index{
+  position:absolute; top:24px; right:24px; z-index:1;
+  font-size:14px; font-weight:700; letter-spacing:.1em; color:var(--muted);
+  font-variant-numeric:tabular-nums;
+  background:rgba(6,7,12,.55); border:1px solid var(--line); border-radius:999px; padding:8px 16px;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+}
+/* Placeholder élégant si l'image manque */
+.media{ position:relative; }
+.media--missing img{ display:none; }
+.media--missing::after{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(50% 40% at 30% 30%, rgba(10,124,255,.25), transparent 70%),
+    linear-gradient(160deg, var(--surface), var(--bg-2));
+}
+
+/* ---------- Bande CTA inter-séquences ---------- */
+.ctaband{ border-block:1px solid var(--line); background:linear-gradient(180deg,var(--bg-2),var(--bg)); }
+.ctaband__inner{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--s5); padding:var(--s6) 0; }
+.ctaband h2{ font-size:clamp(1.6rem,3.2vw,2.4rem); letter-spacing:-.025em; font-weight:800; line-height:1.1; }
+
+/* ============================================================
+   ÉTUDES DE CAS — séquences épinglées (problème → solution → résultats)
+   ============================================================ */
+.cases-intro{ padding:calc(64px + var(--s7)) 0 var(--s6); }
+.case{ position:relative; }
+.case__stage{ position:relative; padding:var(--s6) 0 var(--s7); }
+.case__kicker{
+  font-size:13px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-hi);
+  margin-bottom:var(--s5); display:block;
+}
+.case__phase{ padding:var(--s5) 0; }
+.case__label{
+  display:inline-block; font-size:12px; font-weight:800; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--cta-ink); background:var(--accent); border-radius:999px; padding:6px 14px; margin-bottom:var(--s4);
+}
+.case__headline{ font-size:clamp(2.1rem,5.6vw,4.6rem); line-height:1.02; letter-spacing:-.035em; font-weight:900; max-width:16ch; margin-bottom:var(--s4); }
+.case__headline .w{ display:inline-block; }
+.case__body{ color:var(--muted); font-size:clamp(1rem,1.4vw,1.15rem); max-width:54ch; }
+.case__steps{ list-style:none; display:grid; gap:var(--s4); max-width:560px; margin-top:var(--s5); }
+.case__steps li{
+  display:flex; gap:16px; align-items:flex-start;
+  background:rgba(16,19,29,.82); border:1px solid var(--line); border-radius:16px; padding:16px 24px;
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+}
+.case__steps .n{
+  font-variant-numeric:tabular-nums; font-weight:800; color:var(--accent-hi); font-size:14px;
+  border:1px solid var(--line-2); border-radius:8px; min-width:36px; height:36px;
+  display:inline-flex; align-items:center; justify-content:center; flex:none;
+}
+.case__steps h4{ font-size:16px; font-weight:700; letter-spacing:-.01em; }
+.case__steps p{ color:var(--muted); font-size:14px; line-height:1.55; margin-top:2px; }
+.case__shot{
+  width:100%; max-width:420px; border-radius:16px; overflow:hidden;
+  border:1px solid var(--line-2); box-shadow:0 32px 80px rgba(0,0,0,.5);
+  background:var(--surface);
+}
+.case__shot img{ width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; }
+.case__metrics{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--s5); margin:var(--s5) 0 var(--s6); max-width:720px; }
+.case__metrics .v{ font-size:clamp(2.2rem,4.5vw,3.4rem); font-weight:900; letter-spacing:-.03em; line-height:1; color:var(--text); font-variant-numeric:tabular-nums; }
+.case__metrics .v em{ font-style:normal; color:var(--accent-hi); }
+.case__metrics .l{ color:var(--muted); font-size:14px; margin-top:8px; display:block; }
+.case__actions{ display:flex; flex-wrap:wrap; gap:16px; align-items:center; }
+
+/* Desktop : phases épinglées superposées (uniquement si GSAP actif) */
+@media (min-width:900px){
+  .fx .case__stage{ height:100vh; height:100svh; padding:0; overflow:hidden; }
+  .fx .case__kicker{ position:absolute; top:40px; left:48px; right:48px; margin:0; z-index:2; }
+  .fx .case__phase{
+    position:absolute; inset:0; padding:120px 48px 48px;
+    display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+    will-change:transform,opacity;
+  }
+  .fx .case__shot{ position:absolute; right:48px; top:50%; transform:translateY(-50%); max-width:400px; }
+  .fx .case__steps{ margin-top:var(--s5); }
+}
+@media (max-width:899px){
+  .case__shot{ margin-top:var(--s5); }
+  .case__metrics{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+
+/* ============================================================
+   MÉTHODE — 4 temps, ligne de progression au scroll
+   ============================================================ */
+.method{ background:var(--bg-2); border-block:1px solid var(--line); }
+.method__grid{ display:grid; grid-template-columns:1fr; gap:var(--s6); position:relative; }
+.method__line{ position:absolute; left:11px; top:8px; bottom:8px; width:2px; background:var(--line); border-radius:2px; overflow:hidden; }
+.method__line span{ display:block; width:100%; height:100%; background:linear-gradient(var(--accent-hi),var(--accent)); transform:scaleY(0); transform-origin:top; }
+.method__list{ list-style:none; display:grid; gap:var(--s6); }
+@media (min-width:820px){
+  .method__grid{ grid-template-columns:340px 1fr; gap:var(--s7); }
+  .method__line{ display:none; }
+}
+.method__list li{ display:flex; gap:var(--s5); align-items:flex-start; }
+@media (min-width:820px){
+  .method__list li{ padding-bottom:var(--s5); border-bottom:1px solid var(--line); }
+  .method__list li:last-child{ border-bottom:0; padding-bottom:0; }
+}
+.method__num{
+  flex:none; font-variant-numeric:tabular-nums; font-weight:800; font-size:15px; color:var(--accent-hi);
+  width:24px; height:24px; border-radius:50%; border:2px solid var(--accent);
+  display:inline-flex; align-items:center; justify-content:center; margin-top:4px; position:relative; z-index:1;
+  background:var(--bg-2);
+}
+@media (min-width:820px){ .method__num{ width:32px; height:32px; font-size:16px; } }
+.method__list h3{ font-size:clamp(1.5rem,2.6vw,2.1rem); letter-spacing:-.02em; font-weight:800; margin-bottom:8px; }
+.method__list p{ color:var(--muted); max-width:56ch; }
+
+/* ============================================================
+   PRODUIT — PromptifyApp : conversation + « PROMPT FORGÉ »
+   ============================================================ */
+.product{ background:
+  radial-gradient(55% 45% at 82% 18%, rgba(10,124,255,.13), transparent 70%),
+  var(--bg);
+}
+.product__grid{ display:grid; gap:var(--s7); align-items:center; }
+@media (min-width:960px){ .product__grid{ grid-template-columns:1fr 1fr; gap:var(--s7); } }
+.product__ctas{ display:flex; flex-wrap:wrap; gap:16px; margin-top:var(--s6); }
+.product__note{ color:var(--muted); font-size:14px; margin-top:var(--s4); }
+
+.chat{
+  background:var(--surface); border:1px solid var(--line-2); border-radius:24px;
+  padding:var(--s5); display:grid; gap:var(--s4);
+  box-shadow:0 40px 120px rgba(0,0,0,.45);
+}
+.chat__head{ display:flex; align-items:center; gap:12px; padding-bottom:var(--s4); border-bottom:1px solid var(--line); }
+.chat__head i{ width:10px; height:10px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent); }
+.chat__head span{ font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.chat__msg{ max-width:88%; border-radius:16px; padding:12px 16px; font-size:14.5px; line-height:1.5; }
+.chat__msg--user{ justify-self:end; background:var(--accent); color:var(--cta-ink); font-weight:600; border-bottom-right-radius:4px; }
+.chat__msg--bot{ justify-self:start; background:var(--surface-2); border:1px solid var(--line); color:#cdd4e0; border-bottom-left-radius:4px; }
+.chat__msg--bot b{ color:var(--text); }
+.forge{
+  justify-self:center; width:100%; max-width:380px;
+  background:linear-gradient(180deg,var(--surface-2),var(--surface));
+  border:1px solid rgba(10,124,255,.45); border-radius:16px; overflow:hidden;
+  box-shadow:0 0 0 1px rgba(10,124,255,.12), 0 24px 64px rgba(10,124,255,.12);
+}
+.forge__bar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 16px; border-bottom:1px solid var(--line);
+  font-size:12px; font-weight:800; letter-spacing:.18em; text-transform:uppercase;
+}
+.forge__bar b{ color:var(--accent-hi); }
+.forge__bar i{ width:8px; height:8px; border-radius:50%; background:var(--accent); animation:none; }
+@media (prefers-reduced-motion: no-preference){ .forge__bar i{ animation:pulse 1.6s ease-in-out infinite; } @keyframes pulse{ 50%{ opacity:.35; } } }
+.forge__rows{ display:grid; }
+.forge__row{ display:flex; justify-content:space-between; gap:16px; padding:12px 16px; border-bottom:1px solid var(--line); font-size:13.5px; }
+.forge__row:last-child{ border-bottom:0; }
+.forge__row dt{ color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:11.5px; align-self:center; }
+.forge__row dd{ color:var(--text); font-weight:600; text-align:right; }
+.forge__cta{ display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:rgba(10,124,255,.08); }
+.forge__cta span{ font-size:12.5px; color:var(--muted); }
+.forge__cta b{ color:var(--accent-hi); font-size:12.5px; letter-spacing:.06em; }
+
+/* ============================================================
+   CONTACT + FOOTER
+   ============================================================ */
+.contact{
+  position:relative; text-align:center; padding:calc(64px + var(--s7)) 0 var(--s7);
+  background:
+    radial-gradient(50% 42% at 50% 30%, rgba(10,124,255,.14), transparent 72%),
+    var(--bg-2);
+  border-top:1px solid var(--line);
+}
+.contact .kicker{ justify-content:center; }
+.contact h2{ font-size:clamp(2.8rem,7vw,6rem); letter-spacing:-.04em; font-weight:900; line-height:1; margin:var(--s5) auto var(--s4); max-width:14ch; }
+.contact p{ color:var(--muted); max-width:46ch; margin:0 auto var(--s6); font-size:clamp(1rem,1.4vw,1.15rem); }
+.contact__hint{ font-size:13px; color:var(--muted); margin-top:var(--s4); }
+.contact__hint a{ color:var(--accent-hi); }
+
+.footer{ border-top:1px solid var(--line); padding:var(--s6) 0; background:var(--bg); }
+.footer__inner{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--s4); }
+.footer__brand{ display:flex; align-items:center; gap:12px; font-weight:800; }
+.footer__brand img{ width:28px; height:28px; border-radius:8px; object-fit:cover; }
+.footer nav{ display:flex; flex-wrap:wrap; gap:24px; }
+.footer nav a{ color:var(--muted); text-decoration:none; font-size:14px; }
+.footer nav a:hover, .footer nav a:focus-visible{ color:var(--text); }
+.footer small{ color:var(--muted); font-size:13px; }
+
+/* ============================================================
+   GATING ANIMATIONS — états initiaux SEULEMENT si GSAP actif
+   (classe .fx ajoutée par JS après chargement réussi de GSAP).
+   Sans GSAP / avec prefers-reduced-motion : tout est visible.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference){
+  .fx [data-hero]{ opacity:0; transform:translateY(24px); }
+  .fx [data-reveal]{ opacity:0; transform:translateY(28px); }
+  .fx [data-cs-item]{ opacity:0; transform:translateY(24px); }
+  .fx [data-chat]{ opacity:0; transform:translateY(18px); }
+  .fx .chat__card{ transform:translateY(18px) scale(.96); }
+}
+</style>
+</head>
+<body>
+<!-- {primaryContactHref} : remplacer le href="#" des CTA « Démarrer un projet » de la section contact
+     par l'URL WhatsApp réelle une fois fournie. Les autres CTA pointent vers #contact. -->
+<a class="skip" href="#main">Aller au contenu</a>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#main">
+    <img src="../site/public/logo-stacklab-bw.png" alt="Logo StackLab" width="32" height="32">
+    StackLab
+  </a>
+  <ul class="nav__links">
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#cas">Études de cas</a></li>
+    <li><a href="#methode">Méthode</a></li>
+    <li><a href="#produit">Produit</a></li>
+  </ul>
+  <a class="btn btn--primary" href="#contact">Démarrer un projet</a>
+</header>
+
+<main id="main">
+
+  <!-- ============ 1. HERO CINÉMATIQUE ============ -->
+  <section class="hero" aria-label="Introduction">
+    <div class="hero__bg media" aria-hidden="true">
+      <img src="../site/public/projects/auradrive/auradrive-hero.webp" alt="" width="1600" height="1000"
+           fetchpriority="high" decoding="async"
+           onerror="this.closest('.media').classList.add('media--missing')">
+    </div>
+    <div class="hero__inner">
+      <p class="hero__eyebrow" data-hero><b>StackLab</b> — Studio produit web · Maroc &amp; international</p>
+      <h1>
+        <span data-hero>Des produits web</span>
+        <span data-hero>qui laissent <em class="grad" style="font-style:normal">une trace</em>.</span>
+      </h1>
+      <p class="hero__sub" data-hero>
+        On conçoit et développe des sites et applications où l'image forte sert la conversion.
+        Six produits en ligne en témoignent — faites défiler.
+      </p>
+      <div class="hero__ctas" data-hero>
+        <a class="btn btn--primary btn--lg" href="#contact">Démarrer un projet <span class="btn__arrow">→</span></a>
+        <a class="btn btn--ghost btn--lg" href="#projets">Voir les projets</a>
+      </div>
+    </div>
+    <div class="hero__cue" data-hero aria-hidden="true">
+      <span>Défiler</span><i></i>
+    </div>
+  </section>
+
+  <!-- Bandeau capacités -->
+  <div class="band" aria-label="Nos capacités">
+    <div class="band__track">
+      <ul>
+        <li>Sites vitrines</li><li>Applications métier</li><li>E-commerce</li>
+        <li>Tableaux de bord</li><li>IA produit</li><li>SEO</li>
+      </ul>
+      <ul aria-hidden="true">
+        <li>Sites vitrines</li><li>Applications métier</li><li>E-commerce</li>
+        <li>Tableaux de bord</li><li>IA produit</li><li>SEO</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ 2. PROJETS — SÉQUENCE IMMERSIVE ============ -->
+  <section id="projets" aria-label="Projets">
+    <div class="wrap projects-intro">
+      <p class="kicker" data-reveal>01 — Projets</p>
+      <h2 class="h2" data-reveal>Six produits <span class="grad">en ligne</span>.</h2>
+      <p class="lead" data-reveal>Chacun un moment plein écran. Chacun vivant, aujourd'hui, à une adresse réelle.</p>
+    </div>
+
+    <!-- Projet 01 — Lahyani -->
+    <article class="project">
+      <div class="project__media media">
+        <img src="../site/public/projects/lahyani/lahyani-hero.webp"
+             alt="Capture d'écran du site du Centre Dentaire Lahyani" width="1600" height="1000"
+             loading="lazy" decoding="async"
+             onerror="this.closest('.media').classList.add('media--missing')">
+      </div>
+      <div class="project__shade" aria-hidden="true"></div>
+      <span class="project__index" aria-hidden="true">01 / 06</span>
+      <div class="project__inner">
+        <p class="project__sector" data-reveal>Cabinet dentaire · Rabat</p>
+        <h3 data-reveal>Centre Dentaire Lahyani</h3>
+        <p class="project__summary" data-reveal>
+          Site vitrine bilingue FR/AR avec prise de rendez-vous en ligne 24h/24, doublé d'un tableau
+          de bord complet : agenda, dossiers patients, odontogramme et facturation.
+        </p>
+        <div class="project__actions" data-reveal>
+          <a class="btn btn--ghost" href="https://cabinet-lahyani.vercel.app/fr" target="_blank" rel="noopener">Voir le site live <span class="btn__arrow">↗</span></a>
+          <a class="project__case" href="#cas-lahyani">Lire l'étude de cas →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Projet 02 — AuraDrive -->
+    <article class="project">
+      <div class="project__media media">
+        <img src="../site/public/projects/auradrive/auradrive-hero.webp"
+             alt="Capture d'écran du site de location de voitures de luxe AuraDrive" width="1600" height="1000"
+             loading="lazy" decoding="async"
+             onerror="this.closest('.media').classList.add('media--missing')">
+      </div>
+      <div class="project__shade" aria-hidden="true"></div>
+      <span class="project__index" aria-hidden="true">02 / 06</span>
+      <div class="project__inner">
+        <p class="project__sector" data-reveal>Location de voitures de luxe · Maroc</p>
+        <h3 data-reveal>AuraDrive</h3>
+        <p class="project__summary" data-reveal>
+          Réservation en ligne, suivi de réservation en temps réel et véhicules en 3D 360°.
+          Derrière : un portail complet — flotte, contrats PDF automatiques, liste noire, entretien.
+        </p>
+        <div class="project__actions" data-reveal>
+          <a class="btn btn--ghost" href="https://auradrive-pi.vercel.app/" target="_blank" rel="noopener">Voir le site live <span class="btn__arrow">↗</span></a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Projet 03 — Saveur & Charme -->
+    <article class="project">
+      <div class="project__media media">
+        <img src="../site/public/projects/saveur-charme/saveur-charme-hero.webp"
+             alt="Capture d'écran du site de démonstration Saveur & Charme" width="1600" height="1000"
+             loading="lazy" decoding="async"
+             onerror="this.closest('.media').classList.add('media--missing')">
+      </div>
+      <div class="project__shade" aria-hidden="true"></div>
+      <span class="project__index" aria-hidden="true">03 / 06</span>
+      <div class="project__inner">
+        <p class="project__sector" data-reveal>Démo · Restaurant gastronomique</p>
+        <h3 data-reveal>Saveur &amp; Charme</h3>
+        <p class="project__summary" data-reveal>
+          Commande en ligne, réservation sur plan de salle 2D interactif et tableau de bord temps réel
+          pour le gérant. Une démo complète — testez-la côté client et côté cuisine.
+        </p>
+        <div class="project__actions" data-reveal>
+          <a class="btn btn--ghost" href="https://restaurant-app-liart-seven.vercel.app/" target="_blank" rel="noopener">Voir le site live <span class="btn__arrow">↗</span></a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Projet 04 — KFresh -->
+    <article class="project">
+      <div class="project__media media">
+        <img src="../site/public/projects/kfresh/kfresh-hero.webp"
+             alt="Capture d'écran du site de l'épicerie KFresh à Ottawa" width="1600" height="1000"
+             loading="lazy" decoding="async"
+             onerror="this.closest('.media').classList.add('media--missing')">
+      </div>
+      <div class="project__shade" aria-hidden="true"></div>
+      <span class="project__index" aria-hidden="true">04 / 06</span>
+      <div class="project__inner">
+        <p class="project__sector" data-reveal>Supermarché · Ottawa, Canada</p>
+        <h3 data-reveal>KFresh</h3>
+        <p class="project__summary" data-reveal>
+          Épicerie afro-caribéenne en ligne : courses et plats cuisinés commandés en ligne,
+          retrait sur place planifiable, livraison via Uber Eats et DoorDash.
+        </p>
+        <div class="project__actions" data-reveal>
+          <a class="btn btn--ghost" href="https://www.kfresh.ca/" target="_blank" rel="noopener">Voir le site live <span class="btn__arrow">↗</span></a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Projet 05 — SigmaParts -->
+    <article class="project">
+      <div class="project__media media">
+        <img src="../site/public/projects/sigmaparts/sigmaparts-hero.webp"
+             alt="Capture d'écran du catalogue de pièces industrielles SigmaParts" width="1600" height="1000"
+             loading="lazy" decoding="async"
+             onerror="this.closest('.media').classList.add('media--missing')">
+      </div>
+      <div class="project__shade" aria-hidden="true"></div>
+      <span class="project__index" aria-hidden="true">05 / 06</span>
+      <div class="project__inner">
+        <p class="project__sector" data-reveal>Pièces industrielles · Maroc</p>
+        <h3 data-reveal>SigmaParts</h3>
+        <p class="project__summary" data-reveal>
+          Catalogue en ligne de pièces de rechange pour engins Volvo : recherche par référence VOE,
+          vérification de disponibilité et demande de devis en quatre étapes.
+        </p>
+        <div class="project__actions" data-reveal>
+          <a class="btn btn--ghost" href="https://sigmaparts.ma/" target="_blank" rel="noopener">Voir le site live <span class="btn__arrow">↗</span></a>
+          <a class="project__case" href="#cas-sigma">Lire l'étude de cas →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Projet 06 — PromptifyApp -->
+    <article class="project">
+      <div class="project__media media">
+        <img src="../site/public/projects/promptifyapp/promptifyapp-hero.webp"
+             alt="Capture d'écran de l'extension PromptifyApp" width="1600" height="1000"
+             loading="lazy" decoding="async"
+             onerror="this.closest('.media').classList.add('media--missing')">
+      </div>
+      <div class="project__shade" aria-hidden="true"></div>
+      <span class="project__index" aria-hidden="true">06 / 06</span>
+      <div class="project__inner">
+        <p class="project__sector" data-reveal>Produit propre · SaaS</p>
+        <h3 data-reveal>PromptifyApp</h3>
+        <p class="project__summary" data-reveal>
+          Extension navigateur qui transforme une idée vague en prompt structuré — rôle, tâche, ton,
+          structure — prêt pour ChatGPT, Claude, Gemini ou Copilot. Conçu et exploité par StackLab.
+        </p>
+        <div class="project__actions" data-reveal>
+          <a class="btn btn--ghost" href="https://promptifyapp.com/" target="_blank" rel="noopener">Voir le site live <span class="btn__arrow">↗</span></a>
+          <a class="project__case" href="#produit">Découvrir le produit →</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- Bande CTA — fin de séquence projets -->
+  <div class="ctaband" aria-label="Contact">
+    <div class="wrap ctaband__inner">
+      <h2 data-reveal>Un projet en tête&nbsp;? Faisons-le exister.</h2>
+      <a class="btn btn--primary btn--lg" href="#contact" data-reveal>Démarrer un projet <span class="btn__arrow">→</span></a>
+    </div>
+  </div>
+
+  <!-- ============ 3. ÉTUDES DE CAS (problème → solution → résultats) ============ -->
+  <section id="cas" aria-label="Études de cas">
+    <div class="wrap cases-intro">
+      <p class="kicker" data-reveal>02 — Études de cas</p>
+      <h2 class="h2" data-reveal>Le problème. <span class="grad">La solution.</span> Le résultat.</h2>
+      <p class="lead" data-reveal>Deux séquences pour voir comment on travaille — pas seulement ce qu'on livre.</p>
+    </div>
+
+    <!-- Étude de cas 01 — SigmaParts -->
+    <article class="case" id="cas-sigma" data-case>
+      <div class="case__stage">
+        <p class="case__kicker">Étude de cas 01 · SigmaParts — pièces industrielles, Maroc</p>
+
+        <div class="case__phase" data-cs-phase>
+          <p class="case__label" data-cs-item>Le problème</p>
+          <h3 class="case__headline">
+            <span class="w">La</span> <span class="w">bonne</span> <span class="w">référence,</span>
+            <span class="w">ou</span> <span class="w">la</span> <span class="w">machine</span>
+            <span class="w">à</span> <span class="w grad">l'arrêt.</span>
+          </h3>
+          <p class="case__body" data-cs-item>
+            SigmaParts distribue des pièces pour engins Volvo au Maroc. Ses clients — professionnels
+            du BTP — ne peuvent pas se permettre une erreur. Avant : tout passait par des appels et
+            des échanges pour identifier la pièce.
+          </p>
+        </div>
+
+        <div class="case__phase" data-cs-phase>
+          <p class="case__label" data-cs-item>La solution</p>
+          <h3 class="case__headline"><span class="w">Un</span> <span class="w">catalogue</span> <span class="w">pensé</span> <span class="w">pour</span> <span class="w">le</span> <span class="w grad">pressé.</span></h3>
+          <ul class="case__steps">
+            <li data-cs-item><span class="n" aria-hidden="true">1</span><div><h4>Recherche par référence VOE</h4><p>Le client tape sa référence (VOE + 7 ou 8 chiffres) ou le nom de la pièce et tombe sur le bon article.</p></div></li>
+            <li data-cs-item><span class="n" aria-hidden="true">2</span><div><h4>Stock vérifié en ligne</h4><p>La disponibilité se consulte avant toute demande : fini les appels pour rien.</p></div></li>
+            <li data-cs-item><span class="n" aria-hidden="true">3</span><div><h4>Devis en 4 étapes</h4><p>Rechercher, vérifier, exprimer son intérêt, être contacté — sans achat en ligne, le métier reste celui du conseil.</p></div></li>
+            <li data-cs-item><span class="n" aria-hidden="true">4</span><div><h4>Contact direct</h4><p>Formulaire, WhatsApp, téléphone ou email : chaque client choisit son canal.</p></div></li>
+          </ul>
+          <figure class="case__shot media" data-cs-item>
+            <img src="../site/public/projects/sigmaparts/sigmaparts-catalog.webp"
+                 alt="Catalogue en ligne SigmaParts avec recherche par référence" width="1200" height="750"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.media').classList.add('media--missing')">
+          </figure>
+        </div>
+
+        <div class="case__phase" data-cs-phase>
+          <p class="case__label" data-cs-item>Le résultat</p>
+          <h3 class="case__headline"><span class="w">Trouver</span> <span class="w">sa</span> <span class="w">pièce</span> <span class="w">en</span> <span class="w grad">quelques gestes.</span></h3>
+          <dl class="case__metrics">
+            <div data-cs-item><dd class="v">6</dd><dt class="l">familles de pièces au catalogue</dt></div>
+            <div data-cs-item><dd class="v">4</dd><dt class="l">canaux de contact proposés</dt></div>
+            <div data-cs-item><dd class="v"><em>FR</em></dd><dt class="l">catalogue intégralement en français</dt></div>
+          </dl>
+          <div class="case__actions" data-cs-item>
+            <a class="btn btn--primary" href="#contact">Démarrer un projet <span class="btn__arrow">→</span></a>
+            <a class="btn btn--ghost" href="https://sigmaparts.ma/" target="_blank" rel="noopener">Voir le site live <span class="btn__arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Étude de cas 02 — Lahyani -->
+    <article class="case" id="cas-lahyani" data-case>
+      <div class="case__stage">
+        <p class="case__kicker">Étude de cas 02 · Centre Dentaire Lahyani — cabinet dentaire, Rabat</p>
+
+        <div class="case__phase" data-cs-phase>
+          <p class="case__label" data-cs-item>Le problème</p>
+          <h3 class="case__headline">
+            <span class="w">Un</span> <span class="w">cabinet</span> <span class="w">sans</span>
+            <span class="w">trace</span> <span class="w grad">en</span> <span class="w grad">ligne.</span>
+          </h3>
+          <p class="case__body" data-cs-item>
+            Les patients appelaient pendant les heures d'ouverture pour réserver. L'agenda, les dossiers
+            et les ordonnances se géraient à la main — sans présence en ligne digne du positionnement
+            du cabinet.
+          </p>
+        </div>
+
+        <div class="case__phase" data-cs-phase>
+          <p class="case__label" data-cs-item>La solution</p>
+          <h3 class="case__headline"><span class="w">Une</span> <span class="w">plateforme</span> <span class="w">à</span> <span class="w">deux</span> <span class="w grad">visages.</span></h3>
+          <ul class="case__steps">
+            <li data-cs-item><span class="n" aria-hidden="true">1</span><div><h4>Site bilingue FR / AR</h4><p>Soins, avis Google et galerie du cabinet, avec lecture de droite à gauche native pour le public arabophone.</p></div></li>
+            <li data-cs-item><span class="n" aria-hidden="true">2</span><div><h4>Réservation en ligne 24h/24</h4><p>Soin, date et heure en trois étapes ; tout est vérifié côté serveur, double réservation impossible.</p></div></li>
+            <li data-cs-item><span class="n" aria-hidden="true">3</span><div><h4>Tableau de bord sécurisé</h4><p>Agenda, dossiers patients, odontogramme, ordonnances et factures centralisés pour l'équipe.</p></div></li>
+          </ul>
+          <figure class="case__shot media" data-cs-item>
+            <img src="../site/public/projects/lahyani/lahyani-booking.webp"
+                 alt="Parcours de réservation en ligne du Centre Dentaire Lahyani" width="1200" height="750"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.media').classList.add('media--missing')">
+          </figure>
+        </div>
+
+        <div class="case__phase" data-cs-phase>
+          <p class="case__label" data-cs-item>Le résultat</p>
+          <h3 class="case__headline"><span class="w">Le</span> <span class="w">patient</span> <span class="w">réserve</span> <span class="w">à</span> <span class="w">minuit.</span></h3>
+          <dl class="case__metrics">
+            <div data-cs-item><dd class="v">24/7</dd><dt class="l">réservation en ligne</dt></div>
+            <div data-cs-item><dd class="v">2</dd><dt class="l">langues — français &amp; arabe</dt></div>
+            <div data-cs-item><dd class="v">15<em>+</em></dd><dt class="l">ans d'expérience du praticien</dt></div>
+          </dl>
+          <div class="case__actions" data-cs-item>
+            <a class="btn btn--primary" href="#contact">Démarrer un projet <span class="btn__arrow">→</span></a>
+            <a class="btn btn--ghost" href="https://cabinet-lahyani.vercel.app/fr" target="_blank" rel="noopener">Voir le site live <span class="btn__arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ 4. MÉTHODE ============ -->
+  <section class="method section" id="methode" aria-label="Méthode">
+    <div class="wrap">
+      <p class="kicker" data-reveal>03 — Méthode</p>
+      <h2 class="h2" data-reveal>Quatre temps, <span class="grad">zéro flou</span>.</h2>
+      <div class="method__grid" style="margin-top:48px">
+        <div class="method__line" aria-hidden="true"><span></span></div>
+        <ol class="method__list">
+          <li data-reveal>
+            <span class="method__num" aria-hidden="true">1</span>
+            <div><h3>Cadrer</h3><p>On comprend le métier, les utilisateurs et l'objectif de mesure avant d'écrire une ligne. Un projet qui ne sait pas ce qu'il doit produire n'en produit rien.</p></div>
+          </li>
+          <li data-reveal>
+            <span class="method__num" aria-hidden="true">2</span>
+            <div><h3>Concevoir</h3><p>Direction visuelle, parcours, maquettes : une image forte mise au service de la clarté — jamais l'inverse.</p></div>
+          </li>
+          <li data-reveal>
+            <span class="method__num" aria-hidden="true">3</span>
+            <div><h3>Construire</h3><p>Développement soigné, performant et accessible, testé sur le réel : vrais contenus, vrais appareils, vrais cas limites.</p></div>
+          </li>
+          <li data-reveal>
+            <span class="method__num" aria-hidden="true">4</span>
+            <div><h3>Mettre en ligne</h3><p>Déploiement, mesure, itération. Le produit vit — on le suit, on l'améliore, il travaille pour vous.</p></div>
+          </li>
+        </ol>
+      </div>
+      <div style="margin-top:48px" data-reveal>
+        <a class="btn btn--primary btn--lg" href="#contact">Prêt à cadrer votre projet&nbsp;? Démarrer un projet <span class="btn__arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. PRODUIT — PROMPTIFYAPP ============ -->
+  <section class="product section" id="produit" aria-label="Notre produit : PromptifyApp">
+    <div class="wrap product__grid">
+      <div>
+        <p class="kicker" data-reveal>04 — Notre produit</p>
+        <h2 class="h2" data-reveal>Promptify<span class="grad">App</span>.</h2>
+        <p class="lead" data-reveal>
+          Tout le monde utilise l'IA, mais peu obtiennent la réponse voulue du premier coup.
+          Notre extension transforme une idée vague en prompt structuré — en un clic.
+          Un produit conçu et exploité par StackLab, de l'idée au modèle économique.
+        </p>
+        <div class="product__ctas" data-reveal>
+          <a class="btn btn--primary btn--lg" href="https://promptifyapp.com/" target="_blank" rel="noopener">Essayer Promptify <span class="btn__arrow">→</span></a>
+          <a class="btn btn--ghost btn--lg" href="#contact">Démarrer un projet</a>
+        </div>
+        <p class="product__note" data-reveal>450 crédits offerts chaque mois — disponible sur 5 navigateurs.</p>
+      </div>
+
+      <!-- Conversation animée -->
+      <div class="chat" data-chat-panel aria-label="Démonstration de PromptifyApp sous forme de conversation">
+        <div class="chat__head"><i aria-hidden="true"></i><span>PromptifyApp — Forge</span></div>
+
+        <p class="chat__msg chat__msg--user" data-chat>
+          <span aria-label="Je veux un post LinkedIn pour lancer mon app, mais je sais pas comment le formuler.">
+            <span data-typed data-text="Je veux un post LinkedIn pour lancer mon app, mais je sais pas comment le formuler.">Je veux un post LinkedIn pour lancer mon app, mais je sais pas comment le formuler.</span>
+          </span>
+        </p>
+
+        <p class="chat__msg chat__msg--bot" data-chat>
+          Bonne idée. Je précise le cadrage — <b>rôle, tâche, ton, structure</b> — puis je le forge.
+        </p>
+
+        <p class="chat__msg chat__msg--bot" data-chat style="justify-self:center; background:var(--accent); color:var(--cta-ink); font-weight:800; letter-spacing:.04em; border-radius:999px; padding:10px 24px;">
+          Forge It
+        </p>
+
+        <div class="forge chat__card" data-chat>
+          <div class="forge__bar"><b>Prompt forgé</b><i aria-hidden="true"></i></div>
+          <dl class="forge__rows">
+            <div class="forge__row"><dt>Rôle</dt><dd>Expert personal branding</dd></div>
+            <div class="forge__row"><dt>Tâche</dt><dd>Post de lancement LinkedIn</dd></div>
+            <div class="forge__row"><dt>Ton</dt><dd>Direct, professionnel</dd></div>
+            <div class="forge__row"><dt>Structure</dt><dd>Accroche → preuve → CTA</dd></div>
+          </dl>
+          <div class="forge__cta"><span>Prêt pour</span><b>ChatGPT · Claude · Gemini</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact" aria-label="Contact">
+    <div class="wrap">
+      <p class="kicker" data-reveal>05 — Contact</p>
+      <h2 data-reveal>Parlons de votre projet.</h2>
+      <p data-reveal>Décrivez-nous l'idée en quelques lignes — on répond sous 24&nbsp;h avec un premier avis concret.</p>
+      <div data-reveal>
+        <a class="btn btn--primary btn--lg" href="#" style="font-size:19px; padding:20px 40px;">Démarrer un projet <span class="btn__arrow">→</span></a>
+        <p class="contact__hint">Ou écrivez-nous directement sur <a href="#">WhatsApp</a>.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <p class="footer__brand">
+      <img src="../site/public/logo-stacklab-bw.png" alt="" width="28" height="28">
+      StackLab
+    </p>
+    <nav aria-label="Pied de page">
+      <a href="#projets">Projets</a>
+      <a href="#cas">Études de cas</a>
+      <a href="#methode">Méthode</a>
+      <a href="#produit">Produit</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <small>© 2026 StackLab — Conçu et développé au Maroc.</small>
+  </div>
+</footer>
+
+<!-- GSAP + ScrollTrigger via CDN — le contenu reste intégralement visible si le CDN est bloqué -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- Barre de progression + nav (sans dépendance) ---------- */
+  var nav = document.getElementById('nav');
+  var bar = document.getElementById('progressBar');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var y = window.scrollY || 0;
+      if (nav) nav.classList.toggle('nav--solid', y > 24);
+      if (bar) {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(y / max, 1) : 0) + ')';
+      }
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Récit scroll-led (GSAP) — enhancement progressif ---------- */
+  function init() {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !window.gsap || !window.ScrollTrigger) return; // tout reste visible
+    var root = document.documentElement;
+
+    try {
+      gsap.registerPlugin(ScrollTrigger);
+      root.classList.add('fx');
+      gsap.defaults({ ease: 'power3.out', duration: 0.8 });
+
+      /* Entrée du hero */
+      gsap.timeline({ delay: 0.15 })
+        .to('[data-hero]', { autoAlpha: 1, y: 0, duration: 1, stagger: 0.1 });
+
+      /* Parallaxe de sortie du hero */
+      gsap.to('.hero__inner', {
+        yPercent: -10, autoAlpha: 0.25, ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+
+      /* Reveals génériques */
+      ScrollTrigger.batch('[data-reveal]', {
+        start: 'top 86%', once: true,
+        onEnter: function (els) {
+          gsap.to(els, { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.09, overwrite: true });
+        }
+      });
+
+      /* Zoom cinématique des images projet (scrub, sans hijack) */
+      gsap.utils.toArray('.project__media img').forEach(function (img) {
+        gsap.fromTo(img, { scale: 1.18 }, {
+          scale: 1.02, ease: 'none',
+          scrollTrigger: { trigger: img.closest('.project'), start: 'top bottom', end: 'bottom top', scrub: true }
+        });
+      });
+
+      /* Ligne de progression de la méthode */
+      var line = document.querySelector('.method__line span');
+      if (line) {
+        gsap.fromTo(line, { scaleY: 0 }, {
+          scaleY: 1, ease: 'none',
+          scrollTrigger: { trigger: '.method__list', start: 'top 75%', end: 'bottom 60%', scrub: 1 }
+        });
+      }
+
+      /* Études de cas : épinglées sur desktop, révélations simples sur mobile */
+      var mm = gsap.matchMedia();
+      mm.add({
+        desktop: '(min-width: 900px)',
+        mobile: '(max-width: 899.98px)',
+        reduce: '(prefers-reduced-motion: reduce)'
+      }, function (ctx) {
+        if (ctx.conditions.reduce) return;
+        if (ctx.conditions.desktop) {
+          gsap.utils.toArray('[data-case]').forEach(buildCase);
+        } else {
+          ScrollTrigger.batch('[data-cs-item]', {
+            start: 'top 90%', once: true,
+            onEnter: function (els) {
+              gsap.to(els, { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.08, overwrite: true });
+            }
+          });
+        }
+      });
+
+      /* Conversation PromptifyApp */
+      var chat = document.querySelector('[data-chat-panel]');
+      if (chat) {
+        var steps = gsap.utils.toArray('[data-chat]', chat);
+        var rows = chat.querySelectorAll('.forge__row');
+        var typed = chat.querySelector('[data-typed]');
+        if (typed) typed.textContent = ''; // se remplit à l'animation (aria-label = texte complet)
+        gsap.set(steps, { autoAlpha: 0, y: 18 });
+        gsap.set(rows, { autoAlpha: 0, y: 12 });
+        ScrollTrigger.create({
+          trigger: chat, start: 'top 72%', once: true,
+          onEnter: function () {
+            var tl = gsap.timeline();
+            tl.to(steps[0], { autoAlpha: 1, y: 0, duration: 0.4 })
+              .add(function () { typeIn(typed); }, '<')
+              .to(steps[1], { autoAlpha: 1, y: 0, duration: 0.45 }, '+=1.4')
+              .to(steps[2], { autoAlpha: 1, y: 0, duration: 0.4, ease: 'back.out(1.6)' }, '+=0.3')
+              .to(steps[3], { autoAlpha: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.4)' }, '+=0.35')
+              .to(rows, { autoAlpha: 1, y: 0, stagger: 0.09, duration: 0.4 }, '-=0.2');
+          }
+        });
+      }
+
+      window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+    } catch (err) {
+      /* Filet de sécurité : rien ne doit rester caché */
+      root.classList.remove('fx');
+      if (window.ScrollTrigger) {
+        ScrollTrigger.getAll().forEach(function (t) { t.kill(); });
+      }
+      try {
+        gsap.set('[data-hero], [data-reveal], [data-cs-item], [data-chat]', { clearProps: 'all' });
+      } catch (e2) { /* noop */ }
+    }
+
+    /* --- Séquence épinglée : problème → solution → résultats --- */
+    function buildCase(section) {
+      var phases = section.querySelectorAll('[data-cs-phase]');
+      if (phases.length < 3) return;
+      var kicker = section.querySelector('.case__kicker');
+
+      gsap.set(phases[1], { autoAlpha: 0 });
+      gsap.set(phases[2], { autoAlpha: 0 });
+
+      var tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section, start: 'top 62%', end: '+=280%',
+          scrub: 1, pin: true, anticipatePin: 1
+        }
+      });
+
+      var words0 = phases[0].querySelectorAll('.case__headline .w');
+      var items0 = phases[0].querySelectorAll('[data-cs-item]');
+      var items1 = phases[1].querySelectorAll('[data-cs-item]');
+      var words1 = phases[1].querySelectorAll('.case__headline .w');
+      var items2 = phases[2].querySelectorAll('[data-cs-item]');
+      var words2 = phases[2].querySelectorAll('.case__headline .w');
+
+      tl.from(kicker, { autoAlpha: 0, y: 16, duration: 0.5, immediateRender: true }, 0)
+        .from(words0, { autoAlpha: 0, y: 40, stagger: 0.06, duration: 0.8, immediateRender: true }, 0.1)
+        .from(items0, { autoAlpha: 0, y: 24, stagger: 0.12, duration: 0.7, immediateRender: true }, 0.5)
+        .to({}, { duration: 0.7 })
+        .to(phases[0], { autoAlpha: 0, y: -36, duration: 0.55 })
+        .to(phases[1], { autoAlpha: 1, duration: 0.25 }, '<0.2')
+        .from(words1, { autoAlpha: 0, y: 36, stagger: 0.05, duration: 0.6, immediateRender: true }, '<0.1')
+        .from(items1, { autoAlpha: 0, y: 28, stagger: 0.12, duration: 0.6, immediateRender: true }, '<0.15')
+        .to({}, { duration: 0.9 })
+        .to(phases[1], { autoAlpha: 0, y: -36, duration: 0.55 })
+        .to(phases[2], { autoAlpha: 1, duration: 0.25 }, '<0.2')
+        .from(words2, { autoAlpha: 0, y: 36, stagger: 0.06, duration: 0.6, immediateRender: true }, '<0.1')
+        .from(items2, { autoAlpha: 0, y: 28, stagger: 0.12, duration: 0.6, immediateRender: true }, '<0.15')
+        .to({}, { duration: 0.8 });
+    }
+
+    /* --- Machine à écrire (texte complet lisible via aria-label) --- */
+    function typeIn(el) {
+      if (!el) return;
+      var txt = el.getAttribute('data-text') || '';
+      el.textContent = '';
+      var i = 0;
+      var id = setInterval(function () {
+        i += 1;
+        el.textContent = txt.slice(0, i);
+        if (i >= txt.length) clearInterval(id);
+      }, 26);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

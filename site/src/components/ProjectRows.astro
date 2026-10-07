@@ -23,7 +23,7 @@ const ordered = [...projects].sort((a, b) => a.orderIndex - b.orderIndex);
       const c = projectByLocale(p, locale);
       const hero = p.fallbackScreenshots[0];
       return (
-        <article class="v8proj v8-reveal" style={`--pa:${p.accent ?? "#d4d4d8"}`}>
+        <article class="v8proj v8-reveal" style={`--pa:${p.accent ?? "#d4d4d8"}`} data-proj-slug={p.slug}>
           <div class="v8proj__media" data-tilt>
             <div class="v8tilt">
               <div class="v8tilt__frame">
@@ -41,15 +41,15 @@ const ordered = [...projects].sort((a, b) => a.orderIndex - b.orderIndex);
           </div>
           <div>
             <span class="v8proj__index">{String(i + 1).padStart(2, "0")} / 06</span>
-            <p class="v8proj__sector">{c.sector}</p>
-            <h3>{c.name}</h3>
-            <p class="v8proj__summary">{c.summary}</p>
+            <p class="v8proj__sector" data-proj-sector>{c.sector}</p>
+            <h3 data-proj-name>{c.name}</h3>
+            <p class="v8proj__summary" data-proj-summary>{c.summary}</p>
             <div class="v8proj__actions">
               <a class="btn-primary8" href={projectPath(p, locale)}>
                 {p.slug === "promptifyapp" ? v.product : v.study} <span class="arr" aria-hidden="true">→</span>
               </a>
               {p.liveUrl && (
-                <a class="btn-ghost8" href={p.liveUrl} target="_blank" rel="noopener noreferrer">
+                <a class="btn-ghost8" href={p.liveUrl} target="_blank" rel="noopener noreferrer" data-proj-live>
                   {v.live} <span class="arr" aria-hidden="true">↗</span>
                 </a>
               )}

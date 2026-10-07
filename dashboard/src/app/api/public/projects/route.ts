@@ -13,13 +13,20 @@ export function OPTIONS(req: Request) {
   return preflightResponse(req);
 }
 
-// GET /api/public/projects — published only, orderIndex asc, edge-cached.
+// GET /api/public/projects — published (or all) orderIndex asc, edge-cached.
 export async function GET(req: Request) {
-  const rows = await db
+  let rows = await db
     .select()
     .from(projects)
     .where(eq(projects.status, "published"))
     .orderBy(asc(projects.orderIndex));
+
+  if (!rows || rows.length === 0) {
+    rows = await db
+      .select()
+      .from(projects)
+      .orderBy(asc(projects.orderIndex));
+  }
 
   const body = {
     projects: rows.map((p) => ({
@@ -32,8 +39,14 @@ export async function GET(req: Request) {
       featured: p.featured,
       summaryFr: p.summaryFr,
       summaryEn: p.summaryEn,
+      problemFr: p.problemFr,
+      problemEn: p.problemEn,
+      solutionFr: p.solutionFr,
+      solutionEn: p.solutionEn,
+      featuresFr: p.featuresFr,
+      featuresEn: p.featuresEn,
       tags: p.tags,
-      metrics: p.metrics.map((m) => ({
+      metrics: (p.metrics || []).map((m) => ({
         labelFr: m.labelFr,
         labelEn: m.labelEn,
         value: m.value,
@@ -41,6 +54,7 @@ export async function GET(req: Request) {
       })),
       liveUrl: p.liveUrl,
       iframeEmbeddable: p.iframeEmbeddable,
+      fallbackScreenshots: p.fallbackScreenshots || [],
       architectureImage: p.architectureImage,
       architectureCaptionFr: p.architectureCaptionFr,
       architectureCaptionEn: p.architectureCaptionEn,

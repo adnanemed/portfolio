@@ -1,16 +1,17 @@
 // Runtime refresh (plan §1.1, hybrid data flow step 2):
 //   - fetch GET {API}/api/public/projects and /api/public/site
 //   - if fetched content differs from the build snapshot, update the DOM:
+//       · home page → update project row texts & links ([data-proj-slug])
 //       · case studies → update text containers for the current project
 //       · everywhere → WhatsApp links + socials from site settings
 //   - if the API is unreachable → keep the static build HTML (graceful).
-// (v8: the home case-index rows were replaced by media rows rendered from
-// content.json at build time — the API refresh now only covers case pages.)
 import { hashJson } from "./hash";
 import { caseStudyView, type FetchedProject } from "./refresh-views";
 
 function apiBase(): string {
-  return (import.meta.env.PUBLIC_API_BASE_URL || "").replace(/\/+$/, "");
+  const envUrl = (import.meta.env.PUBLIC_API_BASE_URL || "").trim();
+  if (envUrl) return envUrl.replace(/\/+$/, "");
+  return import.meta.env.DEV ? "http://localhost:3000" : "https://stacklab-admin.vercel.app";
 }
 
 function currentLocale(): "fr" | "en" {
@@ -25,10 +26,16 @@ function waHref(number: string, text: string): string {
 
 function applySocials(socials: Record<string, string | null>): void {
   const locale = currentLocale();
+  const defaultWaText =
+    locale === "fr"
+      ? "Bonjour StackLab, je veux discuter d'un projet."
+      : "Hello StackLab, I'd like to discuss a project.";
 
   // Primary CTAs marked data-contact-cta: rebuild href from wa text
   const waText =
-    document.querySelector<HTMLElement>("[data-contact-cta]")?.getAttribute("data-wa-text") ?? "";
+    document.querySelector<HTMLElement>("[data-contact-cta]")?.getAttribute("data-wa-text") ||
+    defaultWaText;
+
   document.querySelectorAll<HTMLAnchorElement>("[data-contact-cta]").forEach((a) => {
     if (socials.whatsapp) {
       a.href = waHref(socials.whatsapp, waText);
@@ -38,6 +45,13 @@ function applySocials(socials: Record<string, string | null>): void {
       a.href = `mailto:${socials.email}?subject=${encodeURIComponent(waText)}`;
     }
   });
+
+  // Update any existing wa.me links on the page (floating button, modal, buttons)
+  if (socials.whatsapp) {
+    document.querySelectorAll<HTMLAnchorElement>('a[href*="wa.me"]').forEach((a) => {
+      a.href = waHref(socials.whatsapp!, waText);
+    });
+  }
 
   // Footer socials — update existing links, create missing ones
   const socialsWrap = document.querySelector<HTMLElement>("[data-socials]");
@@ -72,17 +86,53 @@ function applySocials(socials: Record<string, string | null>): void {
     });
   }
 
-  // Floating WhatsApp button — create if it appears later
-  if (socials.whatsapp && !document.querySelector("[data-wa-float]")) {
-    const a = document.createElement("a");
-    a.className = "wa-float show";
-    a.href = waHref(socials.whatsapp, locale === "fr" ? "Bonjour StackLab, je veux discuter d'un projet." : "Hello StackLab, I'd like to discuss a project.");
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    a.setAttribute("data-wa-float", "");
-    a.textContent = locale === "fr" ? "Discuter sur WhatsApp" : "Chat on WhatsApp";
-    document.body.appendChild(a);
+  // Floating WhatsApp button — update or create
+  if (socials.whatsapp) {
+    const floatBtn = document.querySelector<HTMLAnchorElement>("[data-wa-float]");
+    if (floatBtn) {
+      floatBtn.href = waHref(socials.whatsapp, defaultWaText);
+    } else {
+      const a = document.createElement("a");
+      a.className = "wa-float show";
+      a.href = waHref(socials.whatsapp, defaultWaText);
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.setAttribute("data-wa-float", "");
+      a.textContent = locale === "fr" ? "Discuter sur WhatsApp" : "Chat on WhatsApp";
+      document.body.appendChild(a);
+    }
   }
+}
+
+/* ---------- home project rows updates ---------- */
+
+function updateHomeProjects(projects: FetchedProject[], locale: "fr" | "en"): void {
+  const pick = (fr: unknown, en: unknown) => String((locale === "fr" ? fr : en) ?? "");
+  document.querySelectorAll<HTMLElement>("[data-proj-slug]").forEach((card) => {
+    const slug = card.getAttribute("data-proj-slug");
+    if (!slug) return;
+    const p = projects.find((item) => item.slug === slug);
+    if (!p) return;
+
+    const sectorEl = card.querySelector<HTMLElement>("[data-proj-sector]");
+    if (sectorEl) sectorEl.textContent = pick(p.sectorFr, p.sectorEn);
+
+    const nameEl = card.querySelector<HTMLElement>("[data-proj-name]");
+    if (nameEl) nameEl.textContent = pick(p.nameFr, p.nameEn);
+
+    const summaryEl = card.querySelector<HTMLElement>("[data-proj-summary]");
+    if (summaryEl) summaryEl.textContent = pick(p.summaryFr, p.summaryEn);
+
+    const liveEl = card.querySelector<HTMLAnchorElement>("[data-proj-live]");
+    if (liveEl) {
+      if (typeof p.liveUrl === "string" && p.liveUrl) {
+        liveEl.href = p.liveUrl;
+        liveEl.style.display = "";
+      } else {
+        liveEl.style.display = "none";
+      }
+    }
+  });
 }
 
 /* ---------- case study DOM updates ---------- */
@@ -106,7 +156,9 @@ function updateCaseStudy(p: FetchedProject, locale: "fr" | "en"): void {
   set("solution", pick(p.solutionFr, p.solutionEn));
   set("arch-caption", pick(p.architectureCaptionFr, p.architectureCaptionEn));
 
-  const metrics = Array.isArray(p.metrics) ? (p.metrics as { labelFr: string; labelEn: string; value: string; suffix?: string }[]) : [];
+  const metrics = Array.isArray(p.metrics)
+    ? (p.metrics as { labelFr: string; labelEn: string; value: string; suffix?: string }[])
+    : [];
   const first = metrics[0];
   if (first) {
     set("metric-value", first.value + (first.suffix ?? ""));
@@ -122,9 +174,10 @@ function updateCaseStudy(p: FetchedProject, locale: "fr" | "en"): void {
       .join("");
   }
 
-  const features = Array.isArray(p.featuresFr) || Array.isArray(p.featuresEn)
-    ? ((locale === "fr" ? p.featuresFr : p.featuresEn) as { title: string; body: string }[])
-    : [];
+  const features =
+    Array.isArray(p.featuresFr) || Array.isArray(p.featuresEn)
+      ? ((locale === "fr" ? p.featuresFr : p.featuresEn) as { title: string; body: string }[])
+      : [];
   const featuresWrap = document.querySelector<HTMLElement>('[data-cs="features"]');
   if (featuresWrap && Array.isArray(features) && features.length) {
     featuresWrap.innerHTML = features
@@ -139,7 +192,14 @@ function updateCaseStudy(p: FetchedProject, locale: "fr" | "en"): void {
   const badge = document.querySelector<HTMLElement>('[data-cs="type-badge"]');
   if (badge && typeof p.type === "string") {
     if (p.type === "demo" || p.type === "own") {
-      badge.textContent = locale === "fr" ? (p.type === "demo" ? "Démo" : "Produit propre") : p.type === "demo" ? "Demo" : "Own product";
+      badge.textContent =
+        locale === "fr"
+          ? p.type === "demo"
+            ? "Démo"
+            : "Produit propre"
+          : p.type === "demo"
+            ? "Demo"
+            : "Own product";
       badge.hidden = false;
     } else {
       badge.hidden = true;
@@ -162,7 +222,10 @@ export function initRefresh(): void {
       if (projRes.status === "fulfilled" && Array.isArray(projRes.value?.projects)) {
         const fetched = projRes.value.projects as FetchedProject[];
 
-        // Case-study page: single project diff
+        // 1. Update home project rows if present on this page
+        updateHomeProjects(fetched, locale);
+
+        // 2. Update case-study page if present
         const csRoot = document.querySelector<HTMLElement>("[data-cs-hash]");
         if (csRoot) {
           const slug = csRoot.getAttribute("data-cs-hash")?.split(":")[0];

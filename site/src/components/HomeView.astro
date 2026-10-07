@@ -50,4 +50,6 @@ const waHref = waNumber ? waLink(waNumber, d.contact.waText) : null;
   // v8 orchestrator: GSAP + Lenis + tilt + pins + chat, and the tier-gated
   // dynamic import of the Three.js scenes (hero, pipeline).
   import "@/scripts/v8/home";
+  import { initRefresh } from "@/lib/refresh";
+  initRefresh();
 </script>

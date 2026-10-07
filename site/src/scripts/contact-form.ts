@@ -35,8 +35,11 @@ export function initContactForm(): void {
   const status = form.querySelector<HTMLElement>("#cf-status")!;
   const submit = form.querySelector<HTMLButtonElement>("#cf-submit")!;
   const locale = form.getAttribute("data-locale") === "en" ? "en" : "fr";
-  const s = STR[locale];
-  const apiBase = (form.getAttribute("data-api-base") || "").replace(/\/+$/, "");
+  const apiBase = (
+    form.getAttribute("data-api-base") ||
+    import.meta.env.PUBLIC_API_BASE_URL ||
+    (import.meta.env.DEV ? "http://localhost:3000" : "https://stacklab-admin.vercel.app")
+  ).replace(/\/+$/, "");
   const startedAt = Date.now();
 
   const setStatus = (html: string, cls: "ok" | "err") => {

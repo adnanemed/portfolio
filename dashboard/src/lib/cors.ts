@@ -15,7 +15,26 @@ export function allowedOrigins(): string[] {
 }
 
 export function isOriginAllowed(origin: string): boolean {
-  return allowedOrigins().includes(origin);
+  if (!origin) return false;
+  const hardcodedAllowed = [
+    "https://stacklab-site.vercel.app",
+    "http://localhost:4321",
+    "http://localhost:4322",
+    "http://localhost:3000",
+    "http://127.0.0.1:4321",
+    "http://127.0.0.1:4322",
+  ];
+  if (hardcodedAllowed.includes(origin)) return true;
+  if (allowedOrigins().includes(origin)) return true;
+  try {
+    const url = new URL(origin);
+    if (url.hostname.endsWith(".vercel.app") && (url.hostname.includes("stacklab") || url.hostname.includes("mijero"))) {
+      return true;
+    }
+  } catch {
+    // ignore
+  }
+  return false;
 }
 
 /** CORS headers for a given request Origin (public API). */

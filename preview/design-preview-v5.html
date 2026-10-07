@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StackLab, Aperçu design v5</title>
+<meta name="description" content="Aperçu de la direction design v5 du site StackLab.">
+<script>document.documentElement.className += ' js';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   StackLab v5 "Le Sommaire" : dossier éditorial à 7 chapitres.
+   Canvas presque noir, typo d'affichage géante, chrome = filets 1px,
+   le bleu de marque ne vit QUE dans le logo.
+   ============================================================ */
+:root {
+  --bg: #0a0a0a;
+  --bg2: #131313;
+  --text: #f6f6f6;
+  --muted: #9f9f9f;   /* 6.9:1 sur --bg */
+  --soft: #8a8a8a;    /* folios, grands textes uniquement (3:1+ requis) */
+  --line: #262626;
+  --pad: clamp(1.25rem, 4vw, 3.5rem);
+  --gap-sec: clamp(4.5rem, 10vw, 8rem);
+  --sans: "Archivo", "Helvetica Neue", system-ui, sans-serif;
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, Menlo, monospace;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --press: 140ms;
+  --hover: 220ms;
+  --header-h: 64px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 1rem); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+::selection { background: var(--text); color: var(--bg); }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+a, button { touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; border-radius: 4px; }
+
+.skip-link {
+  position: fixed; top: -100%; inset-inline-start: 1rem; z-index: 200;
+  background: var(--text); color: var(--bg);
+  padding: .8rem 1.4rem; font-weight: 600; font-size: .9rem;
+  border-radius: 0 0 8px 8px;
+}
+.skip-link:focus { top: 0; }
+
+.serif { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+.mono { font-family: var(--mono); }
+
+/* ============================================================
+   Header
+   ============================================================ */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; gap: 1.2rem;
+  height: var(--header-h);
+  padding-inline: var(--pad);
+  padding-top: env(safe-area-inset-top, 0px);
+  transition: background var(--hover) var(--ease-out), border-color var(--hover) var(--ease-out);
+  border-bottom: 1px solid transparent;
+}
+.header.scrolled {
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom-color: var(--line);
+}
+.brand { display: inline-flex; align-items: center; gap: .55rem; font-weight: 700; font-size: .95rem; letter-spacing: .02em; min-height: 44px; }
+.brand img { height: 26px; width: auto; mix-blend-mode: screen; }
+.brand .fallback { display: none; }
+.header .links { display: flex; gap: .1rem; margin-inline-start: auto; font-size: .84rem; color: var(--muted); }
+.header .links a { position: relative; padding: .4rem .6rem; display: inline-flex; align-items: center; min-height: 44px; transition: color var(--hover) var(--ease-out); }
+.header .links a::after {
+  content: ""; position: absolute; inset-inline: .8rem; bottom: .6rem; height: 1px;
+  background: var(--text); transform: scaleX(0); transform-origin: left;
+  transition: transform var(--hover) var(--ease-out);
+}
+.header .links a:hover { color: var(--text); }
+.header .links a:hover::after { transform: scaleX(1); }
+@media (max-width: 860px) { .header .links { display: none; } .header .btn-nav { margin-inline-start: auto; } }
+
+/* ============================================================
+   Boutons : le blanc plein est réservé au contact
+   ============================================================ */
+.btn-nav {
+  display: inline-flex; align-items: center; min-height: 40px;
+  background: var(--text); color: var(--bg);
+  border: 1px solid var(--text); border-radius: 999px;
+  padding: .4rem 1.1rem; font-size: .78rem; font-weight: 700; letter-spacing: .02em;
+  transition: transform var(--press) var(--ease-out), box-shadow var(--hover) var(--ease-out);
+}
+.btn-nav:active { transform: scale(0.96); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-nav:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(246,246,246,.14); }
+}
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: .7rem;
+  min-height: 56px;
+  background: var(--text); color: var(--bg);
+  border: 1px solid var(--text); border-radius: 999px;
+  padding: 1rem 2.1rem; font-size: .95rem; font-weight: 700; letter-spacing: .02em;
+  white-space: nowrap;
+  transition: transform var(--press) var(--ease-out), box-shadow var(--hover) var(--ease-out);
+}
+.btn-primary .arr { display: inline-flex; transition: transform var(--hover) var(--ease-out); }
+.btn-primary:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(246,246,246,.16); }
+  .btn-primary:hover .arr { transform: translateX(4px); }
+}
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 56px;
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 1rem 2rem; font-size: .95rem; font-weight: 600; color: var(--muted);
+  white-space: nowrap;
+  transition: color var(--hover) var(--ease-out), border-color var(--hover) var(--ease-out), transform var(--press) var(--ease-out);
+}
+.btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+.btn-ghost:active { transform: scale(0.97); }
+
+/* Lien-refrain (flèche voyageuse) */
+.link-arr {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-weight: 700; font-size: .98rem; min-height: 44px;
+}
+.link-arr .arr { display: inline-flex; transition: transform var(--hover) var(--ease-out); }
+.link-arr:hover .arr { transform: translateX(6px); }
+.link-arr:active { transform: scale(0.98); }
+
+/* ============================================================
+   Hero, couverture du dossier
+   ============================================================ */
+.hero {
+  min-height: 92svh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: calc(var(--header-h) + 2rem) var(--pad) clamp(2.5rem, 6vw, 4.5rem);
+  position: relative;
+}
+.hero .kicker { color: var(--muted); text-transform: uppercase; letter-spacing: .22em; font-size: .74rem; margin-bottom: 1.4rem; }
+.hero h1 {
+  font-size: clamp(2.6rem, 6.6vw, 6rem);
+  line-height: 1.06; font-weight: 700; letter-spacing: -0.03em;
+}
+.hero h1 .serif { font-weight: 400; }
+/* Image en pastille, incrustée dans le titre */
+.pill-img {
+  display: inline-block; vertical-align: baseline;
+  width: clamp(3.6rem, 8vw, 7rem); height: .68em;
+  border-radius: 999px; overflow: hidden;
+  background: var(--bg2); border: 1px solid var(--line);
+  transform: translateY(.06em);
+  margin-inline: .06em;
+}
+.pill-img img { width: 100%; height: 100%; object-fit: cover; }
+.hero .sub { color: var(--muted); max-width: 42ch; font-size: 1.06rem; margin-top: 1.6rem; }
+.hero .actions { display: flex; gap: .9rem; flex-wrap: wrap; margin-top: 2.2rem; }
+@media (max-width: 560px) { .hero .actions .btn-primary, .hero .actions .btn-ghost { width: 100%; } }
+
+/* ============================================================
+   Sommaire : l'index typographique
+   ============================================================ */
+.sommaire { padding: var(--gap-sec) 0 0; }
+.sommaire h2, .methode h2, .contact h2 { padding-inline: var(--pad); }
+.sommaire h2 {
+  font-size: clamp(1.9rem, 4.4vw, 3.4rem); font-weight: 700; letter-spacing: -0.03em;
+  margin-bottom: 2.6rem;
+}
+.idx { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.idx-row {
+  position: relative; isolation: isolate;
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr) auto auto;
+  align-items: center; gap: clamp(.9rem, 2vw, 1.6rem);
+  padding: 1.3rem var(--pad);
+  border-top: 1px solid var(--line);
+  min-height: 76px;
+}
+.idx-row:first-child { border-top: none; }
+.idx-row::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--bg2);
+  transform: scaleY(0); transform-origin: bottom;
+  transition: transform .35s var(--ease-out);
+}
+.idx-row .num { font-family: var(--mono); font-size: .82rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.idx-row .name {
+  font-size: clamp(1.45rem, 3.6vw, 2.9rem); font-weight: 700; letter-spacing: -0.02em;
+  line-height: 1.1;
+  transition: transform var(--hover) var(--ease-out);
+}
+.idx-row .sector { color: var(--muted); font-size: .88rem; text-align: end; white-space: nowrap; }
+.idx-row .thumb {
+  width: 150px; aspect-ratio: 16 / 10; border-radius: 6px; overflow: hidden;
+  background: var(--bg2); border: 1px solid var(--line);
+  opacity: 0; transform: scale(0.94);
+  transition: opacity var(--hover) var(--ease-out), transform var(--hover) var(--ease-out);
+  pointer-events: none;
+}
+.idx-row .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.idx-row .arr {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--line); color: var(--muted);
+  transition: background var(--hover) var(--ease-out), color var(--hover) var(--ease-out),
+              border-color var(--hover) var(--ease-out), transform var(--hover) var(--ease-out);
+}
+.idx-row:active .name { transform: scale(0.99); }
+@media (hover: hover) and (pointer: fine) {
+  .idx-row:hover::before { transform: scaleY(1); }
+  .idx-row:hover .name { transform: translateX(8px); }
+  .idx-row:hover .thumb { opacity: 1; transform: scale(1); }
+  .idx-row:hover .thumb-void { opacity: 0; transform: none; }
+  .idx-row:hover .num { color: var(--text); }
+  .idx-row:hover .arr { background: var(--text); color: var(--bg); border-color: var(--text); }
+}
+.idx-row:focus-visible .thumb { opacity: 1; transform: scale(1); }
+.idx-row:focus-visible .thumb-void { opacity: 0; }
+/* Chapitre 07 : le contact se détache (Von Restorff) */
+.idx-row--contact .name { font-family: var(--serif); font-style: italic; font-weight: 400; }
+.idx-row--contact .arr { background: var(--text); color: var(--bg); border-color: var(--text); }
+/* Séparateur invisible : garde le secteur et la flèche du chapitre 07
+   alignés sur les autres lignes (la vignette y réserve 150px). */
+.thumb-void { border: none; background: transparent; }
+@media (hover: hover) and (pointer: fine) {
+  .idx-row--contact:hover .arr { background: var(--bg2); color: var(--text); }
+}
+@media (max-width: 1080px) { .idx-row .thumb { display: none; } }
+@media (max-width: 720px) {
+  .idx-row { grid-template-columns: 2.4rem 1fr auto; }
+  .idx-row .sector { display: none; }
+}
+
+/* Colophon de preuve, chiffres réels du studio */
+.proof {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+.proof > div { padding: 2.2rem var(--pad); border-inline-start: 1px solid var(--line); }
+.proof > div:first-child { border-inline-start: none; }
+.proof .v { font-size: clamp(1.7rem, 3.4vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.proof .l { color: var(--muted); font-size: .9rem; margin-top: .4rem; max-width: 24ch; }
+@media (max-width: 640px) { .proof { grid-template-columns: 1fr; } .proof > div { border-inline-start: none; border-top: 1px solid var(--line); } .proof > div:first-child { border-top: none; } }
+
+/* ============================================================
+   Chapitres projets : pleines pages, image-led
+   ============================================================ */
+.chapter { border-top: 1px solid var(--line); padding-block: var(--gap-sec); }
+.ch-head {
+  display: grid; grid-template-columns: clamp(3.4rem, 9vw, 8rem) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding-inline: var(--pad);
+  align-items: start;
+  margin-bottom: clamp(2rem, 4vw, 3.2rem);
+}
+.folio {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(2.4rem, 5vw, 4.6rem); line-height: .9;
+  color: var(--soft);
+  font-variant-numeric: lining-nums;
+}
+.ch-head h2 { font-size: clamp(1.9rem, 4.4vw, 3.6rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
+.ch-head .meta { color: var(--muted); font-size: .92rem; margin-top: .7rem; }
+.ch-head .tags { font-family: var(--mono); font-size: .74rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-top: .55rem; }
+.ch-head .lead { color: var(--muted); font-size: 1.06rem; line-height: 1.7; max-width: 56ch; margin-top: 1.4rem; }
+@media (max-width: 720px) {
+  .ch-head { grid-template-columns: 1fr; gap: .4rem; }
+  .folio { font-size: 2.2rem; }
+}
+
+/* Image pleine largeur (casse la grille, touche les bords) */
+.bleed { width: 100vw; margin-inline: calc(50% - 50vw); }
+figure.media { position: relative; }
+figure.media img { width: 100%; height: auto; }
+figure.media figcaption {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .8rem var(--pad);
+  font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .12em;
+  color: var(--muted);
+}
+.bleed + figure.media figcaption, figure.media.bleed figcaption { padding-inline: var(--pad); }
+figcaption .arr { transition: transform var(--hover) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  figure.media:hover figcaption { color: var(--text); }
+  figure.media:hover figcaption .arr { transform: translate(3px, -3px); }
+}
+
+/* Duo asymétrique : 2 vues secondaires, alternance 7/5 puis 5/7 */
+.duo { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(1rem, 2.5vw, 2rem); padding-inline: var(--pad); margin-top: clamp(2rem, 4vw, 3rem); }
+.duo.alt { grid-template-columns: 5fr 7fr; }
+@media (max-width: 720px) { .duo, .duo.alt { grid-template-columns: 1fr; } }
+
+/* Placeholder élégant si l'image ne charge pas (aperçu hors ligne) */
+.media.noimg {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg2); border: 1px solid var(--line);
+  aspect-ratio: 1440 / 900;
+}
+.media.noimg::after {
+  content: attr(data-missing);
+  font-family: var(--mono); font-size: .74rem; text-transform: uppercase; letter-spacing: .14em;
+  color: var(--muted); padding: 1rem; text-align: center;
+}
+
+/* Interchapitre : la boucle de retour vers le contact */
+.inter {
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding: 1.8rem var(--pad) 0;
+  border-top: 1px solid var(--line);
+  margin-inline: 0;
+}
+.inter .q { color: var(--muted); font-size: 1.02rem; }
+.inter .q .serif { color: var(--text); font-size: 1.15em; }
+
+/* ============================================================
+   Méthode
+   ============================================================ */
+.methode { border-top: 1px solid var(--line); padding-block: var(--gap-sec); }
+.methode h2 { font-size: clamp(1.9rem, 4.4vw, 3.4rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 2.6rem; }
+.step {
+  display: grid; grid-template-columns: 3.4rem 12rem minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem); align-items: baseline;
+  padding: 1.6rem var(--pad);
+  border-top: 1px solid var(--line);
+}
+.step:last-of-type { border-bottom: 1px solid var(--line); }
+.step .n { font-family: var(--mono); font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.step .t { font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; }
+.step .d { color: var(--muted); font-size: .98rem; line-height: 1.7; max-width: 58ch; }
+@media (max-width: 720px) {
+  .step { grid-template-columns: 2.4rem 1fr; }
+  .step .d { grid-column: 2; }
+}
+
+/* ============================================================
+   Contact : chapitre 07, climax
+   ============================================================ */
+.contact { border-top: 1px solid var(--line); padding-block: clamp(5.5rem, 13vw, 9.5rem); text-align: center; }
+.contact .folio { display: block; margin-bottom: 1.6rem; }
+.contact h2 {
+  font-size: clamp(2.9rem, 10.5vw, 8.5rem);
+  line-height: .98; font-weight: 700; letter-spacing: -0.035em;
+  padding-inline: var(--pad);
+}
+.contact h2 .serif { font-weight: 400; }
+.contact .note { color: var(--muted); margin-top: 1.6rem; font-size: .96rem; padding-inline: var(--pad); }
+.contact .actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 2.6rem; padding-inline: var(--pad); }
+.contact .alt {
+  display: inline-flex; align-items: center; min-height: 44px;
+  color: var(--muted); font-size: .92rem; text-decoration: underline; text-underline-offset: 4px;
+  transition: color var(--hover) var(--ease-out);
+}
+.contact .alt:hover { color: var(--text); }
+
+/* Formulaire */
+.form-wrap {
+  max-width: 40rem; margin: 3.4rem auto 0; text-align: start;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--bg2);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+.field { display: flex; flex-direction: column; gap: .45rem; margin-bottom: 1.1rem; }
+.field label { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); }
+.field input, .field textarea {
+  background: var(--bg); color: var(--text);
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: .8rem 1rem; font: inherit; font-size: .95rem;
+  min-height: 48px;
+  transition: border-color var(--hover) var(--ease-out);
+}
+.field textarea { min-height: 120px; resize: vertical; }
+.field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.hp { position: absolute; inset-inline-start: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-status { margin-top: 1rem; font-family: var(--mono); font-size: .82rem; min-height: 1.4em; color: var(--muted); }
+.form-status.ok { color: var(--text); }
+
+/* ============================================================
+   Footer
+   ============================================================ */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 2.2rem var(--pad);
+  /* La barre de marge (56px) vit au-dessus du footer sur mobile */
+  padding-bottom: calc(2.2rem + 64px + env(safe-area-inset-bottom, 0px));
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  color: var(--muted); font-size: .85rem;
+}
+footer a { min-height: 44px; display: inline-flex; align-items: center; transition: color var(--hover) var(--ease-out); }
+footer a:hover { color: var(--text); }
+footer .fbrand { display: inline-flex; align-items: center; gap: .5rem; color: var(--text); font-weight: 700; }
+footer .fbrand img { height: 20px; mix-blend-mode: screen; }
+footer nav { display: flex; gap: .2rem; flex-wrap: wrap; }
+footer nav a { padding: .3rem .6rem; }
+
+/* ============================================================
+   Barre de marge : le CTA permanent, en pied de fenêtre
+   ============================================================ */
+.marginbar {
+  position: fixed; inset-inline: 0; bottom: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  min-height: 56px;
+  padding: .5rem var(--pad);
+  padding-bottom: calc(.5rem + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+  opacity: 0; translate: 0 100%; pointer-events: none;
+  transition: opacity var(--hover) var(--ease-out), translate var(--hover) var(--ease-out);
+}
+.marginbar.show { opacity: 1; translate: 0 0; pointer-events: auto; }
+.marginbar .hint { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); }
+.marginbar a {
+  display: inline-flex; align-items: center; gap: .55rem;
+  font-weight: 700; font-size: .9rem; min-height: 44px;
+}
+.marginbar a .arr { display: inline-flex; transition: transform var(--hover) var(--ease-out); }
+.marginbar a:hover .arr { transform: translateX(5px); }
+.marginbar a:active { transform: scale(0.97); }
+@media (min-width: 900px) { .marginbar { inset-inline: auto 0; width: auto; border-start-start-radius: 10px; border: 1px solid var(--line); border-bottom: none; padding-inline: 1.4rem; } }
+@media (max-width: 480px) { .marginbar .hint { display: none; } .marginbar { justify-content: center; } }
+
+/* ============================================================
+   Motion : tout derrière no-preference ; contenu 100% visible en reduce
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .sr { opacity: 0; transform: translateY(26px); transition: opacity .85s var(--ease-out), transform .85s var(--ease-out); }
+  html.js .sr.in { opacity: 1; transform: none; }
+  html.js .reveal { display: block; overflow: hidden; }
+  html.js .reveal > span { display: block; transform: translateY(112%); transition: transform 1s var(--ease-out); }
+  html.js body.loaded .reveal > span { transform: translateY(0); }
+  html.js .reveal.d1 > span { transition-delay: .06s; }
+  html.js .reveal.d2 > span { transition-delay: .16s; }
+  html.js .reveal.d3 > span { transition-delay: .26s; }
+  html.js .fadein { opacity: 0; transition: opacity .9s var(--ease-out) .45s; }
+  html.js body.loaded .fadein { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marginbar { transition: none; }
+  .idx-row::before { transition: none; }
+  .idx-row .thumb, .idx-row .name, .idx-row .arr { transition: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Aller au contenu principal</a>
+
+<!-- Sentinelle de scroll pour le header -->
+<div id="top-sentinel" aria-hidden="true" style="position:absolute;top:0;height:2px;width:1px;"></div>
+
+<header class="header">
+  <a class="brand" href="#main" aria-label="StackLab, retour en haut de page">
+    <img src="../site/public/logo-stacklab-bw.png" alt="" width="2048" height="2048" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+    <span class="fallback">StackLab</span>
+  </a>
+  <nav class="links" aria-label="Navigation principale">
+    <a href="#sommaire">Projets</a>
+    <a href="#methode">Méthode</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <!-- {primaryContactHref} -->
+  <a class="btn-nav" href="#contact">Démarrer un projet</a>
+</header>
+
+<main id="main">
+
+  <!-- ================= 01. Couverture ================= -->
+  <section class="hero" id="hero" aria-label="Introduction">
+    <p class="kicker reveal"><span>Studio de création web</span></p>
+    <h1>
+      <span class="reveal"><span>Des sites qui <span class="pill-img fadein"><img src="../site/public/projects/lahyani/lahyani-hero.webp" alt="Aperçu du site du Centre Dentaire Lahyani" width="1440" height="900"></span></span></span>
+      <span class="reveal d1"><span><em class="serif">travaillent</em> pour vous.</span></span>
+    </h1>
+    <p class="sub fadein">StackLab conçoit et développe des sites sur mesure, pensés pour transformer vos visiteurs en clients.</p>
+    <div class="actions fadein">
+      <a class="btn-primary" href="#contact">Démarrer un projet <span class="arr" aria-hidden="true">→</span></a>
+      <a class="btn-ghost" href="#sommaire">Voir les projets</a>
+    </div>
+  </section>
+
+  <!-- ================= 02. Sommaire, l'index du dossier ================= -->
+  <section class="sommaire" id="sommaire" aria-label="Sommaire des projets">
+    <h2 class="sr">Sommaire</h2>
+    <nav class="idx" aria-label="Liste des projets et du contact">
+      <a class="idx-row sr" href="#p-lahyani">
+        <span class="num" aria-hidden="true">01</span>
+        <span class="name">Centre Dentaire Lahyani</span>
+        <span class="thumb" aria-hidden="true"><img src="../site/public/projects/lahyani/lahyani-hero.webp" alt="" width="1440" height="900" loading="lazy"></span>
+        <span class="sector">Santé</span>
+        <span class="arr" aria-hidden="true">→</span>
+      </a>
+      <a class="idx-row sr" href="#p-auradrive">
+        <span class="num" aria-hidden="true">02</span>
+        <span class="name">AuraDrive</span>
+        <span class="thumb" aria-hidden="true"><img src="../site/public/projects/auradrive/auradrive-hero.webp" alt="" width="1440" height="900" loading="lazy"></span>
+        <span class="sector">Mobilité</span>
+        <span class="arr" aria-hidden="true">→</span>
+      </a>
+      <a class="idx-row sr" href="#p-saveur">
+        <span class="num" aria-hidden="true">03</span>
+        <span class="name">Saveur &amp; Charme</span>
+        <span class="thumb" aria-hidden="true"><img src="../site/public/projects/saveur-charme/saveur-charme-hero.webp" alt="" width="1440" height="900" loading="lazy"></span>
+        <span class="sector">Restauration</span>
+        <span class="arr" aria-hidden="true">→</span>
+      </a>
+      <a class="idx-row sr" href="#p-kfresh">
+        <span class="num" aria-hidden="true">04</span>
+        <span class="name">Kfresh</span>
+        <span class="thumb" aria-hidden="true"><img src="../site/public/projects/kfresh/kfresh-hero.webp" alt="" width="1440" height="900" loading="lazy"></span>
+        <span class="sector">E-commerce</span>
+        <span class="arr" aria-hidden="true">→</span>
+      </a>
+      <a class="idx-row sr" href="#p-sigmaparts">
+        <span class="num" aria-hidden="true">05</span>
+        <span class="name">SigmaParts</span>
+        <span class="thumb" aria-hidden="true"><img src="../site/public/projects/sigmaparts/sigmaparts-hero.webp" alt="" width="1440" height="900" loading="lazy"></span>
+        <span class="sector">Industrie</span>
+        <span class="arr" aria-hidden="true">→</span>
+      </a>
+      <a class="idx-row sr" href="#p-promptify">
+        <span class="num" aria-hidden="true">06</span>
+        <span class="name">Promptify</span>
+        <span class="thumb" aria-hidden="true"><img src="../site/public/projects/promptifyapp/promptifyapp-hero.webp" alt="" width="1440" height="900" loading="lazy"></span>
+        <span class="sector">Outil IA</span>
+        <span class="arr" aria-hidden="true">→</span>
+      </a>
+      <a class="idx-row idx-row--contact sr" href="#contact">
+        <span class="num" aria-hidden="true">07</span>
+        <span class="name">Votre projet</span>
+        <span class="thumb thumb-void" aria-hidden="true"></span>
+        <span class="sector">Prochaine étape</span>
+        <span class="arr" aria-hidden="true">→</span>
+      </a>
+    </nav>
+    <div class="proof sr" aria-label="Faits clés">
+      <div><p class="v">04</p><p class="l">sites clients en production</p></div>
+      <div><p class="v">02</p><p class="l">produits conçus en interne</p></div>
+      <div><p class="v">FR/EN</p><p class="l">sites bilingues, e-commerce et prise de RDV livrés</p></div>
+    </div>
+  </section>
+
+  <!-- ================= 03. Chapitre 01, Lahyani ================= -->
+  <article class="chapter" id="p-lahyani" aria-labelledby="t-lahyani">
+    <div class="ch-head sr">
+      <p class="folio" aria-hidden="true">01</p>
+      <div>
+        <h2 id="t-lahyani">Centre Dentaire Lahyani</h2>
+        <p class="meta">Client · Santé</p>
+        <p class="tags">Site bilingue, prise de RDV en ligne, dashboard clinique</p>
+        <p class="lead">Un site bilingue qui remplit l'agenda : les patients réservent en ligne en quelques clics, l'équipe gère tout depuis un tableau de bord dédié.</p>
+      </div>
+    </div>
+    <figure class="media bleed sr" data-missing="Image indisponible hors ligne">
+      <img src="../site/public/projects/lahyani/lahyani-hero.webp" alt="Page d'accueil du site du Centre Dentaire Lahyani" width="1440" height="900" loading="lazy" decoding="async">
+      <figcaption><span>Page d'accueil du site</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+    </figure>
+    <div class="duo sr">
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/lahyani/lahyani-booking.webp" alt="Module de réservation en ligne du Centre Dentaire Lahyani" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Réservation en ligne</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/lahyani/lahyani-admin.webp" alt="Tableau de bord clinique du Centre Dentaire Lahyani" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Tableau de bord clinique</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+    </div>
+    <div class="inter sr">
+      <p class="q">Un site qui remplit <span class="serif">votre agenda</span> ?</p>
+      <!-- {primaryContactHref: WhatsApp pré-rempli "Bonjour, je veux un site comme le Centre Dentaire Lahyani."} -->
+      <a class="link-arr" href="#contact">Démarrer un projet <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <!-- ================= Chapitre 02, AuraDrive ================= -->
+  <article class="chapter" id="p-auradrive" aria-labelledby="t-auradrive">
+    <div class="ch-head sr">
+      <p class="folio" aria-hidden="true">02</p>
+      <div>
+        <h2 id="t-auradrive">AuraDrive</h2>
+        <p class="meta">Client · Mobilité</p>
+        <p class="tags">Catalogue véhicules, recherche filtrée, back-office</p>
+        <p class="lead">Un catalogue de véhicules avec recherche filtrée, et un back-office pour gérer la flotte sans effort.</p>
+      </div>
+    </div>
+    <figure class="media bleed sr" data-missing="Image indisponible hors ligne">
+      <img src="../site/public/projects/auradrive/auradrive-hero.webp" alt="Page d'accueil du site AuraDrive" width="1440" height="900" loading="lazy" decoding="async">
+      <figcaption><span>Page d'accueil</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+    </figure>
+    <div class="duo alt sr">
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/auradrive/auradrive-catalog.webp" alt="Catalogue de véhicules AuraDrive" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Catalogue et filtres</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/auradrive/auradrive-admin.webp" alt="Back-office de gestion de flotte AuraDrive" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Back-office flotte</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+    </div>
+    <div class="inter sr">
+      <p class="q">Un catalogue qui vend <span class="serif">pour vous</span> ?</p>
+      <!-- {primaryContactHref: WhatsApp pré-rempli "Bonjour, je veux un site comme AuraDrive."} -->
+      <a class="link-arr" href="#contact">Démarrer un projet <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <!-- ================= Chapitre 03, Saveur & Charme ================= -->
+  <article class="chapter" id="p-saveur" aria-labelledby="t-saveur">
+    <div class="ch-head sr">
+      <p class="folio" aria-hidden="true">03</p>
+      <div>
+        <h2 id="t-saveur">Saveur &amp; Charme</h2>
+        <p class="meta">Démo interne · Restauration</p>
+        <p class="tags">Menu digital, administration des plats</p>
+        <p class="lead">Menu digital élégant et interface d'administration, pensés pour la salle comme pour la cuisine. Une démo réalisée en interne.</p>
+      </div>
+    </div>
+    <figure class="media bleed sr" data-missing="Image indisponible hors ligne">
+      <img src="../site/public/projects/saveur-charme/saveur-charme-hero.webp" alt="Page d'accueil du site Saveur et Charme" width="1440" height="900" loading="lazy" decoding="async">
+      <figcaption><span>Accueil du restaurant</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+    </figure>
+    <div class="duo sr">
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/saveur-charme/saveur-charme-menu.webp" alt="Menu digital de Saveur et Charme" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Menu digital</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/saveur-charme/saveur-charme-admin-menu.webp" alt="Administration du menu de Saveur et Charme" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Gestion des plats</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+    </div>
+    <div class="inter sr">
+      <p class="q">Un menu qui donne <span class="serif">faim</span> ?</p>
+      <!-- {primaryContactHref: WhatsApp pré-rempli "Bonjour, je veux un site comme Saveur & Charme."} -->
+      <a class="link-arr" href="#contact">Démarrer un projet <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <!-- ================= Chapitre 04, Kfresh ================= -->
+  <article class="chapter" id="p-kfresh" aria-labelledby="t-kfresh">
+    <div class="ch-head sr">
+      <p class="folio" aria-hidden="true">04</p>
+      <div>
+        <h2 id="t-kfresh">Kfresh</h2>
+        <p class="meta">Client · E-commerce</p>
+        <p class="tags">Boutique en ligne, parcours d'achat</p>
+        <p class="lead">Une boutique en ligne fluide, du parcours produit au panier, conçue pour convertir.</p>
+      </div>
+    </div>
+    <figure class="media bleed sr" data-missing="Image indisponible hors ligne">
+      <img src="../site/public/projects/kfresh/kfresh-hero.webp" alt="Page d'accueil de la boutique Kfresh" width="1440" height="900" loading="lazy" decoding="async">
+      <figcaption><span>Accueil de la boutique</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+    </figure>
+    <div class="duo alt sr">
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/kfresh/kfresh-shop.webp" alt="Boutique en ligne Kfresh" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Fiches produits</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/kfresh/kfresh-cart.webp" alt="Parcours panier de la boutique Kfresh" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Parcours panier</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+    </div>
+    <div class="inter sr">
+      <p class="q">Une boutique qui <span class="serif">convertit</span> ?</p>
+      <!-- {primaryContactHref: WhatsApp pré-rempli "Bonjour, je veux un site comme Kfresh."} -->
+      <a class="link-arr" href="#contact">Démarrer un projet <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <!-- ================= Chapitre 05, SigmaParts ================= -->
+  <article class="chapter" id="p-sigmaparts" aria-labelledby="t-sigmaparts">
+    <div class="ch-head sr">
+      <p class="folio" aria-hidden="true">05</p>
+      <div>
+        <h2 id="t-sigmaparts">SigmaParts</h2>
+        <p class="meta">Client · Industrie</p>
+        <p class="tags">Catalogue de pièces, demande de devis</p>
+        <p class="lead">Catalogue de pièces avec recherche précise et demande de devis intégrée, pour un acteur de la pièce automobile.</p>
+      </div>
+    </div>
+    <figure class="media bleed sr" data-missing="Image indisponible hors ligne">
+      <img src="../site/public/projects/sigmaparts/sigmaparts-hero.webp" alt="Page d'accueil du catalogue SigmaParts" width="1440" height="900" loading="lazy" decoding="async">
+      <figcaption><span>Accueil du catalogue</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+    </figure>
+    <div class="duo sr">
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/sigmaparts/sigmaparts-catalog.webp" alt="Catalogue de pièces SigmaParts" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Catalogue de pièces</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/sigmaparts/sigmaparts-quote.webp" alt="Demande de devis SigmaParts" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Demande de devis</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+    </div>
+    <div class="inter sr">
+      <p class="q">Un catalogue qui génère des <span class="serif">devis</span> ?</p>
+      <!-- {primaryContactHref: WhatsApp pré-rempli "Bonjour, je veux un site comme SigmaParts."} -->
+      <a class="link-arr" href="#contact">Démarrer un projet <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <!-- ================= Chapitre 06, Promptify ================= -->
+  <article class="chapter" id="p-promptify" aria-labelledby="t-promptify">
+    <div class="ch-head sr">
+      <p class="folio" aria-hidden="true">06</p>
+      <div>
+        <h2 id="t-promptify">Promptify</h2>
+        <p class="meta">Produit interne · Outil IA</p>
+        <p class="tags">Studio de prompts, bibliothèque</p>
+        <p class="lead">Un studio pour composer, organiser et réutiliser ses prompts IA. Notre laboratoire produit, conçu de A à Z en interne.</p>
+      </div>
+    </div>
+    <figure class="media bleed sr" data-missing="Image indisponible hors ligne">
+      <img src="../site/public/projects/promptifyapp/promptifyapp-hero.webp" alt="Page d'accueil de l'outil Promptify" width="1440" height="900" loading="lazy" decoding="async">
+      <figcaption><span>Accueil du produit</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+    </figure>
+    <div class="duo alt sr">
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/promptifyapp/promptifyapp-studio.webp" alt="Studio de composition de prompts de Promptify" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>Le studio</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+      <figure class="media" data-missing="Image indisponible hors ligne">
+        <img src="../site/public/projects/promptifyapp/promptifyapp-library.webp" alt="Bibliothèque de prompts de Promptify" width="1440" height="900" loading="lazy" decoding="async">
+        <figcaption><span>La bibliothèque</span><span class="arr" aria-hidden="true">↗</span></figcaption>
+      </figure>
+    </div>
+    <div class="inter sr">
+      <p class="q">Une idée à transformer en <span class="serif">produit</span> ?</p>
+      <!-- {primaryContactHref: WhatsApp pré-rempli "Bonjour, je veux un produit comme Promptify."} -->
+      <a class="link-arr" href="#contact">Démarrer un projet <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <!-- ================= 04. Méthode ================= -->
+  <section class="methode" id="methode" aria-labelledby="t-methode">
+    <h2 id="t-methode" class="sr">La méthode</h2>
+    <div class="step sr">
+      <p class="n" aria-hidden="true">01</p>
+      <p class="t">Cadrer</p>
+      <p class="d">On écoute vos objectifs, on définit le périmètre et les priorités. Vous repartez avec un plan clair et un budget sans surprise.</p>
+    </div>
+    <div class="step sr">
+      <p class="n" aria-hidden="true">02</p>
+      <p class="t">Concevoir</p>
+      <p class="d">Design sur mesure, mobile d'abord, validé avec vous écran par écran avant d'écrire la moindre ligne de code.</p>
+    </div>
+    <div class="step sr">
+      <p class="n" aria-hidden="true">03</p>
+      <p class="t">Construire</p>
+      <p class="d">Développement, contenus, tests sur de vrais appareils. Vous suivez l'avancement en continu, sans jargon.</p>
+    </div>
+    <div class="step sr">
+      <p class="n" aria-hidden="true">04</p>
+      <p class="t">Mettre en ligne</p>
+      <p class="d">Déploiement, formation de vos équipes, suivi. Le site reste entre de bonnes mains après le lancement.</p>
+    </div>
+  </section>
+
+  <!-- ================= Chapitre 07. Contact, climax ================= -->
+  <section class="contact" id="contact" aria-labelledby="t-contact">
+    <p class="folio sr" aria-hidden="true">07</p>
+    <h2 id="t-contact" class="sr">Parlons de<br><span class="serif">votre projet.</span></h2>
+    <p class="note sr">Le plus direct reste WhatsApp. Sinon, laissez un message, on revient vers vous.</p>
+    <div class="actions sr">
+      <!-- {primaryContactHref: https://wa.me/<numero>?text=Bonjour%20StackLab%2C%20je%20veux%20d%C3%A9marrer%20un%20projet.} -->
+      <a class="btn-primary" href="#contact">Démarrer un projet <span class="arr" aria-hidden="true">→</span></a>
+      <!-- {primaryContactHref: mailto:contact@stacklab.ma} -->
+      <a class="btn-ghost" href="#contact">Écrire un email</a>
+    </div>
+    <div class="form-wrap sr">
+      <form id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-nom">Nom</label>
+            <input id="f-nom" name="nom" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-msg">Votre projet</label>
+          <textarea id="f-msg" name="message" placeholder="Secteur, objectifs, délais souhaités." required></textarea>
+        </div>
+        <input class="hp" type="text" name="entreprise" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn-primary" type="submit">Envoyer <span class="arr" aria-hidden="true">→</span></button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span class="fbrand">
+    <img src="../site/public/logo-stacklab-bw.png" alt="" width="2048" height="2048">
+    StackLab
+  </span>
+  <nav aria-label="Navigation de pied de page">
+    <a href="#sommaire">Projets</a>
+    <a href="#methode">Méthode</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <span>StackLab, Casablanca, Maroc · © 2026</span>
+</footer>
+
+<!-- Barre de marge : le CTA permanent -->
+<div class="marginbar" id="marginbar">
+  <span class="hint" aria-hidden="true">Un projet en tête ?</span>
+  <a href="#contact">Démarrer un projet <span class="arr" aria-hidden="true">→</span></a>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* Chargement initial du hero (reveal typographique) */
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () { document.body.classList.add('loaded'); });
+  });
+
+  /* Header : voile + filet dès que le hero quitte le haut de l'écran */
+  var header = document.querySelector('.header');
+  var topSentinel = document.getElementById('top-sentinel');
+  if ('IntersectionObserver' in window && header && topSentinel) {
+    new IntersectionObserver(function (entries) {
+      header.classList.toggle('scrolled', !entries[0].isIntersecting);
+    }).observe(topSentinel);
+  } else if (header) { header.classList.add('scrolled'); }
+
+  /* Barre de marge : visible après le hero, masquée quand le contact est à l'écran */
+  var bar = document.getElementById('marginbar');
+  var hero = document.getElementById('hero');
+  var contact = document.getElementById('contact');
+  var pastHero = false, contactVisible = false;
+  function updateBar() {
+    if (bar) bar.classList.toggle('show', pastHero && !contactVisible);
+  }
+  if ('IntersectionObserver' in window && hero && contact) {
+    new IntersectionObserver(function (entries) {
+      pastHero = !entries[0].isIntersecting; updateBar();
+    }, { rootMargin: '-60px 0px 0px 0px' }).observe(hero);
+    new IntersectionObserver(function (entries) {
+      contactVisible = entries[0].isIntersecting; updateBar();
+    }, { rootMargin: '-10% 0px -10% 0px' }).observe(contact);
+  }
+
+  /* Reveal au scroll : contenu visible sans JS et en reduced-motion */
+  var srs = document.querySelectorAll('.sr');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+    srs.forEach(function (el) { io.observe(el); });
+  } else {
+    srs.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* Placeholder élégant si une image ne charge pas (aperçu hors ligne) */
+  document.querySelectorAll('figure.media img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      var fig = img.closest('figure.media');
+      if (fig) { fig.classList.add('noimg'); img.remove(); }
+    }, { once: true });
+  });
+
+  /* Formulaire : démo d'aperçu, non connecté */
+  var form = document.getElementById('contact-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var status = form.querySelector('.form-status');
+      if (form.querySelector('.hp').value) { return; }
+      var nom = form.querySelector('#f-nom').value.trim();
+      var email = form.querySelector('#f-email').value.trim();
+      var msg = form.querySelector('#f-msg').value.trim();
+      if (!nom || !email || !msg) {
+        status.textContent = 'Merci de remplir les trois champs.';
+        status.classList.remove('ok');
+        return;
+      }
+      status.textContent = 'Aperçu de design : le formulaire sera connecté à l\'intégration. En attendant, WhatsApp et email ci-dessus.';
+      status.classList.add('ok');
+    });
+  }
+})();
+</script>
+</body>
+</html>
