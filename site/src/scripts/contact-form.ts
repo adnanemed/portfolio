@@ -41,6 +41,7 @@ export function initContactForm(): void {
     (import.meta.env.DEV ? "http://localhost:3000" : "https://stacklab-admin.vercel.app")
   ).replace(/\/+$/, "");
   const startedAt = Date.now();
+  const s = STR[locale];
 
   const setStatus = (html: string, cls: "ok" | "err") => {
     status.innerHTML = html;

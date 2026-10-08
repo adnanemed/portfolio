@@ -139,8 +139,13 @@
   "architectureImage": "/projects/auradrive/architecture.webp",
   "architectureSource": "docs/content-drafts/assets/auradrive-architecture.png",
   "architectureCaptionFr": "Le client réserve en ligne et suit sa réservation avec son code. L'agence voit tout dans son portail : réservations, flotte, contrats PDF, entretien et clients. Les documents sont archivés dans le cloud.",
-  "architectureCaptionEn": "The customer books online and tracks the reservation with their code. The agency sees everything in its portal: bookings, fleet, PDF contracts, maintenance and clients. Documents are archived in the cloud.",
-  "fallbackScreenshots": [],
+  "fallbackScreenshots": [
+    "/projects/auradrive/auradrive-hero.webp",
+    "/projects/auradrive/auradrive-catalog.webp",
+    "/projects/auradrive/auradrive-services.webp",
+    "/projects/auradrive/auradrive-tracking.webp",
+    "/projects/auradrive/auradrive-admin.webp"
+  ],
   "flowIntroFr": "De la réservation au contrat signé, chaque étape est vérifiée et traçable.",
   "flowIntroEn": "From booking to signed contract, every step is screened and traceable.",
   "flowStepsFr": [

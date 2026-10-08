@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T07:57:35.866Z",
+  "generatedAt": "2026-10-08T09:14:48.899Z",
   "source": "docs/content-drafts (owner-validated via dashboard export)",
   "socials": {
     "whatsapp": null,
@@ -50,6 +50,7 @@
       ],
       "liveUrl": "https://cabinet-lahyani.vercel.app/fr",
       "liveUrlWithheld": false,
+      "accent": "#f59e0b",
       "iframeEmbeddable": true,
       "architectureImage": "/diagrams/lahyani.webp",
       "architectureCaptionFr": "Le patient réserve en ligne à toute heure ; l'équipe du cabinet gère agenda, dossiers et factures depuis son tableau de bord sécurisé.",
@@ -220,8 +221,7 @@
       },
       "previewCaptionFr": "site patient bilingue + tableau de bord du cabinet",
       "previewCaptionEn": "bilingual patient site + clinic dashboard",
-      "orderIndex": 1,
-      "accent": "#f59e0b"
+      "orderIndex": 1
     },
     {
       "slug": "auradrive",
@@ -278,13 +278,16 @@
       ],
       "liveUrl": "https://auradrive-pi.vercel.app/",
       "liveUrlWithheld": false,
+      "accent": "#d8be75",
       "iframeEmbeddable": true,
       "architectureImage": "/diagrams/auradrive.webp",
       "architectureCaptionFr": "Le client réserve en ligne et suit sa réservation avec son code. L'agence voit tout dans son portail : réservations, flotte, contrats PDF, entretien et clients. Les documents sont archivés dans le cloud.",
-      "architectureCaptionEn": "The customer books online and tracks the reservation with their code. The agency sees everything in its portal: bookings, fleet, PDF contracts, maintenance and clients. Documents are archived in the cloud.",
+      "architectureCaptionEn": null,
       "fallbackScreenshots": [
         "/projects/auradrive/auradrive-hero.webp",
         "/projects/auradrive/auradrive-catalog.webp",
+        "/projects/auradrive/auradrive-services.webp",
+        "/projects/auradrive/auradrive-tracking.webp",
         "/projects/auradrive/auradrive-admin.webp"
       ],
       "featuresFr": [
@@ -449,8 +452,7 @@
       },
       "previewCaptionFr": "site de réservation + portail d'agence",
       "previewCaptionEn": "booking site + agency portal",
-      "orderIndex": 2,
-      "accent": "#d8be75"
+      "orderIndex": 2
     },
     {
       "slug": "saveur-charme",
@@ -500,6 +502,7 @@
       ],
       "liveUrl": "https://restaurant-app-liart-seven.vercel.app/",
       "liveUrlWithheld": false,
+      "accent": "#cda274",
       "iframeEmbeddable": true,
       "architectureImage": "/diagrams/saveur-charme.webp",
       "architectureCaptionFr": "Le client commande et réserve sur le site. Tout arrive en direct dans le tableau de bord du gérant : commandes, réservations, carte et retours clients.",
@@ -671,8 +674,7 @@
       },
       "previewCaptionFr": "démo live — côté client & côté gérant",
       "previewCaptionEn": "live demo — customer & owner side",
-      "orderIndex": 3,
-      "accent": "#cda274"
+      "orderIndex": 3
     },
     {
       "slug": "kfresh",
@@ -717,6 +719,7 @@
       ],
       "liveUrl": "https://www.kfresh.ca/",
       "liveUrlWithheld": false,
+      "accent": "#4ade80",
       "iframeEmbeddable": true,
       "architectureImage": null,
       "architectureCaptionFr": null,
@@ -865,8 +868,7 @@
       },
       "previewCaptionFr": "boutique en ligne + tableau de bord gérant",
       "previewCaptionEn": "online store + owner dashboard",
-      "orderIndex": 4,
-      "accent": "#4ade80"
+      "orderIndex": 4
     },
     {
       "slug": "sigmaparts",
@@ -905,7 +907,8 @@
       ],
       "liveUrl": "https://sigmaparts.ma/",
       "liveUrlWithheld": false,
-      "iframeEmbeddable": true,
+      "accent": "#e5a600",
+      "iframeEmbeddable": false,
       "architectureImage": null,
       "architectureCaptionFr": null,
       "architectureCaptionEn": null,
@@ -1053,8 +1056,7 @@
       },
       "previewCaptionFr": "catalogue pièces + demande de devis",
       "previewCaptionEn": "parts catalogue + quote request",
-      "orderIndex": 5,
-      "accent": "#e5a600"
+      "orderIndex": 5
     },
     {
       "slug": "promptifyapp",
@@ -1105,7 +1107,8 @@
       ],
       "liveUrl": "https://promptifyapp.com/",
       "liveUrlWithheld": false,
-      "iframeEmbeddable": true,
+      "accent": "#ff4b4b",
+      "iframeEmbeddable": false,
       "architectureImage": null,
       "architectureCaptionFr": null,
       "architectureCaptionEn": null,
@@ -1251,8 +1254,7 @@
       },
       "previewCaptionFr": "extension navigateur — produit propre",
       "previewCaptionEn": "browser extension — own product",
-      "orderIndex": 6,
-      "accent": "#ff4b4b"
+      "orderIndex": 6
     }
   ]
 }
