@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T09:14:48.899Z",
+  "generatedAt": "2026-10-08T17:09:18.837Z",
   "source": "docs/content-drafts (owner-validated via dashboard export)",
   "socials": {
     "whatsapp": null,
@@ -54,10 +54,12 @@
       "iframeEmbeddable": true,
       "architectureImage": "/diagrams/lahyani.webp",
       "architectureCaptionFr": "Le patient réserve en ligne à toute heure ; l'équipe du cabinet gère agenda, dossiers et factures depuis son tableau de bord sécurisé.",
-      "architectureCaptionEn": "The patient books online at any hour; the clinic team manages the schedule, records and invoices from its secure dashboard.",
+      "architectureCaptionEn": null,
       "fallbackScreenshots": [
         "/projects/lahyani/lahyani-hero.webp",
         "/projects/lahyani/lahyani-booking.webp",
+        "/projects/lahyani/lahyani-manage.webp",
+        "/projects/lahyani/lahyani-reviews.webp",
         "/projects/lahyani/lahyani-admin.webp"
       ],
       "featuresFr": [

@@ -112,8 +112,13 @@
   "architectureImage": "/projects/lahyani/architecture.webp",
   "architectureSource": "docs/content-drafts/assets/lahyani-architecture.png",
   "architectureCaptionFr": "Le patient réserve en ligne à toute heure ; l'équipe du cabinet gère agenda, dossiers et factures depuis son tableau de bord sécurisé.",
-  "architectureCaptionEn": "The patient books online at any hour; the clinic team manages the schedule, records and invoices from its secure dashboard.",
-  "fallbackScreenshots": [],
+  "fallbackScreenshots": [
+    "/projects/lahyani/lahyani-hero.webp",
+    "/projects/lahyani/lahyani-booking.webp",
+    "/projects/lahyani/lahyani-manage.webp",
+    "/projects/lahyani/lahyani-reviews.webp",
+    "/projects/lahyani/lahyani-admin.webp"
+  ],
   "flowIntroFr": "Un patient réserve à minuit, le cabinet retrouve tout en main le matin — voilà le chemin d'un rendez-vous.",
   "flowIntroEn": "A patient books at midnight, the clinic finds everything ready in the morning — that is the path of one appointment.",
   "flowStepsFr": [

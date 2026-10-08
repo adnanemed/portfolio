@@ -15,7 +15,13 @@ const shotsDir = path.join(repo, "docs", "content-drafts", "assets", "screenshot
 const assetsDir = path.join(repo, "docs", "content-drafts", "assets");
 
 const SHOT_MAP = {
-  lahyani: ["lahyani-hero", "lahyani-booking"],
+  lahyani: [
+    "lahyani-hero",
+    "lahyani-booking",
+    "lahyani-manage",
+    "lahyani-reviews",
+    "lahyani-admin",
+  ],
   auradrive: [
     "auradrive-hero",
     "auradrive-catalog",

@@ -12,7 +12,13 @@ const repo = path.resolve(root, "..");
 const draftsDir = path.join(repo, "docs", "content-drafts");
 
 const SCREENSHOT_MAP = {
-  lahyani: ["lahyani-hero", "lahyani-booking", "lahyani-admin"],
+  lahyani: [
+    "lahyani-hero",
+    "lahyani-booking",
+    "lahyani-manage",
+    "lahyani-reviews",
+    "lahyani-admin",
+  ],
   auradrive: [
     "auradrive-hero",
     "auradrive-catalog",

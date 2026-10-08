@@ -42,7 +42,9 @@ export const t = {
         captions: {
           "lahyani-hero": "lahyani — accueil (site bilingue fr / ar)",
           "lahyani-booking": "lahyani — réservation : réserver votre consultation",
-          "lahyani-admin": "lahyani — tableau de bord praticien & agenda",
+          "lahyani-manage": "lahyani — gestion et modification de rendez-vous",
+          "lahyani-reviews": "lahyani — avis patients vérifiés Google",
+          "lahyani-admin": "lahyani — tableau de bord soins & odontogramme",
           "auradrive-hero": "auradrive — accueil, recherche de disponibilités",
           "auradrive-catalog": "auradrive — catalogue supercars & flotte",
           "auradrive-services": "auradrive — conciergerie & support 24/7",
@@ -211,7 +213,9 @@ export const t = {
         captions: {
           "lahyani-hero": "lahyani — home (bilingual fr / ar site)",
           "lahyani-booking": "lahyani — booking: reserve your consultation",
-          "lahyani-admin": "lahyani — practitioner dashboard & schedule",
+          "lahyani-manage": "lahyani — appointment management & changes",
+          "lahyani-reviews": "lahyani — verified Google patient reviews",
+          "lahyani-admin": "lahyani — clinical dashboard & dental chart",
           "auradrive-hero": "auradrive — home, availability search",
           "auradrive-catalog": "auradrive — supercar fleet & catalogue",
           "auradrive-services": "auradrive — concierge & 24/7 elite support",
