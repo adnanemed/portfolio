@@ -31,6 +31,8 @@ const SCREENSHOT_MAP = {
   "saveur-charme": [
     "saveur-charme-hero",
     "saveur-charme-menu",
+    "saveur-charme-booking",
+    "saveur-charme-cart",
     "saveur-charme-admin",
   ],
   promptifyapp: ["promptifyapp-hero", "promptifyapp-studio", "promptifyapp-library"],

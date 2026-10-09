@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T17:09:18.837Z",
+  "generatedAt": "2026-10-09T00:25:27.872Z",
   "source": "docs/content-drafts (owner-validated via dashboard export)",
   "socials": {
     "whatsapp": null,
@@ -512,6 +512,8 @@
       "fallbackScreenshots": [
         "/projects/saveur-charme/saveur-charme-hero.webp",
         "/projects/saveur-charme/saveur-charme-menu.webp",
+        "/projects/saveur-charme/saveur-charme-booking.webp",
+        "/projects/saveur-charme/saveur-charme-cart.webp",
         "/projects/saveur-charme/saveur-charme-admin.webp"
       ],
       "featuresFr": [

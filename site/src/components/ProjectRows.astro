@@ -25,19 +25,21 @@ const ordered = [...projects].sort((a, b) => a.orderIndex - b.orderIndex);
       return (
         <article class="v8proj v8-reveal" style={`--pa:${p.accent ?? "#d4d4d8"}`} data-proj-slug={p.slug}>
           <div class="v8proj__media" data-tilt>
-            <div class="v8tilt">
-              <div class="v8tilt__frame">
-                <img
-                  src={hero}
-                  alt={`${d.caseStudy.screenshotAlt} — ${c.name}`}
-                  width="1440"
-                  height="900"
-                  loading={i === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                />
+            <a href={projectPath(p, locale)} class="v8tilt__link" aria-label={`${c.name} — ${v.study}`}>
+              <div class="v8tilt">
+                <div class="v8tilt__frame">
+                  <img
+                    src={hero}
+                    alt={`${d.caseStudy.screenshotAlt} — ${c.name}`}
+                    width="1440"
+                    height="900"
+                    loading={i === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                </div>
+                <div class="v8tilt__depth" aria-hidden="true"></div>
               </div>
-              <div class="v8tilt__depth" aria-hidden="true"></div>
-            </div>
+            </a>
           </div>
           <div>
             <span class="v8proj__index">{String(i + 1).padStart(2, "0")} / 06</span>

@@ -68,6 +68,8 @@ export function initGallery(data: GalleryData, tier: number): void {
 
   const prev = document.querySelector<HTMLButtonElement>("#galPrev");
   const next = document.querySelector<HTMLButtonElement>("#galNext");
+  const fsBtn = document.querySelector<HTMLButtonElement>("#galFullscreen");
+
   if (prev) {
     prev.setAttribute("aria-label", data.labels.prev);
     prev.addEventListener("click", () => step(-1));
@@ -77,7 +79,46 @@ export function initGallery(data: GalleryData, tier: number): void {
     next.addEventListener("click", () => step(1));
   }
 
-  // Clavier : flèches quand le focus est dans la région galerie
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      if (vp.requestFullscreen) {
+        vp.requestFullscreen().catch(() => {
+          vp.classList.toggle("gal--fullscreen");
+        });
+      } else {
+        vp.classList.toggle("gal--fullscreen");
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+      vp.classList.remove("gal--fullscreen");
+    }
+  };
+
+  if (fsBtn) {
+    fsBtn.addEventListener("click", toggleFullscreen);
+  }
+
+  document.addEventListener("fullscreenchange", () => {
+    const isFs = Boolean(document.fullscreenElement);
+    if (fsBtn) {
+      fsBtn.textContent = isFs ? "✕" : "⛶";
+      fsBtn.title = isFs ? "Quitter le plein écran" : "Plein écran";
+    }
+    if (!isFs) {
+      vp.classList.remove("gal--fullscreen");
+    }
+    window.dispatchEvent(new Event("resize"));
+  });
+
+  // Double click viewport to toggle fullscreen
+  vp.addEventListener("dblclick", (e) => {
+    if ((e.target as HTMLElement).closest(".v8gal__hud")) return;
+    toggleFullscreen();
+  });
+
+  // Clavier : flèches + touche F pour plein écran
   vp.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {
       e.preventDefault();
@@ -85,6 +126,9 @@ export function initGallery(data: GalleryData, tier: number): void {
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
       step(1);
+    } else if (e.key === "f" || e.key === "F") {
+      e.preventDefault();
+      toggleFullscreen();
     }
   });
 

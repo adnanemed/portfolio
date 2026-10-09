@@ -34,8 +34,9 @@ const SHOT_MAP = {
   "saveur-charme": [
     "saveur-charme-hero",
     "saveur-charme-menu",
+    "saveur-charme-booking",
+    "saveur-charme-cart",
     "saveur-charme-admin",
-    "saveur-charme-admin-menu",
   ],
   promptifyapp: ["promptifyapp-hero"],
 };

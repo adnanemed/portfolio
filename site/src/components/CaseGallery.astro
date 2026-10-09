@@ -23,7 +23,14 @@ const data = {
     const key = src.split("/").pop()?.replace(".webp", "") ?? "";
     return { url: src, caption: captions[key] ?? c.name };
   }),
-  labels: { prev: v.prev, next: v.next, regionAria: v.title, hintWebgl: v.hintWebgl, hintFallback: v.hintFallback },
+  labels: {
+    prev: v.prev,
+    next: v.next,
+    fullscreen: v.fullscreen ?? "Plein écran",
+    regionAria: v.title,
+    hintWebgl: v.hintWebgl,
+    hintFallback: v.hintFallback,
+  },
 };
 const first = data.shots[0];
 ---
@@ -44,8 +51,9 @@ const first = data.shots[0];
       <canvas id="galCanvas" aria-hidden="true"></canvas>
       <div class="v8gal__hud">
         <span class="v8gal__count" id="galCount">1 / {data.shots.length}</span>
-        <button type="button" id="galPrev">←</button>
-        <button type="button" id="galNext">→</button>
+        <button type="button" id="galPrev" aria-label={v.prev}>←</button>
+        <button type="button" id="galNext" aria-label={v.next}>→</button>
+        <button type="button" id="galFullscreen" aria-label={v.fullscreen ?? "Plein écran"} title={v.fullscreen ?? "Plein écran"}>⛶</button>
       </div>
     </div>
     <p class="v8gal__hint" id="galHint">{v.hintFallback}</p>
