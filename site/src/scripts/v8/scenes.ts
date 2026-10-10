@@ -294,6 +294,7 @@ function initPipelineScene(): void {
    ============================================================ */
 export type GalleryGL = {
   setActive: (v: boolean) => void;
+  resize: () => void;
   /** Charge la première texture ; résout true si le mode GL est actif. */
   ready: (url: string, accent: string) => Promise<boolean>;
   /** Transition liquide vers une nouvelle texture + accent. */
@@ -400,6 +401,11 @@ function initGalleryGL(): GalleryGL | null {
   resize();
   window.addEventListener("resize", resize);
 
+  if (typeof ResizeObserver !== "undefined") {
+    const ro = new ResizeObserver(() => resize());
+    ro.observe(canvas);
+  }
+
   const galleryScene = {
     el: canvas as Element,
     active: true,
@@ -414,6 +420,7 @@ function initGalleryGL(): GalleryGL | null {
     setActive(v) {
       galleryScene.active = v;
     },
+    resize,
     async ready(url, accent) {
       const tex = (await loadTex(url)) as ImgTex | null;
       if (!tex) return false;

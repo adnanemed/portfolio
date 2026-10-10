@@ -149,6 +149,7 @@ export function initGallery(data: GalleryData, tier: number): void {
         }
         mode = "gl";
         vp.classList.add("gal--gl");
+        gl.resize();
         if (hint) hint.textContent = data.labels.hintWebgl;
       } catch {
         if (hint) hint.textContent = data.labels.hintFallback;

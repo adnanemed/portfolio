@@ -29,7 +29,7 @@ const SHOT_MAP = {
     "auradrive-tracking",
     "auradrive-admin",
   ],
-  kfresh: ["kfresh-hero", "kfresh-shop"],
+  kfresh: ["kfresh-hero", "kfresh-shop", "kfresh-cart"],
   sigmaparts: ["sigmaparts-hero"],
   "saveur-charme": [
     "saveur-charme-hero",
